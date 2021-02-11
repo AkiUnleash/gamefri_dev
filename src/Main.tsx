@@ -1,13 +1,14 @@
 import * as React from 'react';
 import { render } from 'react-dom';
-import TodoList from './components/TodoList';
+import Top from './pages/Top';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import "assets/css/destyle.css"
 
 const Main = (): JSX.Element => {
     return (
         <BrowserRouter>
             <Switch>
-                <Route path="/" component={TodoList} />
+                <Route path="/" component={Top} />
             </Switch>
         </BrowserRouter>
     );
