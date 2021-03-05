@@ -1,5 +1,6 @@
 {
   "hosting": {
+    "site": "gamefri-dev",
     "public": "dist",
     "ignore": [
       "firebase.json",

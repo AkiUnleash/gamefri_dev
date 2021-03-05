@@ -1,7 +1,7 @@
-import * as React from 'react';
-import * as styles from '../assets/scss/header.scss';
-import * as logo from '../assets/images/logo.svg'
-import * as logo_sm from '../assets/images/logo_sm.svg'
+import React from 'react';
+import styles from '../assets/scss/header.scss';
+import logo from '../assets/images/logo.svg'
+import logo_sm from '../assets/images/logo_sm.svg'
 
 const Header = (): JSX.Element => {
   return (
