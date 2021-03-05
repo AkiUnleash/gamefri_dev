@@ -1,10 +1,12 @@
 // React
 import React, { useEffect } from 'react';
-import { render, unstable_renderSubtreeIntoContainer } from 'react-dom';
+import { render } from 'react-dom';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 // Components
-import Top from './pages/top';
-import Login from './pages/login';
+import Top from './pages/Top';
+import Login from './pages/Login';
+import Singup from './pages/Singup';
+import Signupfinish from './pages/Signupfinish';
 // state
 import { Provider } from "react-redux"
 import { login, logout, selectUser } from './common/state/userSlice'
@@ -42,6 +44,8 @@ const Main = (): JSX.Element => {
             <Switch>
                 <Route exact path="/" component={Top} />
                 <Route path="/login" component={Login} />
+                <Route path="/signup" component={Singup} />
+                <Route path="/signupfinished" component={Signupfinish} />
             </Switch>
         </BrowserRouter>
     );
