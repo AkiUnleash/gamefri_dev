@@ -3,10 +3,10 @@ import React, { useEffect } from 'react';
 import { render } from 'react-dom';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 // Components
-import Top from './pages/Top';
-import Login from './pages/Login';
-import Singup from './pages/Singup';
-import Signupfinish from './pages/Signupfinish';
+import Top from './components/pages/Top';
+import Login from './components/pages/Login';
+import Singup from './components/pages/Singup';
+import Signupfinish from './components/pages/Signupfinish';
 // state
 import { Provider } from "react-redux"
 import { login, logout, selectUser } from './common/state/userSlice'

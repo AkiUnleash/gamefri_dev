@@ -1,13 +1,13 @@
 import React from 'react';
-import * as styles from '../assets/scss/top.scss';
+import * as styles from '../../assets/scss/top.scss';
 // Component
-import Header from '../components/header';
-import Footer from '../components/footer';
+import Header from '../organisms/Header';
+import Footer from '../organisms/Footer';
 // img
-import logo from '../assets/images/logo.svg'
-import detail_img_1 from '../assets/images/top/top-img1.png'
-import detail_img_2 from '../assets/images/top/top-img2.png'
-import detail_img_3 from '../assets/images/top/top-img3.png'
+import logo from '../../assets/images/logo.svg'
+import detail_img_1 from '../../assets/images/top/top-img1.png'
+import detail_img_2 from '../../assets/images/top/top-img2.png'
+import detail_img_3 from '../../assets/images/top/top-img3.png'
 
 
 const detail = (): JSX.Element => {

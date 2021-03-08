@@ -1,8 +1,8 @@
 import React from 'react';
 // Component
-import SingupForm from '../components/singupform';
-import Header from '../components/header';
-import Footer from '../components/footer';
+import SingupForm from '../organisms/Singupform';
+import Header from '../organisms/Header';
+import Footer from '../organisms/Footer';
 
 const Singup = (): JSX.Element => {
   return (
