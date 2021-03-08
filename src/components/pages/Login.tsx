@@ -1,8 +1,8 @@
 import React from 'react';
 // Component
-import LoginForm from '../components/loginform';
-import Header from '../components/header';
-import Footer from '../components/footer';
+import LoginForm from '../organisms/Loginform';
+import Header from '../organisms/Header';
+import Footer from '../organisms/Footer';
 
 const Login = (): JSX.Element => {
   return (
