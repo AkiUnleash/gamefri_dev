@@ -10,7 +10,8 @@ const Loginform = (): JSX.Element => {
   const signInEmail = async () => {
     await auth.signInWithEmailAndPassword(email, password)
   }
-  const signInGoogle = async () => {
+  const signInGoogle = async (event: React.FormEvent) => {
+    event.preventDefault()
     await auth.signInWithPopup(provider).catch((err) => alert(err.message));
   };
 
