@@ -7,11 +7,11 @@ const Header = (): JSX.Element => {
   return (
     <>
       <header className={styles["header"]}>
-        <div className={styles["header-desktop"]}><img className={styles["header-desktop__img"]} src={logo} />
+        <div className={styles["header-desktop"]}><a href="./"><img className={styles["header-desktop__img"]} src={logo} /></a>
           <div className={styles["header-desktop__leftmenu"]}><a>料金プラン</a></div>
           <div className={styles["header-desktop__leftmenu"]}><a>よくある質問</a></div>
-          <div className={styles["header-desktop__rightmenu"]}><a className={styles["header-desktop__button--fill"]} href="./singup.html">新規作成</a></div>
-          <div><a className={styles["header-desktop__button--white"]} href="./login.html">ログイン</a></div>
+          <div className={styles["header-desktop__rightmenu"]}><a className={styles["header-desktop__button--fill"]} href="./signup">新規作成</a></div>
+          <div><a className={styles["header-desktop__button--white"]} href="./login">ログイン</a></div>
         </div>
         <div className={styles["header-mobile"]}>
           <input className={styles["header-mobile__checkbox"]} id="drawerCheckbox" type="checkbox" />

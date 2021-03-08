@@ -74,8 +74,8 @@ const introduction = (): JSX.Element => {
       <section className={styles["top-introduction"]}>
         <div><img className={styles["top-introduction__logimg"]} src={logo} /></div>
         <div className={styles["top-introduction__catchphrase"]}>{catchphrase}</div>
-        <div className={styles["top-introduction__button"]}><a className={styles["top-introduction__button--fill"]} href="./singup.html">{button_singup}</a></div>
-        <div className={styles["top-introduction__button"]}><a className={styles["top-introduction__button--white"]} href="./login.html">{button_login}</a></div>
+        <div className={styles["top-introduction__button"]}><a className={styles["top-introduction__button--fill"]} href="./signup">{button_singup}</a></div>
+        <div className={styles["top-introduction__button"]}><a className={styles["top-introduction__button--white"]} href="./login">{button_login}</a></div>
       </section>
     </>
   );
