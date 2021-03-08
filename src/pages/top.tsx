@@ -81,7 +81,7 @@ const introduction = (): JSX.Element => {
   );
 };
 
-const TodoList = (): JSX.Element => {
+const Top = (): JSX.Element => {
   return (
     <>
       <Header />
@@ -93,4 +93,4 @@ const TodoList = (): JSX.Element => {
   );
 };
 
-export default TodoList;
+export default Top;
