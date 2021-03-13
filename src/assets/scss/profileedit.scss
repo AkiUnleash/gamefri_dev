@@ -18,6 +18,7 @@
         left: 0px;
         right: 0px;
         margin: auto;
+        border: 3px $baseColor solid;
     }
 
     &__avatar-photoselect {
@@ -28,6 +29,9 @@
         left: 136px;
         right: 0px;
         margin: auto;
+        &:hover {
+            cursor: pointer;
+        }
     }
 
     &__cover-photoselect {
@@ -38,6 +42,13 @@
         left: 0px;
         right: 0px;
         margin: auto;
+        &:hover {
+            cursor: pointer;
+        }
+    }
+
+    &__filesend {
+        display: none;
     }
 }
 

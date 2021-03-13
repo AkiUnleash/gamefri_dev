@@ -19,21 +19,50 @@ const Profileform = (): JSX.Element => {
   const [playgame, setPlaygame] = useState("")
   const [timestart, setTimestart] = useState("")
   const [timeend, setTimeend] = useState("")
+  const [cover, setCover] = useState("")
+  const [avater, setAvater] = useState("")
 
+  // 生年月日 選択値
   const year = [...Array(new Date().getFullYear() - 1900).keys()].map(i => (i + 1900).toString() + '年').reverse()
   const month = [...Array(12).keys()].map(i => (i + 1).toString() + '月')
   const day = [...Array(31).keys()].map(i => (i + 1).toString() + '日')
 
+  // 画像選択
+  const onChangeImage = (e: React.ChangeEvent<HTMLInputElement>, genre: string) => {
+
+    if (e.target.files === null) { return; }
+    const file = e.target.files[0];
+    if (file === null) { return; }
+
+    let imgTag = document.getElementById("img_" + genre) as HTMLImageElement;
+    const reader = new FileReader();
+    reader.readAsDataURL(file)
+    reader.onload = () => {
+      const result: string = reader.result as string;
+      imgTag.src = result;
+      if (genre === "avater") {
+        setAvater(result)
+      } else {
+        setCover(result)
+      }
+    }
+
+  }
+
   return (
     <>
       <div className={styles["profile-img"]}>
-        <a href="">
-          <img className={styles["profile-img__cover-photo"]} src={img_cover_sample} alt="cover photos" />
+        <img className={styles["profile-img__cover-photo"]} id="img_cover" src={img_cover_sample} alt="cover photos" />
+        <label>
           <img className={styles["profile-img__cover-photoselect"]} src={img_photo_select} alt="cover photo select" />
-        </a>
+          <input type="file" className={styles["profile-img__filesend"]} onChange={(e) => onChangeImage(e, "cover")} />
+        </label>
         <a href="">
-          <img className={styles["profile-img__avatar-photo"]} src={img_avatar} alt="avatar photos" />
-          <img className={styles["profile-img__avatar-photoselect"]} src={img_photo_select} alt="avatar photo select" />
+          <img className={styles["profile-img__avatar-photo"]} id="img_avater" src={img_avatar} alt="avatar photos" />
+          <label>
+            <img className={styles["profile-img__avatar-photoselect"]} src={img_photo_select} alt="avatar photo select" />
+            <input type="file" className={styles["profile-img__filesend"]} onChange={(e) => onChangeImage(e, "avater")} />
+          </label>
         </a>
       </div>
       <div className={styles["profile-text"]}>
