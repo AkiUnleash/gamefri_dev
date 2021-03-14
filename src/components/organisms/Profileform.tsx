@@ -137,7 +137,8 @@ const Profileform = (): JSX.Element => {
             class={styles["profile-text__gender"]}
             values={[
               { key: "male", value: "男性" },
-              { key: "female", value: "女性" }]}
+              { key: "female", value: "女性" },
+              { key: "none", value: "非公開" }]}
             setValue={setGender} />
 
           <div className={styles["profile-text__birthday"]}>
