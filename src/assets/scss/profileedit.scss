@@ -2,6 +2,7 @@
 
 .profile-img {
     position: relative;
+    padding-top: 80px;
     &__cover-photo {
         margin-top: 4px;
         width: 100%;
@@ -14,7 +15,7 @@
         object-fit: cover;
         border-radius: 50%;
         position: absolute;
-        top: 256px;
+        top: 336px;
         left: 0px;
         right: 0px;
         margin: auto;
@@ -25,7 +26,7 @@
         width: 64px;
         height: 64px;
         position: absolute;
-        top: 384px;
+        top: 464px;
         left: 136px;
         right: 0px;
         margin: auto;
@@ -38,7 +39,7 @@
         width: 64px;
         height: 64px;
         position: absolute;
-        top: 136px;
+        top: 176px;
         left: 0px;
         right: 0px;
         margin: auto;

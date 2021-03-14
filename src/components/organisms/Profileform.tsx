@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux'
+import { selectUser, updateUserProfile } from '../../common/state/userSlice'
 // assets
 import styles from '../../assets/scss/profileedit.scss';
 import mui from '../../assets/css/mui.css'
@@ -10,8 +12,13 @@ import Textfield from '../atoms/Textfield'
 import Textarea from '../atoms/Textarea'
 import Radio from '../atoms/Radio'
 import List from '../atoms/List'
+// common
+import * as DataInterface from '../../common/backend/model'
 
 const Profileform = (): JSX.Element => {
+
+  const dispatch = useDispatch();
+  const user = useSelector(selectUser)
 
   const [nickname, setNickname] = useState("")
   const [introduction, setIntroduction] = useState("")
@@ -19,8 +26,8 @@ const Profileform = (): JSX.Element => {
   const [playgame, setPlaygame] = useState("")
   const [timestart, setTimestart] = useState("")
   const [timeend, setTimeend] = useState("")
-  const [cover, setCover] = useState("")
-  const [avater, setAvater] = useState("")
+  const [cover, setCover] = useState<File | null>(null)
+  const [avatar, setAvatar] = useState<File | null>(null)
 
   // 生年月日 選択値
   const year = [...Array(new Date().getFullYear() - 1900).keys()].map(i => (i + 1900).toString() + '年').reverse()
@@ -34,19 +41,58 @@ const Profileform = (): JSX.Element => {
     const file = e.target.files[0];
     if (file === null) { return; }
 
+    if (genre === "avatar") {
+      setAvatar(e.target.files[0])
+    } else {
+      setCover(e.target.files[0])
+    }
+
     let imgTag = document.getElementById("img_" + genre) as HTMLImageElement;
     const reader = new FileReader();
     reader.readAsDataURL(file)
     reader.onload = () => {
       const result: string = reader.result as string;
       imgTag.src = result;
-      if (genre === "avater") {
-        setAvater(result)
-      } else {
-        setCover(result)
-      }
+    }
+  }
+
+  const onRegisterClick = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+
+    // POST停止
+    e.preventDefault();
+
+    let avatarurl = ''
+    if (avatar) {
+      avatarurl = await DataInterface.imageAdd('avatar', avatar.name, avatar)
     }
 
+    let coverurl = ''
+    if (cover) {
+      coverurl = await DataInterface.imageAdd('cover', cover.name, cover)
+    }
+
+    DataInterface.updateProfile(nickname, avatarurl)
+
+    dispatch(
+      updateUserProfile({
+        displayName: nickname,
+        photoUrl: avatarurl,
+      })
+    );
+
+    DataInterface.dataAdd(
+      {
+        nickname: nickname,
+        introduction: introduction,
+        gender: gender,
+        playgame: playgame,
+        timestart: timestart,
+        timeend: timeend,
+        avatarurl: avatarurl,
+        coverurl: coverurl
+      },
+      'user',
+      user.uid)
   }
 
   return (
@@ -58,10 +104,10 @@ const Profileform = (): JSX.Element => {
           <input type="file" className={styles["profile-img__filesend"]} onChange={(e) => onChangeImage(e, "cover")} />
         </label>
         <a href="">
-          <img className={styles["profile-img__avatar-photo"]} id="img_avater" src={img_avatar} alt="avatar photos" />
+          <img className={styles["profile-img__avatar-photo"]} id="img_avatar" src={img_avatar} alt="avatar photos" />
           <label>
             <img className={styles["profile-img__avatar-photoselect"]} src={img_photo_select} alt="avatar photo select" />
-            <input type="file" className={styles["profile-img__filesend"]} onChange={(e) => onChangeImage(e, "avater")} />
+            <input type="file" className={styles["profile-img__filesend"]} onChange={(e) => onChangeImage(e, "avatar")} />
           </label>
         </a>
       </div>
@@ -146,7 +192,9 @@ const Profileform = (): JSX.Element => {
           </div>
 
           <div className={styles["profile-text__singup"]}>
-            <button className={styles["profile-text__register-button"]} type="submit"> 登録</button>
+            <button className={styles["profile-text__register-button"]}
+              type="submit"
+              onClick={(e) => onRegisterClick(e)}> 登録 </button>
           </div>
 
         </form>

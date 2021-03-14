@@ -17,7 +17,14 @@ const Radio = (props: props): JSX.Element => {
       {props.values.map((p, index) => {
         return (
           <label className={props.class} key={index}>
-            <input id={"optionsRadios" + index} type="radio" name="optionsRadios" value={p.key} />{p.value}
+            <input id={"optionsRadios" + index}
+              type="radio"
+              name="optionsRadios"
+              value={p.key}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                props.setValue(e.target.value)
+              }} />
+            {p.value}
           </label>
         )
       })}
