@@ -7,6 +7,7 @@ import Top from './components/pages/Top';
 import Login from './components/pages/Login';
 import Singup from './components/pages/Singup';
 import Signupfinish from './components/pages/Signupfinish';
+import Profile from './components/pages/Profile';
 // state
 import { Provider } from "react-redux"
 import { login, logout, selectUser } from './common/state/userSlice'
@@ -46,6 +47,7 @@ const Main = (): JSX.Element => {
                 <Route path="/login" component={Login} />
                 <Route path="/signup" component={Singup} />
                 <Route path="/signupfinished" component={Signupfinish} />
+                <Route path="/profile" component={Profile} />
             </Switch>
         </BrowserRouter>
     );
