@@ -1,10 +1,16 @@
 import { db, auth, storage } from '../firebase/firebase'
 
 // Firestoreにデータを保存
-export const dataAdd = (data: {}, colection: string, documents: string) => {
-  const reference = db.collection(colection).doc(documents)
+export const dataAdd = (data: {}, colection: string, documents: string, subColection?: string) => {
   console.log(data);
-  reference.set(data)
+
+  if (subColection) {
+    const reference = db.collection(colection).doc(documents).collection(subColection)
+    reference.add(data)
+  } else {
+    const reference = db.collection(colection).doc(documents)
+    reference.set(data)
+  }
 }
 
 // Firebase strageにイメージを保存

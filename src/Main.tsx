@@ -8,6 +8,7 @@ import Login from './components/pages/Login';
 import Singup from './components/pages/Singup';
 import Signupfinish from './components/pages/Signupfinish';
 import Profile from './components/pages/Profile';
+import DiaryWrite from './components/pages/Diarywrite';
 // state
 import { Provider } from "react-redux"
 import { login, logout, selectUser } from './common/state/userSlice'
@@ -48,6 +49,7 @@ const Main = (): JSX.Element => {
                 <Route path="/signup" component={Singup} />
                 <Route path="/signupfinished" component={Signupfinish} />
                 <Route path="/profile" component={Profile} />
+                <Route path="/diarywrite" component={DiaryWrite} />
             </Switch>
         </BrowserRouter>
     );
