@@ -1,6 +1,5 @@
 // React
-import React, { useEffect } from 'react';
-import { render } from 'react-dom';
+import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 // Components
 import Top from './components/pages/Top';
@@ -8,30 +7,36 @@ import Login from './components/pages/Login';
 import Singup from './components/pages/Singup';
 import Signupfinish from './components/pages/Signupfinish';
 import Profile from './components/pages/Profile';
+import Home from './components/pages/Home';
 // state
-import { Provider } from "react-redux"
-import { login, logout, selectUser } from './common/state/userSlice'
-import { useSelector, useDispatch } from 'react-redux'
-import { store } from './common/state/store'
+import { login, logout } from './common/state/userSlice'
+import { useDispatch } from 'react-redux'
 // firebase
-import { auth } from "./common/firebase/firebase"
+import { auth, db } from "./common/firebase/firebase"
 // assets
 import "assets/css/destyle.css"
 
-const Main = (): JSX.Element => {
-    const user = useSelector(selectUser)
+const Main: React.FC = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
         const unSub = auth.onAuthStateChanged((authUser) => {
             if (authUser) {
-                dispatch(
-                    login({
-                        uid: authUser?.uid,
-                        photoUrl: authUser?.photoURL,
-                        displayName: authUser?.displayName
+                // followerの取得
+                db.collection("user")
+                    .doc(authUser.uid)
+                    .collection("followings")
+                    .onSnapshot((snapshot) => {
+                        const follower = snapshot.docs.map(f => f.id)
+                        // 状態管理
+                        dispatch(login({
+                            uid: authUser?.uid,
+                            photoUrl: authUser?.photoURL,
+                            displayName: authUser?.displayName,
+                            follower: follower,
+                        })
+                        )
                     })
-                )
             } else {
                 dispatch(logout())
             }
@@ -48,15 +53,10 @@ const Main = (): JSX.Element => {
                 <Route path="/signup" component={Singup} />
                 <Route path="/signupfinished" component={Signupfinish} />
                 <Route path="/profile" component={Profile} />
+                <Route path="/home" component={Home} />
             </Switch>
         </BrowserRouter>
     );
 };
-
-render(
-    <Provider store={store}>
-        <Main />
-    </Provider >
-    , document.getElementById('root'));
 
 export default Main;

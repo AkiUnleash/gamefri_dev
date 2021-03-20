@@ -3,7 +3,6 @@ import { db, auth, storage } from '../firebase/firebase'
 // Firestoreにデータを保存
 export const dataAdd = (data: {}, colection: string, documents: string) => {
   const reference = db.collection(colection).doc(documents)
-  console.log(data);
   reference.set(data)
 }
 
@@ -36,4 +35,13 @@ export const updateProfile = async (displayName: string, photoURL: string) => {
 
   console.log("displayname", auth.currentUser?.displayName);
 
+}
+
+export const dataInport = async (colectionName: string, documentName: string) => {
+  const getData = db.collection(colectionName).doc(documentName)
+  return getData
+}
+
+export const subDataInport = (colectionName: string, documentName: string, subColectionName: string) => {
+  return db.collection(colectionName).doc(documentName).collection(subColectionName)
 }
