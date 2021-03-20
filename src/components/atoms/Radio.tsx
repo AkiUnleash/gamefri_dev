@@ -1,5 +1,5 @@
 import * as React from 'react';
-import mui from '../../assets/css/mui.css'
+import mui from '../../assets/css/mui.module.css'
 
 type props = {
   class: string,

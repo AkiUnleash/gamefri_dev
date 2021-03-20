@@ -4,7 +4,6 @@ import { db } from '../../common/firebase/firebase'
 // components
 import Diarycard from '../Molecules/Diarycard'
 // until
-import * as DataInterface from '../../common/backend/model'
 import { selectUser } from "../../common/state/userSlice"
 
 const Diarylist: React.FC = () => {

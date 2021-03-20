@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from '../../assets/scss/home.scss';
+import styles from '../../assets/scss/home.module.scss';
 // test
 import imgcard_avatar from '../../assets/images/home/avatar2.jpg'
 import imgcard_screen from '../../assets/images/home/game1.jpg'

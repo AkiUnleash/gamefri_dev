@@ -3,8 +3,8 @@ import React, { useState } from 'react';
 import Textfield from '../atoms/Textfield'
 import Textarea from '../atoms/Textarea'
 // assets
-import styles from '../../assets/scss/diarywriteform.scss';
-import mui from '../../assets/css/mui.css'
+import styles from '../../assets/scss/diarywriteform.module.scss';
+import mui from '../../assets/css/mui.module.css'
 import img_attach from '../../assets/images/diarywrite/image_attach.svg'
 // until
 import * as DataInterface from '../../common/backend/model'

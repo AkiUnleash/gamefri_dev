@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { selectUser, updateUserProfile } from '../../common/state/userSlice'
 // assets
-import styles from '../../assets/scss/profileedit.scss';
-import mui from '../../assets/css/mui.css'
+import styles from '../../assets/scss/profileedit.module.scss';
+import mui from '../../assets/css/mui.module.css'
 import img_photo_select from '../../assets/images/profile/photo-select.svg'
 import img_cover_sample from '../../assets/images/profile/cover-sample.png'
 import img_avatar from '../../assets/images/profile/avatar.png'

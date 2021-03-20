@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import styles from '../../assets/scss/signup.scss';
-import mui from '../../assets/css/mui.css'
+import styles from '../../assets/scss/signup.module.scss';
+import mui from '../../assets/css/mui.module.css'
 import Textfield from '../atoms/Textfield'
 import { auth, provider } from '../../common/firebase/firebase'
 import logo from '../../assets/images/logo_sm.svg'
@@ -52,12 +52,14 @@ const Singupform = (): JSX.Element => {
           setValue={setPassword}
           label="パスワード" />
 
-        <div className={styles["signup-form__singup"]}>
+        <div className={styles["signup-form__signup"]}>
           <button className={styles["signup-form__signup-button"]}>登録</button>
         </div>
+
         <div className={styles["signup-form__supplement"]}>
           <div className={styles["signup-form__new-account"]}><a>新規アカウント登録はこちら</a></div>
         </div>
+
         <div className={styles["signup-other"]}>
           <div className={styles["signup-other__title"]}>その他のログイン方法</div>
           <div>
