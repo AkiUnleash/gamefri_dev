@@ -7,7 +7,9 @@ import Login from './components/pages/Login';
 import Singup from './components/pages/Singup';
 import Signupfinish from './components/pages/Signupfinish';
 import Profile from './components/pages/Profile';
+import DiaryWrite from './components/pages/Diarywrite';
 import Home from './components/pages/Home';
+        
 // state
 import { login, logout } from './common/state/userSlice'
 import { useDispatch } from 'react-redux'
@@ -53,6 +55,7 @@ const Main: React.FC = () => {
                 <Route path="/signup" component={Singup} />
                 <Route path="/signupfinished" component={Signupfinish} />
                 <Route path="/profile" component={Profile} />
+                <Route path="/diarywrite" component={DiaryWrite} />
                 <Route path="/home" component={Home} />
             </Switch>
         </BrowserRouter>
