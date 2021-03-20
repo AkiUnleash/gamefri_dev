@@ -9,14 +9,14 @@ interface USER {
 export const userSlice = createSlice({
   name: "user",
   initialState: {
-    user: { uid: "", photoUrl: "", displayName: "" },
+    user: { uid: "", photoUrl: "", displayName: "", follower: [""] },
   },
   reducers: {
     login: (state, action) => {
       state.user = action.payload;
     },
     logout: (state) => {
-      state.user = { uid: "", photoUrl: "", displayName: "" }
+      state.user = { uid: "", photoUrl: "", displayName: "", follower: [""] }
     },
     updateUserProfile: (state, action: PayloadAction<USER>) => {
       state.user.displayName = action.payload.displayName;

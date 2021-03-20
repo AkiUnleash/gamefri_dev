@@ -3,7 +3,6 @@ import { db, auth, storage } from '../firebase/firebase'
 // Firestoreにデータを保存
 export const dataAdd = (data: {}, colection: string, documents: string) => {
   const reference = db.collection(colection).doc(documents)
-  console.log(data);
   reference.set(data)
 }
 

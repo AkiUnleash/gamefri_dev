@@ -1,5 +1,5 @@
 // React
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 // Components
 import Top from './components/pages/Top';
@@ -12,7 +12,7 @@ import Home from './components/pages/Home';
 import { login, logout } from './common/state/userSlice'
 import { useDispatch } from 'react-redux'
 // firebase
-import { auth } from "./common/firebase/firebase"
+import { auth, db } from "./common/firebase/firebase"
 // assets
 import "assets/css/destyle.css"
 
@@ -22,13 +22,21 @@ const Main: React.FC = () => {
     useEffect(() => {
         const unSub = auth.onAuthStateChanged((authUser) => {
             if (authUser) {
-                dispatch(
-                    login({
-                        uid: authUser?.uid,
-                        photoUrl: authUser?.photoURL,
-                        displayName: authUser?.displayName
+                // followerの取得
+                db.collection("user")
+                    .doc(authUser.uid)
+                    .collection("followings")
+                    .onSnapshot((snapshot) => {
+                        const follower = snapshot.docs.map(f => f.id)
+                        // 状態管理
+                        dispatch(login({
+                            uid: authUser?.uid,
+                            photoUrl: authUser?.photoURL,
+                            displayName: authUser?.displayName,
+                            follower: follower,
+                        })
+                        )
                     })
-                )
             } else {
                 dispatch(logout())
             }
