@@ -11,6 +11,7 @@ import detail_img_3 from '../../assets/images/top/top-img3.png'
 
 
 const detail = (): JSX.Element => {
+
   const detail_data = [
     {
       title: "ゲームの種類でフレンドを探そう！",
@@ -81,7 +82,7 @@ const introduction = (): JSX.Element => {
   );
 };
 
-const Top = (): JSX.Element => {
+const Top: React.FC = () => {
   return (
     <>
       <Header />

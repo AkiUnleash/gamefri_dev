@@ -3,7 +3,7 @@ import React from 'react';
 import Header from '../organisms/Header_in';
 import Profileform from '../organisms/Profileform';
 
-const Profileedit = (): JSX.Element => {
+const Profileedit: React.FC = () => {
   return (
     <>
       <Header />

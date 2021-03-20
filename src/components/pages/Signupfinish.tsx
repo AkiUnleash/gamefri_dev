@@ -5,7 +5,7 @@ import Footer from '../organisms/Footer';
 // assets
 import styles from '../../assets/scss/signup-finish.scss';
 
-const Massege = (): JSX.Element => {
+const Massege: React.FC = () => {
   return (
     <>
       <div className={styles["signup-finish"]}>
@@ -20,7 +20,7 @@ const Massege = (): JSX.Element => {
   );
 }
 
-const Signupfinish = (): JSX.Element => {
+const Signupfinish: React.FC = () => {
   return (
     <>
       <Header />
