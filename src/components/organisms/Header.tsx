@@ -15,7 +15,7 @@ const Header = (): JSX.Element => {
         </div>
         <div className={styles["header-mobile"]}>
           <input className={styles["header-mobile__checkbox"]} id="drawerCheckbox" type="checkbox" />
-          <label className={styles["header-mobile__icon"]} htmlFor="drawerCheckbox"><span className="header-mobile__icon-parts"></span></label>
+          <label className={styles["header-mobile__icon"]} htmlFor="drawerCheckbox"><span className={styles["header-mobile__icon-parts"]}></span></label>
           <label className={styles["header-mobile__overlay"]} htmlFor="drawerCheckbox"></label>
           <nav className={styles["header-mobile__menu"]}>
             <div className={styles["header-mobile__logo"]}><img className="header-mobile__logo_img" src={logo_sm} /></div>
