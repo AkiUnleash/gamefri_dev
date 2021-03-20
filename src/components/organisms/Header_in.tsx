@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from '../../assets/scss/header_in.scss';
+import styles from '../../assets/scss/header_in.module.scss';
 import img_logo_sm from '../../assets/images/logo_sm.svg'
 import img_home from '../../assets/images/header_in/home.svg'
 import img_notifications from '../../assets/images/header_in/notifications.svg'

@@ -9,14 +9,14 @@ import Signupfinish from './components/pages/Signupfinish';
 import Profile from './components/pages/Profile';
 import DiaryWrite from './components/pages/Diarywrite';
 import Home from './components/pages/Home';
-        
+
 // state
 import { login, logout } from './common/state/userSlice'
 import { useDispatch } from 'react-redux'
 // firebase
 import { auth, db } from "./common/firebase/firebase"
 // assets
-import "assets/css/destyle.css"
+import "./assets/css/destyle.css"
 
 const Main: React.FC = () => {
     const dispatch = useDispatch();

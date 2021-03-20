@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import styles from '../../assets/scss/login.scss';
-import mui from '../../assets/css/mui.css'
+import styles from '../../assets/scss/login.module.scss';
+import mui from '../../assets/css/mui.module.css'
 import Textfield from '../atoms/Textfield'
 import { auth, provider } from '../../common/firebase/firebase'
 import logo from '../../assets/images/logo_sm.svg'

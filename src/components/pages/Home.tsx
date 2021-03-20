@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux'
 // assets
-import styles from '../../assets/scss/home.scss';
+import styles from '../../assets/scss/home.module.scss';
 // Component
 import Diarylist from '../organisms/Diarylist';
 import Header from '../organisms/Header_in';

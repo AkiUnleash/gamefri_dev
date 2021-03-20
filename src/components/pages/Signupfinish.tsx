@@ -3,7 +3,7 @@ import React from 'react';
 import Header from '../organisms/Header';
 import Footer from '../organisms/Footer';
 // assets
-import styles from '../../assets/scss/signup-finish.scss';
+import styles from '../../assets/scss/signup-finish.module.scss';
 
 const Massege: React.FC = () => {
   return (
