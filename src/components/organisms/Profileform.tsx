@@ -107,7 +107,9 @@ const Profileform = (): JSX.Element => {
         coverurl: coverurl
       },
       'user',
-      user.uid)
+      user.uid,
+      true
+    )
   }
 
   return (
