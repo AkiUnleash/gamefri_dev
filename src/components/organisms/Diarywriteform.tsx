@@ -56,6 +56,7 @@ const DiaryWriteForm: React.FC = () => {
       },
       'user',
       'WgT1zgPqGHgUtB7AiRvXF0N8Dxa2',
+      true,
       "posts")
 
     console.log("success!");

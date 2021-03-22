@@ -1,7 +1,13 @@
-import { db, auth, storage } from '../firebase/firebase'
+import { db, auth, storage, serverTime } from '../firebase/firebase'
+import { profile, diarywrite } from '../utils/common-types'
 
 // Firestoreにデータを保存
-export const dataAdd = (data: {}, colection: string, documents: string, subColection?: string) => {
+export const dataAdd = <T extends profile | diarywrite, U extends string, V extends boolean>
+  (data: T, colection: U, documents: U, timestanp?: V, subColection?: U) => {
+
+  if (timestanp) {
+    data['create_at'] = serverTime
+  }
 
   if (subColection) {
     const reference = db.collection(colection).doc(documents).collection(subColection)
