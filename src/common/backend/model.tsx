@@ -80,3 +80,16 @@ export const authenticatedChack = () => {
     }
   })
 }
+
+// プロフィール入力の終了確認
+// 登録が完了されていない場合は、プロフィール入力画面に遷移
+export const profileDocumentExistence = () => {
+  auth.onAuthStateChanged(async (user) => {
+    if (user) {
+      const doc = await db.collection('user').doc(user.uid).get()
+      if (!doc.exists) {
+        document.location.href = '/profile';
+      }
+    }
+  })
+}

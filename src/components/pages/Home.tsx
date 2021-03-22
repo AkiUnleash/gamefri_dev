@@ -8,7 +8,7 @@ import Header from '../organisms/Header_in';
 // state
 import { selectUser } from "../../common/state/userSlice"
 // common
-import { loginChack, authenticatedChack } from "../../common/backend/model"
+import { loginChack, authenticatedChack, profileDocumentExistence } from "../../common/backend/model"
 
 
 const Home: React.FC = () => {
@@ -20,7 +20,7 @@ const Home: React.FC = () => {
     // メール認証確認
     authenticatedChack();
     // プロフィール入力有無確認
-
+    profileDocumentExistence();
   }, []);
 
   return (
