@@ -1,14 +1,51 @@
 @import 'variables';
 
+@mixin common-button {
+    width: 64px;
+    height: 64px;
+    position: absolute;
+    right: 0px;
+    margin: auto;
+}
+
 .profile-img {
     position: relative;
     padding-top: 80px;
+
     &__cover-photo {
         margin-top: 4px;
         width: 100%;
         height: 360px;
         object-fit: cover;
+
+        &--select {
+            @include common-button();
+            top: 176px;
+            left: 8px * 8;
+            &:hover {
+                cursor: pointer;
+            }
+        }
+
+        &--select_none {
+            @include common-button();
+            top: 176px;
+            left: 0;
+            &:hover {
+                cursor: pointer;
+            }
+        }
+
+        &--clear {
+            @include common-button();
+            top: 176px;
+            left: -8px * 8;
+            &:hover {
+                cursor: pointer;
+            }
+        }
     }
+
     &__avatar-photo {
         width: 192px;
         height: 192px;
@@ -20,31 +57,22 @@
         right: 0px;
         margin: auto;
         border: 3px $baseColor solid;
-    }
 
-    &__avatar-photoselect {
-        width: 64px;
-        height: 64px;
-        position: absolute;
-        top: 464px;
-        left: 136px;
-        right: 0px;
-        margin: auto;
-        &:hover {
-            cursor: pointer;
+        &--select {
+            @include common-button();
+            top: 464px;
+            left: 136px;
+            &:hover {
+                cursor: pointer;
+            }
         }
-    }
-
-    &__cover-photoselect {
-        width: 64px;
-        height: 64px;
-        position: absolute;
-        top: 176px;
-        left: 0px;
-        right: 0px;
-        margin: auto;
-        &:hover {
-            cursor: pointer;
+        &--clear {
+            @include common-button();
+            top: 464px;
+            left: -136px;
+            &:hover {
+                cursor: pointer;
+            }
         }
     }
 

@@ -5,8 +5,9 @@ import { selectUser, updateUserProfile } from '../../common/state/userSlice'
 import styles from '../../assets/scss/profileedit.module.scss';
 import mui from '../../assets/css/mui.module.css'
 import img_photo_select from '../../assets/images/profile/photo-select.svg'
+import img_photo_clear from '../../assets/images/profile/photo-clear.svg'
 import img_cover_sample from '../../assets/images/profile/cover-sample.png'
-import img_avatar from '../../assets/images/profile/avatar.png'
+import img_avatar_sample from '../../assets/images/profile/avatar.png'
 // atoms
 import Textfield from '../atoms/Textfield'
 import Textarea from '../atoms/Textarea'
@@ -56,6 +57,20 @@ const Profileform = (): JSX.Element => {
     }
   }
 
+  const onChangeImageclear = (genre: string) => {
+    const imgTag = document.getElementById("img_" + genre) as HTMLImageElement;
+    switch (genre) {
+      case 'avatar':
+        setAvatar(null)
+        imgTag.src = img_avatar_sample
+        break;
+      case 'cover':
+        setCover(null)
+        imgTag.src = img_cover_sample
+        break;
+    }
+  }
+
   const onRegisterClick = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
 
     // POST停止
@@ -98,18 +113,34 @@ const Profileform = (): JSX.Element => {
   return (
     <>
       <div className={styles["profile-img"]}>
+
         <img className={styles["profile-img__cover-photo"]} id="img_cover" src={img_cover_sample} alt="cover photos" />
+
         <label>
-          <img className={styles["profile-img__cover-photoselect"]} src={img_photo_select} alt="cover photo select" />
+          <img className={cover ? styles["profile-img__cover-photo--select"] : styles["profile-img__cover-photo--select_none"]} src={img_photo_select} alt="cover photo select" />
           <input type="file" className={styles["profile-img__filesend"]} onChange={(e) => onChangeImage(e, "cover")} />
         </label>
-        <a href="">
-          <img className={styles["profile-img__avatar-photo"]} id="img_avatar" src={img_avatar} alt="avatar photos" />
+
+        {cover ? (
           <label>
-            <img className={styles["profile-img__avatar-photoselect"]} src={img_photo_select} alt="avatar photo select" />
-            <input type="file" className={styles["profile-img__filesend"]} onChange={(e) => onChangeImage(e, "avatar")} />
+            <img className={styles["profile-img__cover-photo--clear"]} src={img_photo_clear} alt="cover photo clear" />
+            <button type="button" className={styles["profile-img__filesend"]} onClick={(e) => onChangeImageclear("cover")} />
           </label>
-        </a>
+        ) : ""}
+
+        <img className={styles["profile-img__avatar-photo"]} id="img_avatar" src={img_avatar_sample} alt="avatar photos" />
+        <label>
+          <img className={styles["profile-img__avatar-photo--select"]} src={img_photo_select} alt="avatar photo select" />
+          <input type="file" className={styles["profile-img__filesend"]} onChange={(e) => onChangeImage(e, "avatar")} />
+        </label>
+
+        {avatar ? (
+          <label>
+            <img className={styles["profile-img__avatar-photo--clear"]} src={img_photo_clear} alt="cover photo clear" />
+            <input type="button" className={styles["profile-img__filesend"]} onClick={(e) => onChangeImageclear("avatar")} />
+          </label>
+        ) : ""}
+
       </div>
       <div className={styles["profile-text"]}>
         <form className={mui["mui-form"]}>
