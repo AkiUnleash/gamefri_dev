@@ -3,8 +3,9 @@ import { useSelector } from 'react-redux'
 // assets
 import styles from '../../assets/scss/home.module.scss';
 // Component
-import Diarylist from '../organisms/Diarylist';
 import Header from '../organisms/Header_in';
+import Postbutton from '../atoms/Postbutton';
+import Diarylist from '../organisms/Diarylist';
 // state
 import { selectUser } from "../../common/state/userSlice"
 // common
@@ -26,6 +27,8 @@ const Home: React.FC = () => {
   return (
     <>
       <Header />
+      <Postbutton
+        link="/diarywrite" />
       {user.uid ?
         (<div className={styles["cardaria"]}>
           <Diarylist />
