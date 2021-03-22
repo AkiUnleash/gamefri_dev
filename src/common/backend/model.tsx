@@ -55,3 +55,28 @@ export const subDataInport = (colectionName: string, documentName: string, subCo
 export const logout = (): void => {
   auth.signOut();
 }
+
+// ログイン済みの確認
+// 認証されていない場合は、ログインページへ転送
+export const loginChack = () => {
+  auth.onAuthStateChanged((user) => {
+    if (!user) {
+      document.location.href = '/login';
+    }
+  })
+}
+
+// 認証済みのアカウントなのか確認する
+// 認証されていない場合は、確認依頼ページへ転送
+export const authenticatedChack = () => {
+
+  auth.onAuthStateChanged((user) => {
+    if (user) {
+      const Verified = auth.currentUser?.emailVerified
+      if (!Verified) {
+        auth.currentUser?.sendEmailVerification();
+        document.location.href = '/signupfinished';
+      }
+    }
+  })
+}
