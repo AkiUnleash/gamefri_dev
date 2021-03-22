@@ -23,6 +23,7 @@ const Diarylist: React.FC = () => {
       db.collection("user")
         .doc(follower)
         .collection("posts")
+        .orderBy("create_at", "desc")
         .onSnapshot((snapshot) =>
           setPost(
             snapshot.docs.map((doc) => ({
