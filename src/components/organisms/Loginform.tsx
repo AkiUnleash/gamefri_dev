@@ -9,8 +9,10 @@ const Loginform = (): JSX.Element => {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
 
-  const signInEmail = async () => {
+  const signInEmail = async (event: React.FormEvent) => {
+    event.preventDefault()
     await auth.signInWithEmailAndPassword(email, password)
+    document.location.href = './home'
   }
   const signInGoogle = async (event: React.FormEvent) => {
     event.preventDefault()
