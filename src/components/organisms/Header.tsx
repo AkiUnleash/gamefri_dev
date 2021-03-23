@@ -20,8 +20,8 @@ const Header = (): JSX.Element => {
           <nav className={styles["header-mobile__menu"]}>
             <div className={styles["header-mobile__logo"]}><img className="header-mobile__logo_img" src={logo_sm} /></div>
             <ul>
-              <li className={styles["header-mobile__item"]}><a className="header-mobile__item-inner" href="./login.html">ログイン</a></li>
-              <li className={styles["header-mobile__item"]}><a className="header-mobile__item-inner" href="./singup.html">新規アカウント作成</a></li>
+              <li className={styles["header-mobile__item"]}><a className="header-mobile__item-inner" href="./login">ログイン</a></li>
+              <li className={styles["header-mobile__item"]}><a className="header-mobile__item-inner" href="./signup">新規アカウント作成</a></li>
               <li className={styles["header-mobile__item"]}><a className="header-mobile__item-inner" href="/">よくある質問</a></li>
               <li className={styles["header-mobile__item"]}><a className="header-mobile__item-inner" href="/">問い合わせ</a></li>
             </ul>
