@@ -6,27 +6,33 @@ import imgcard_screen from '../../assets/images/home/game1.jpg'
 
 type props = {
   title: string,
-  gametitle: string
+  gametitle: string,
+  attach_photo?: string,
+  likecount: number,
+  link: string,
+  displayName: string,
+  avatar_photo: string,
+  create_at: string,
 }
 
 const Diarycard: React.FC<props> = (props: props) => {
   return (
     <>
       <div className={styles["cardaria"]}>
-        <a className={styles["card"]} href="">
+        <a className={styles["card"]} href={props.link}>
           <div className={styles["diary-imgcard"]}>
             <div className={styles["diary-imgcard__photo"]}>
-              <img className={styles["diary-imgcard__photo-img"]} src={imgcard_screen} />
+              <img className={styles["diary-imgcard__photo-img"]} src={props.attach_photo} />
               <p className={styles["diary-imgcard__gametitle"]}>{props.gametitle}</p>
               <p className={styles["diary-imgcard__title"]}>{props.title}</p>
             </div>
             <div className={styles["diary-imgcard__infomation"]}>
-              <img className={styles["diary-imgcard__avatar"]} src={imgcard_avatar} alt="avatar photos" />
+              <img className={styles["diary-imgcard__avatar"]} src={props.avatar_photo} alt="avatar photos" />
               <div className={styles["diary-imgcard__data"]}>
-                <div className={styles["diary-imgcard__name"]}>ミナ</div>
-                <div className={styles["diary-imgcard__date"]}>2021/01/24</div>
+                <div className={styles["diary-imgcard__name"]}>{props.displayName}</div>
+                <div className={styles["diary-imgcard__date"]}>{props.create_at}</div>
               </div>
-              <div className={styles["diary-imgcard__nice"]}> <div>Nice! 7</div> </div>
+              <div className={styles["diary-imgcard__nice"]}> <div>Nice! {props.likecount}</div> </div>
             </div>
           </div>
         </a>

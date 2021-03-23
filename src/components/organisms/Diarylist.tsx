@@ -13,26 +13,45 @@ const Diarylist: React.FC = () => {
       id: "",
       title: "",
       body: "",
-      gametitle: ""
+      gametitle: "",
+      displayName: "",
+      avatarUrl: "",
+      create_at: "",
+      attachUrl: "",
+      link: ""
     },
   ])
 
   // フォロワーの日記データ取得
   useEffect(() => {
-    user.follower.forEach((follower) => {
+    user.follower.forEach(async (follower) => {
+      const f = await db.collection("user").doc(follower).get()
+      const nickname = f.data()?.nickname
+      const avatarUrl = f.data()?.avatarurl
+      const profileID = f.data()?.profileID
+
       db.collection("user")
         .doc(follower)
         .collection("posts")
         .orderBy("create_at", "desc")
-        .onSnapshot((snapshot) =>
-          setPost(
-            snapshot.docs.map((doc) => ({
-              id: doc.id,
-              title: doc.data().title,
-              body: doc.data().body,
-              gametitle: doc.data().gametitle
-            }))
-          )
+        .onSnapshot((snapshot) => {
+          snapshot.docs.map((doc) => (
+            setPost(
+              snapshot.docs.map((doc) => ({
+                id: doc.id,
+                title: doc.data().title,
+                body: doc.data().body,
+                gametitle: doc.data().gametitle,
+                link: '/' + profileID + '/status/' + doc.id,
+                likecount: 0,
+                displayName: nickname,
+                avatarUrl: avatarUrl,
+                attachUrl: doc.data().attachimage,
+                create_at: `${doc.data().create_at.toDate().getFullYear()}/${("00" + (doc.data().create_at.toDate().getMonth() + 1)).slice(-2)}/${("00" + doc.data().create_at.toDate().getDate()).slice(-2)}`,
+              }))
+            )
+          ))
+        }
         );
     })
   }, []);
@@ -45,7 +64,14 @@ const Diarylist: React.FC = () => {
           {post.map((p, index) => (
             <Diarycard key={index}
               title={p.title}
-              gametitle={p.gametitle} />
+              gametitle={p.gametitle}
+              attach_photo={p.attachUrl}
+              likecount={0}
+              link={p.link}
+              displayName={p.displayName}
+              avatar_photo={p.avatarUrl}
+              create_at={p.create_at}
+            />
           ))}
         </>
       )
