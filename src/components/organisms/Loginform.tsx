@@ -17,6 +17,7 @@ const Loginform = (): JSX.Element => {
   const signInGoogle = async (event: React.FormEvent) => {
     event.preventDefault()
     await auth.signInWithPopup(provider).catch((err) => alert(err.message));
+    document.location.href = './home'
   };
 
   return (

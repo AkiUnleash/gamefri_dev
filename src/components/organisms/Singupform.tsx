@@ -20,12 +20,13 @@ const Singupform = (): JSX.Element => {
     const createuser = authUser.user
     createuser && await createuser.sendEmailVerification();
     // 移動
-    await location.replace(window.location.origin + '/signupfinished');
+    await document.location.replace(window.location.origin + '/signupfinished');
   }
 
   const signInGoogle = async (event: React.FormEvent) => {
     event.preventDefault()
     await auth.signInWithPopup(provider).catch(err => alert(err.message));
+    document.location.href = './home'
   };
 
   return (
