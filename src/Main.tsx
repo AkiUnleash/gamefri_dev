@@ -1,6 +1,7 @@
 // React
 import React, { useEffect, useState } from 'react';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { Router, Switch, Route } from 'react-router-dom';
+import { browserHistory } from "./history";
 // Components
 import Top from './components/pages/Top';
 import Login from './components/pages/Login';
@@ -48,7 +49,7 @@ const Main: React.FC = () => {
     }, [dispatch])
 
     return (
-        <BrowserRouter>
+        <Router history={browserHistory}>
             <Switch>
                 <Route exact path="/" component={Top} />
                 <Route path="/login" component={Login} />
@@ -58,7 +59,7 @@ const Main: React.FC = () => {
                 <Route path="/diarywrite" component={DiaryWrite} />
                 <Route path="/home" component={Home} />
             </Switch>
-        </BrowserRouter>
+        </Router>
     );
 };
 

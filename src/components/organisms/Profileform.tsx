@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { selectUser, updateUserProfile } from '../../common/state/userSlice'
+import { browserHistory } from "../../history"
 // assets
 import styles from '../../assets/scss/profileedit.module.scss';
 import mui from '../../assets/css/mui.module.css'
@@ -110,6 +111,7 @@ const Profileform = (): JSX.Element => {
       user.uid,
       true
     )
+    browserHistory.push("/home")
   }
 
   return (

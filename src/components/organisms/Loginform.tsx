@@ -17,6 +17,7 @@ const Loginform = (): JSX.Element => {
   const signInGoogle = async (event: React.FormEvent) => {
     event.preventDefault()
     await auth.signInWithPopup(provider).catch((err) => alert(err.message));
+    document.location.href = './home'
   };
 
   return (
@@ -33,7 +34,7 @@ const Loginform = (): JSX.Element => {
           id={"email"}
           value={email}
           setValue={setEmail}
-          label="ログイン" />
+          label="ログインID" />
 
         <Textfield
           type="password"

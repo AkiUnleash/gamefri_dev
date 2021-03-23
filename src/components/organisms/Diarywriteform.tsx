@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux'
+import { browserHistory } from "../../history"
 // Components
 import Textfield from '../atoms/Textfield'
 import Textarea from '../atoms/Textarea'
@@ -8,6 +10,8 @@ import mui from '../../assets/css/mui.module.css'
 import img_attach from '../../assets/images/diarywrite/image_attach.svg'
 // until
 import * as DataInterface from '../../common/backend/model'
+// state
+import { selectUser } from "../../common/state/userSlice"
 
 const DiaryWriteForm: React.FC = () => {
 
@@ -15,6 +19,7 @@ const DiaryWriteForm: React.FC = () => {
   const [body, setBody] = useState("")
   const [gamename, setGamename] = useState("")
   const [image, setImage] = useState<File | null>(null)
+  const user = useSelector(selectUser)
 
   // 画像選択
   const onChangeImage = (e: React.ChangeEvent<HTMLInputElement>, genre: string) => {
@@ -47,7 +52,7 @@ const DiaryWriteForm: React.FC = () => {
       imageurl = await DataInterface.imageAdd('posts_attach', image.name, image)
     }
 
-    DataInterface.dataAdd(
+    await DataInterface.dataAdd(
       {
         title: title,
         body: body,
@@ -55,11 +60,11 @@ const DiaryWriteForm: React.FC = () => {
         attachimage: imageurl,
       },
       'user',
-      'WgT1zgPqGHgUtB7AiRvXF0N8Dxa2',
+      user.uid,
       true,
       "posts")
 
-    console.log("success!");
+    browserHistory.push("/home")
 
   }
   return (
