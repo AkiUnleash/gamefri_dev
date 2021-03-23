@@ -14,11 +14,12 @@ const Diarylist: React.FC = () => {
       title: "",
       body: "",
       gametitle: "",
+      likecount: 0,
+      attachUrl: "",
       displayName: "",
       avatarUrl: "",
-      create_at: "",
-      attachUrl: "",
-      link: ""
+      link: "",
+      create_at: ""
     },
   ])
 
@@ -66,7 +67,7 @@ const Diarylist: React.FC = () => {
               title={p.title}
               gametitle={p.gametitle}
               attach_photo={p.attachUrl}
-              likecount={0}
+              likecount={p.likecount}
               link={p.link}
               displayName={p.displayName}
               avatar_photo={p.avatarUrl}
