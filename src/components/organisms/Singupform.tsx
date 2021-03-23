@@ -42,7 +42,7 @@ const Singupform = (): JSX.Element => {
           id={"email"}
           value={email}
           setValue={setEmail}
-          label="ログイン" />
+          label="ログインID" />
 
         <Textfield
           type="password"
