@@ -1,6 +1,7 @@
 const { merge } = require('webpack-merge');
 const common = require('./webpack.common.js');
 const MODE = "development";
+const Dotenv = require('dotenv-webpack');
 
 module.exports = merge(common, {
   mode: MODE,
@@ -10,5 +11,9 @@ module.exports = merge(common, {
     buildDependencies: {
       config: [__filename]
     }
-  }
+  },
+  plugins: [
+    // .envを使用するプラグイン
+    new Dotenv(),
+  ]
 });
