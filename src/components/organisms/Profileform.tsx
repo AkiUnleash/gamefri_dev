@@ -16,12 +16,14 @@ import Radio from '../atoms/Radio'
 import List from '../atoms/List'
 // common
 import * as DataInterface from '../../common/backend/model'
+import { profile } from 'node:console';
 
 const Profileform = (): JSX.Element => {
 
   const dispatch = useDispatch();
   const user = useSelector(selectUser)
 
+  const [profileid, setProfileID] = useState("")
   const [nickname, setNickname] = useState("")
   const [introduction, setIntroduction] = useState("")
   const [gender, setGender] = useState("")
@@ -98,6 +100,7 @@ const Profileform = (): JSX.Element => {
 
     DataInterface.dataAdd(
       {
+        profileid: profileid,
         nickname: nickname,
         introduction: introduction,
         gender: gender,
@@ -151,6 +154,14 @@ const Profileform = (): JSX.Element => {
           <div className={styles["profile-text__title"]}>
             <legend className={styles["profile-text__legend"]}>プロフィール編集</legend>
           </div>
+
+          <Textfield
+            type="text"
+            placeholder="プロフィールIDを入力"
+            id={"profileid"}
+            value={profileid}
+            setValue={setProfileID}
+            label="プロフィールID" />
 
           <Textfield
             type="text"

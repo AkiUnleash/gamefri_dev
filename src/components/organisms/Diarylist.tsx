@@ -29,7 +29,7 @@ const Diarylist: React.FC = () => {
       const f = await db.collection("user").doc(follower).get()
       const nickname = f.data()?.nickname
       const avatarUrl = f.data()?.avatarurl
-      const profileID = f.data()?.profileID
+      const profileID = f.data()?.profileid
 
       db.collection("user")
         .doc(follower)

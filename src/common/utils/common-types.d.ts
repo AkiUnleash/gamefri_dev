@@ -4,6 +4,7 @@ type Nullable<T> = T | null;
 type Undefined<T> = T | undefined;
 
 interface profile {
+  profileid: string;
   nickname: string;
   introduction: string;
   gender: string;
