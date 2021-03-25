@@ -1,0 +1,73 @@
+@import 'variables';
+
+.diarywrite {
+    @include mq(lg) {
+        margin: 120px auto 40px;
+        width: 600px;
+    }
+
+    @include mq(md) {
+        width: 90%;
+        margin: 120px 5% 40px;
+    }
+    @include mq(sm) {
+        width: 92%;
+        margin: 120px 4% 40px;
+    }
+
+    &__legend {
+        text-align: center;
+        color: $extraColor;
+    }
+
+    &__introduction {
+        height: 200px;
+    }
+
+    &__singup {
+        margin-top: 40px;
+        text-align: center;
+    }
+
+    &__register-button {
+        text-align: center;
+        height: 40px;
+        margin-bottom: 16px;
+        padding: 0px 16px;
+        background-color: $mainColor;
+        color: $baseColor;
+        font-size: 18px;
+        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+        border-radius: 3px;
+    }
+}
+
+.diarywrite-attach {
+    text-align: center;
+    margin: 8px * 3;
+    &__link {
+        border: 1px $mainColor solid;
+        border-radius: 5px;
+        padding: 8px 8px 6px 6px;
+        color: $mainColor;
+        font-size: 20px;
+        &:hover {
+            cursor: pointer;
+        }
+    }
+    &__image {
+        width: 32px;
+        height: 32px;
+    }
+    &__input {
+        display: none;
+    }
+    &__attach-div {
+        margin: 16px 0px;
+        text-align: center;
+    }
+    &__attach-img {
+        max-width: 300px;
+        max-height: 300px;
+    }
+}

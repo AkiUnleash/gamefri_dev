@@ -1,0 +1,145 @@
+@import 'variables';
+
+.header-in {
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 100;
+    width: 100%;
+    height: 80px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
+    background-color: rgba(#fff, 0.8);
+    display: flex;
+    align-items: center;
+
+    &__logoimg {
+        margin-left: 32px;
+        width: 64px;
+        @include mq(md) {
+            display: none;
+        }
+        @include mq(sm) {
+            display: none;
+        }
+    }
+
+    %__button-size {
+        height: 64px;
+    }
+
+    &__button {
+        margin: auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 600px;
+        @include mq(md) {
+            width: 80%;
+            margin: auto 10%;
+        }
+        @include mq(sm) {
+            width: 92%;
+            margin: auto 4%;
+        }
+
+        &--home {
+            @extend %__button-size;
+        }
+        &--notifications {
+            @extend %__button-size;
+        }
+        &--search {
+            @extend %__button-size;
+        }
+        &--menu {
+            @extend %__button-size;
+        }
+    }
+}
+
+// サイドメニュー
+.side-menu {
+    // inputのcheckboxは非表示
+    &__checkbox {
+        display: none;
+    }
+
+    // ドロワーメニュー開いた時のメインエリアを暗く
+    &__overlay {
+        background: #000;
+        opacity: 0;
+        pointer-events: none; //ポインタの動作全部無効化
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        top: 0;
+        right: 0;
+    }
+
+    // ドロワーメニュー
+    &__menu {
+        background: #ffffff;
+        color: #000;
+        max-width: 100%;
+        width: 304px;
+        height: 100vh;
+        overflow-y: auto; //スクロール
+        -webkit-overflow-scrolling: touch; //スクロール（SP）
+        position: fixed;
+        top: 0;
+        right: -304px;
+    }
+
+    // メニュー内のロゴ
+    &__logo {
+        padding: 96px 0px 40px;
+        text-align: center;
+    }
+    &__logo_img {
+        width: 112px;
+        height: 112px;
+        object-fit: cover;
+        border-radius: 50%;
+        left: 0px;
+        right: 0px;
+        margin: auto;
+        border: 3px $baseColor solid;
+    }
+    &__item {
+        text-align: center;
+        padding: 0px 0px 32px;
+        font-size: 18px;
+    }
+
+    // z-indexの指定（1がメインエリア）
+    &__icon {
+        z-index: 1;
+    }
+    &__menu {
+        z-index: 3;
+    }
+    &__overlay {
+        z-index: 2;
+    }
+
+    // チェックが入ったら（アイコンクリックしたら）
+    &__checkbox:checked ~ {
+        // メインエリアを暗くする
+        .side-menu__overlay {
+            opacity: 0.3;
+            pointer-events: auto; //ポインタの動作デフォルトに戻す
+        }
+        // メニューをだす
+        .side-menu__menu {
+            right: 0;
+        }
+    }
+    // 動きをスムーズに
+    &__icon-parts,
+    &__icon-parts:after,
+    &__icon-parts:before,
+    &__overlay,
+    &__menu {
+        transition: all 0.3s;
+    }
+}
