@@ -1,7 +1,25 @@
-version: 2.1
-orbs:
-  node: circleci/node@3.0.0
+version: 2
+jobs:
+  deploy_dev:
+    docker:
+      - image: circleci/node:12.15
+    steps:
+      - checkout
+      - run:
+          name: Install package
+          command: yarn
+      - run:
+          name: yarn build
+          command: yarn build
+      - run:
+          name: deploy to Firebase Hosting
+          command: firebase deploy --token=$FIREBASE_TOKEN
+
 workflows:
-  node-tests:
+  version: 2
+  deploy_dev:
     jobs:
-      - node/test
+      - deploy_dev:
+          filters:
+            branches:
+              only: develop
