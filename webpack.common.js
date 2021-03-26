@@ -46,7 +46,7 @@ module.exports = {
   target: ["web", "es5"],
   plugins: [
     new HtmlWebpackPlugin({
-      publicPath: '',
+      publicPath: '/',
       filename: 'index.html',
       template: 'src/html/index.html',
     }),
