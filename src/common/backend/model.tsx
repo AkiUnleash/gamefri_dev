@@ -1,20 +1,34 @@
 import { db, auth, storage, serverTime } from '../firebase/firebase'
-import { profile, diarywrite } from '../utils/common-types'
+import { profile, diarywrite, follow } from '../utils/common-types'
 
 // Firestoreにデータを保存
-export const dataAdd = <T extends profile | diarywrite, U extends string, V extends boolean>
-  (data: T, colection: U, documents: U, timestanp?: V, subColection?: U) => {
+export const dataAdd = <T extends profile | diarywrite | follow, U extends string, V extends boolean>
+  (data: T, colection: U, documents: U, timestanp?: V, subColection?: U, subColectionDoc?: U) => {
 
   if (timestanp) {
     data['create_at'] = serverTime
   }
 
   if (subColection) {
-    const reference = db.collection(colection).doc(documents).collection(subColection)
-    reference.add(data)
+    if (subColectionDoc) {
+      const reference = db.collection(colection).doc(documents).collection(subColection).doc(subColectionDoc)
+      reference.set(data)
+    } else {
+      const reference = db.collection(colection).doc(documents).collection(subColection)
+      reference.add(data)
+    }
   } else {
     const reference = db.collection(colection).doc(documents)
     reference.set(data)
+  }
+}
+
+// Firestoreのデータを削除
+export const dataDelete = (colection: string, documents: string, subColection?: string, subColectionDoc?: string) => {
+  if (subColection && subColectionDoc) {
+    db.collection(colection).doc(documents).collection(subColection).doc(subColectionDoc).delete()
+  } else {
+    // db.collection(colection).doc(documents).delete()
   }
 }
 

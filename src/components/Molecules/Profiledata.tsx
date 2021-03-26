@@ -1,10 +1,18 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux'
+import { browserHistory } from "../../history"
 // assets
 import img_cover_sample from '../../assets/images/profile/cover-sample.png'
 import img_avatar_sample from '../../assets/images/profile/avatar.png'
 import styles from '../../assets/scss/profiledata.module.scss';
+// common
+import { selectUser } from "../../common/state/userSlice"
+import { dataAdd, dataDelete } from "../../common/backend/model"
+import { follow } from '../../common/utils/common-types'
+import { db } from '../../common/firebase/firebase';
 
 type props = {
+  id: string,
   avatarimage: string,
   coverimage: string,
   followercount: number,
@@ -16,7 +24,65 @@ type props = {
   gametime: string
 }
 
+
 const Profiledata: React.FC<props> = (props: props) => {
+  const user = useSelector(selectUser)
+
+  const [action, setAction] = useState({
+    style: "",
+    value: "",
+    function: () => { }
+  })
+
+  const to_follow = () => {
+    const follow: follow = { userID: props.id }
+    dataAdd(follow, "user", user.uid, true, "followings", props.id)
+    setAction({
+      style: "profiledata-follow__button--un-follow",
+      value: "フォローを解除",
+      function: () => { un_follow() }
+    })
+  }
+
+  const un_follow = () => {
+    dataDelete("user", user.uid, "followings", props.id)
+    setAction({
+      style: "profiledata-follow__button--to-follow",
+      value: "フォローする",
+      function: () => { to_follow() }
+    })
+  }
+
+  useEffect(() => {
+    // 自分のプロフィールであれば、編集画面の表示
+    if (user.uid === props.id) {
+      setAction({
+        style: "profiledata-follow__button--profileedit",
+        value: "プロファイルの編集",
+        function: () => {
+          browserHistory.push("/profile")
+        }
+      })
+    } else {
+      const doc = db.collection('user').doc(user.uid).collection("followings").doc(props.id).get()
+      doc.then((data) => {
+        if (data.exists) {
+          setAction({
+            style: "profiledata-follow__button--un-follow",
+            value: "フォローを解除",
+            function: () => { un_follow() }
+          })
+        } else {
+          setAction({
+            style: "profiledata-follow__button--to-follow",
+            value: "フォローする",
+            function: () => { to_follow() }
+          })
+        }
+      })
+    }
+  }, [])
+
 
   return (
     <>
@@ -30,7 +96,8 @@ const Profiledata: React.FC<props> = (props: props) => {
           <div className={styles["profiledata-follow__title"]}>フォロワー</div>
           <span className={styles["profiledata-follow__value"]}>12000人</span>
         </div>
-        <button className={styles["profiledata-follow__button--follow-yet"]}>フォロー</button>
+        <button className={styles[action.style]}
+          onClick={action.function}>{action.value}</button>
       </div>
 
       <div className={styles["profiledata-data"]}>

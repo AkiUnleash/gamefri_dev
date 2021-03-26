@@ -25,3 +25,8 @@ interface diarywrite {
   create_at?: firebase.firestore.FieldValue
   update_at?: firebase.firestore.FieldValue
 }
+
+interface follow {
+  userID: string
+  create_at?: firebase.firestore.FieldValue
+}

@@ -54,17 +54,27 @@
     %__button {
         width: 200px;
         height: 56px;
-        font-size: 24px;
+        font-size: 20px;
         margin: 32px;
         box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
         border-radius: 5px;
     }
 
     &__button {
-        &--follow-yet {
+        &--to-follow {
             @extend %__button;
             border: solid 1px $mainColor;
             color: $mainColor;
+        }
+        &--un-follow {
+            @extend %__button;
+            background-color: $mainColor;
+            color: $baseColor;
+        }
+        &--profileedit {
+            @extend %__button;
+            border: solid 1px #424242;
+            color: #424242;
         }
     }
 }

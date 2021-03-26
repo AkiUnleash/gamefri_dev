@@ -45,6 +45,7 @@ const ProfileView: React.FC = () => {
 
   ])
   const { profileid } = useParams<{ profileid?: string }>()
+  const [userid, setUserid] = useState('')
 
   useEffect(() => {
     // ログイン済みの確認
@@ -112,6 +113,7 @@ const ProfileView: React.FC = () => {
       <Header />
       {user.uid ?
         <Profiledata
+          id={profile.id}
           avatarimage={profile.avatarimage}
           coverimage={profile.coverimage}
           followercount={profile.followercount}
