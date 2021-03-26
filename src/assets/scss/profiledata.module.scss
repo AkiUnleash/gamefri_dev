@@ -1,0 +1,124 @@
+@import 'variables';
+
+.profiledata-img {
+    position: relative;
+    padding-top: 80px;
+
+    &__cover-photo {
+        margin-top: 4px;
+        width: 100%;
+        height: 360px;
+        object-fit: cover;
+    }
+
+    &__avatar-photo {
+        width: 192px;
+        height: 192px;
+        object-fit: cover;
+        border-radius: 50%;
+        position: absolute;
+        top: 336px;
+        left: 0px;
+        right: 0px;
+        margin: auto;
+        border: 3px $baseColor solid;
+    }
+
+    &__filesend {
+        display: none;
+    }
+}
+
+@mixin title {
+    color: #616161;
+    font-size: 14px;
+}
+
+@mixin value {
+    color: #424242;
+    font-size: 20px;
+}
+
+.profiledata-follow {
+    margin: 104px 0px 24px;
+    text-align: center;
+    &__title {
+        @include title;
+    }
+    &__value {
+        @include value;
+        padding: 4px;
+        border-bottom: solid 1px #424242;
+    }
+
+    %__button {
+        width: 200px;
+        height: 56px;
+        font-size: 20px;
+        margin: 32px;
+        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+        border-radius: 5px;
+    }
+
+    &__button {
+        &--to-follow {
+            @extend %__button;
+            border: solid 1px $mainColor;
+            color: $mainColor;
+        }
+        &--un-follow {
+            @extend %__button;
+            background-color: $mainColor;
+            color: $baseColor;
+        }
+        &--profileedit {
+            @extend %__button;
+            border: solid 1px #424242;
+            color: #424242;
+        }
+    }
+}
+
+.profiledata-data {
+    margin: 0 auto;
+    width: 664px;
+    @include mq(md) {
+        margin: 104px 10%;
+        width: 80%;
+    }
+    @include mq(sm) {
+        margin: 104px 5%;
+        width: 90%;
+    }
+    &__title {
+        @include title;
+    }
+    &__value {
+        @include value;
+    }
+
+    &__one-line {
+        margin: 32px auto;
+    }
+
+    &__side-by-side {
+        margin: 32px auto;
+        display: flex;
+        &--right {
+            margin-left: 32px;
+        }
+    }
+}
+
+.profiledata-diary {
+    margin: 80px auto 40px;
+    width: 664px;
+    @include mq(md) {
+        margin: 104px 10%;
+        width: 80%;
+    }
+    @include mq(sm) {
+        margin: 104px 5%;
+        width: 90%;
+    }
+}

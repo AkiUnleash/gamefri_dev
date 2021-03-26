@@ -10,7 +10,7 @@ import Signupfinish from './components/pages/Signupfinish';
 import Profile from './components/pages/Profile';
 import DiaryWrite from './components/pages/Diarywrite';
 import Home from './components/pages/Home';
-
+import ProfileView from './components/pages/ProfileView';
 // state
 import { login, logout } from './common/state/userSlice'
 import { useDispatch } from 'react-redux'
@@ -52,12 +52,13 @@ const Main: React.FC = () => {
         <Router history={browserHistory}>
             <Switch>
                 <Route exact path="/" component={Top} />
-                <Route path="/login" component={Login} />
-                <Route path="/signup" component={Singup} />
-                <Route path="/signupfinished" component={Signupfinish} />
-                <Route path="/profile" component={Profile} />
-                <Route path="/diarywrite" component={DiaryWrite} />
-                <Route path="/home" component={Home} />
+                <Route exact path="/login" component={Login} />
+                <Route exact path="/signup" component={Singup} />
+                <Route exact path="/signupfinished" component={Signupfinish} />
+                <Route exact path="/profile" component={Profile} />
+                <Route exact path="/diarywrite" component={DiaryWrite} />
+                <Route exact path="/home" component={Home} />
+                <Route exact path="/user/:profileid" component={ProfileView} />
             </Switch>
         </Router>
     );
