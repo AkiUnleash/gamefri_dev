@@ -26,7 +26,8 @@ const Home: React.FC = () => {
 
   return (
     <>
-      <Header />
+      {user.uid ?
+        <Header /> : ""}
       <Postbutton
         link="/diarywrite" />
       {user.uid ?
