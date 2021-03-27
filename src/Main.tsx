@@ -25,20 +25,26 @@ const Main: React.FC = () => {
     useEffect(() => {
         const unSub = auth.onAuthStateChanged((authUser) => {
             if (authUser) {
-                // followerの取得
                 db.collection("user")
                     .doc(authUser.uid)
-                    .collection("followings")
                     .onSnapshot((snapshot) => {
-                        const follower = snapshot.docs.map(f => f.id)
-                        // 状態管理
-                        dispatch(login({
-                            uid: authUser?.uid,
-                            photoUrl: authUser?.photoURL,
-                            displayName: authUser?.displayName,
-                            follower: follower,
-                        })
-                        )
+                        const profileID = snapshot.data()?.profileid
+                        // followerの取得
+                        db.collection("user")
+                            .doc(authUser.uid)
+                            .collection("followings")
+                            .onSnapshot((snapshot) => {
+                                const follower = snapshot.docs.map(f => f.id)
+                                // 状態管理
+                                dispatch(login({
+                                    uid: authUser?.uid,
+                                    photoUrl: authUser?.photoURL,
+                                    displayName: authUser?.displayName,
+                                    profileID: profileID,
+                                    follower: follower,
+                                })
+                                )
+                            })
                     })
             } else {
                 dispatch(logout())
