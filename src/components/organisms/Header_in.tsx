@@ -27,7 +27,7 @@ const Header = (): JSX.Element => {
         <label className={styles["side-menu__overlay"]} htmlFor="drawerCheckbox"></label>
 
         <nav className={styles["side-menu__menu"]}>
-          <div className={styles["side-menu__logo"]}><img className={styles["side-menu__logo_img"]} src={img_avatar} alt="Login user avatar" /></div>
+          <div className={styles["side-menu__logo"]}><img className={styles["side-menu__logo_img"]} src={user.photoUrl || img_avatar} alt="Login user avatar" /></div>
           <ul>
             <li className={styles["side-menu__item"]}><a className="side-menu__item-inner" href={"./user/" + user.profileID}>マイページ</a></li>
             <li className={styles["side-menu__item"]}><a className="side-menu__item-inner" href="./">設定とプライバシー</a></li>
