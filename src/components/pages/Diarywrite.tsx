@@ -5,7 +5,7 @@ import DiaryWriteForm from '../organisms/Diarywriteform';
 // common
 import { loginChack, authenticatedChack, profileDocumentExistence } from "../../common/backend/model"
 
-const Login: React.FC = () => {
+const DiaryWrite: React.FC = () => {
 
   useEffect(() => {
     // ログイン済みの確認
@@ -24,4 +24,4 @@ const Login: React.FC = () => {
   );
 };
 
-export default Login;
+export default DiaryWrite;
