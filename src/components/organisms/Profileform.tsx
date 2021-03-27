@@ -205,7 +205,8 @@ const Profileform = (): JSX.Element => {
               { key: "male", value: "男性" },
               { key: "female", value: "女性" },
               { key: "none", value: "非公開" }]}
-            setValue={setGender} />
+            setValue={setGender}
+            selectValue={gender} />
 
           <div className={styles["profile-text__birthday"]}>
             <div className={styles["profile-text__birthday--year"]}>
