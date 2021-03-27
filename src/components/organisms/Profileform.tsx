@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { selectUser, updateUserProfile } from '../../common/state/userSlice'
 import { browserHistory } from "../../history"
@@ -16,7 +16,7 @@ import Radio from '../atoms/Radio'
 import List from '../atoms/List'
 // common
 import * as DataInterface from '../../common/backend/model'
-import { profile } from 'node:console';
+import { db } from '../../common/firebase/firebase'
 
 const Profileform = (): JSX.Element => {
 
@@ -32,6 +32,8 @@ const Profileform = (): JSX.Element => {
   const [timeend, setTimeend] = useState("")
   const [cover, setCover] = useState<File | null>(null)
   const [avatar, setAvatar] = useState<File | null>(null)
+  const [firstcover, setFirstCover] = useState<File | null>(null)
+  const [firstavatar, setFirstAvatar] = useState<File | null>(null)
 
   // 生年月日 選択値
   const year = [...Array(new Date().getFullYear() - 1900).keys()].map(i => (i + 1900).toString() + '年').reverse()
@@ -78,14 +80,16 @@ const Profileform = (): JSX.Element => {
 
     // POST停止
     e.preventDefault();
+    console.log(avatar && avatar !== firstavatar);
+
 
     let avatarurl = ''
-    if (avatar) {
+    if (avatar && avatar !== firstavatar) {
       avatarurl = await DataInterface.imageAdd('avatar', avatar.name, avatar)
     }
 
     let coverurl = ''
-    if (cover) {
+    if (cover && cover !== firstavatar) {
       coverurl = await DataInterface.imageAdd('cover', cover.name, cover)
     }
 
@@ -117,11 +121,27 @@ const Profileform = (): JSX.Element => {
     browserHistory.push("/home")
   }
 
+  useEffect(() => {
+    db.collection("user")
+      .doc(user.uid)
+      .onSnapshot((snapshot) => {
+        setNickname(snapshot.data()?.nickname)
+        setProfileID(snapshot.data()?.profileid)
+        setIntroduction(snapshot.data()?.introduction)
+        setGender(snapshot.data()?.gender)
+        setPlaygame(snapshot.data()?.playgame)
+        setAvatar(snapshot.data()?.avatarurl)
+        setCover(snapshot.data()?.coverurl)
+        setFirstAvatar(snapshot.data()?.avatarurl)
+        setFirstCover(snapshot.data()?.coverurl)
+      })
+  }, [])
+
   return (
     <>
       <div className={styles["profile-img"]}>
 
-        <img className={styles["profile-img__cover-photo"]} id="img_cover" src={img_cover_sample} alt="cover photos" />
+        <img className={styles["profile-img__cover-photo"]} id="img_cover" src={cover || img_cover_sample} alt="cover photos" />
 
         <label>
           <img className={cover ? styles["profile-img__cover-photo--select"] : styles["profile-img__cover-photo--select_none"]} src={img_photo_select} alt="cover photo select" />
@@ -135,7 +155,7 @@ const Profileform = (): JSX.Element => {
           </label>
         ) : ""}
 
-        <img className={styles["profile-img__avatar-photo"]} id="img_avatar" src={img_avatar_sample} alt="avatar photos" />
+        <img className={styles["profile-img__avatar-photo"]} id="img_avatar" src={avatar || img_avatar_sample} alt="avatar photos" />
         <label>
           <img className={styles["profile-img__avatar-photo--select"]} src={img_photo_select} alt="avatar photo select" />
           <input type="file" className={styles["profile-img__filesend"]} onChange={(e) => onChangeImage(e, "avatar")} />
@@ -185,7 +205,8 @@ const Profileform = (): JSX.Element => {
               { key: "male", value: "男性" },
               { key: "female", value: "女性" },
               { key: "none", value: "非公開" }]}
-            setValue={setGender} />
+            setValue={setGender}
+            selectValue={gender} />
 
           <div className={styles["profile-text__birthday"]}>
             <div className={styles["profile-text__birthday--year"]}>
