@@ -11,12 +11,22 @@
         text-align: right;
     }
     &__button {
-        @extend %__button;
-        width: 184px;
-        height: 56px;
-        font-size: 20px;
-        border: solid 1px $accentColor;
-        color: $accentColor;
+        &--to_nice {
+            @extend %__button;
+            width: 184px;
+            height: 56px;
+            font-size: 20px;
+            border: solid 1px $accentColor;
+            color: $accentColor;
+        }
+        &--un_nice {
+            @extend %__button;
+            width: 184px;
+            height: 56px;
+            font-size: 20px;
+            background-color: $accentColor;
+            color: $baseColor;
+        }
     }
 }
 

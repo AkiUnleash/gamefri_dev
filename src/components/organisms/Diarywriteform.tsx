@@ -58,11 +58,15 @@ const DiaryWriteForm: React.FC = () => {
         body: body,
         gamename: gamename,
         attachimage: imageurl,
+        nicecount: 0,
       },
-      'user',
-      user.uid,
-      true,
-      "posts")
+      {
+        colection1: 'user',
+        documents1: user.uid,
+        colection2: "posts"
+      },
+      true
+    )
 
     browserHistory.push("/home")
 

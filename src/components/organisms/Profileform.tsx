@@ -114,8 +114,10 @@ const Profileform = (): JSX.Element => {
         avatarurl: avatarurl,
         coverurl: coverurl
       },
-      'user',
-      user.uid,
+      {
+        colection1: 'user',
+        documents1: user.uid,
+      },
       true
     )
     browserHistory.push("/home")
