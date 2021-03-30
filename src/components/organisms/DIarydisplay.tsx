@@ -4,21 +4,22 @@ import { useParams } from 'react-router-dom'
 import { db } from '../../common/firebase/firebase'
 import { selectUser } from "../../common/state/userSlice"
 import styles from '../../assets/scss/diarydisplay.module.scss';
-import Textarea from '../atoms/Textarea'
 import Button from '../atoms/Button'
 import UserInfomation from '../atoms/UserInfomation';
 import { dataAdd, dataDelete } from "../../common/backend/model"
 import { nice } from '../../common/utils/common-types'
+import CommentsArea from '../Molecules/CommentsArea'
 
 
 const Diarydisplay: React.FC = () => {
   const user = useSelector(selectUser);
 
-  const { profileid, postid } = useParams<{ profileid?: string, postid?: string }>()
+  const { profileid, postid } = useParams<{ profileid: string, postid: string }>()
 
   const [action, setAction] = useState({
     style: "",
-    value: "",
+    value: 0,
+    caption: "",
     function: () => { }
   })
 
@@ -32,9 +33,6 @@ const Diarydisplay: React.FC = () => {
     attachImage: "",
     diaryBody: "",
   })
-
-  const [nicecount, setNicecount] = useState(0)
-
 
   useEffect(() => {
     db.collection("user")
@@ -50,9 +48,8 @@ const Diarydisplay: React.FC = () => {
             .collection("posts")
             .doc(postid)
             .onSnapshot((doc) => {
-
               setPost({
-                postUserId: doc.id,
+                postUserId: userid,
                 gameTitle: doc.data()?.gamename,
                 diaryTitle: doc.data()?.title,
                 photoUrl: photoUrl,
@@ -74,18 +71,18 @@ const Diarydisplay: React.FC = () => {
                 if (data.exists) {
                   setAction({
                     style: "nice__button--un_nice",
-                    value: `Nice! ${doc.data()?.nicecount}`,
+                    value: doc.data()?.nicecount,
+                    caption: `Nice! ${doc.data()?.nicecount}`,
                     function: () => { un_nice() }
                   })
                 } else {
                   setAction({
                     style: "nice__button--to_nice",
-                    value: `Nice! ${doc.data()?.nicecount}`,
+                    value: doc.data()?.nicecount,
+                    caption: `Nice! ${doc.data()?.nicecount}`,
                     function: () => { to_nice() }
                   })
                 }
-                setNicecount(doc.data()?.nicecount)
-
               })
             })
         })
@@ -106,11 +103,12 @@ const Diarydisplay: React.FC = () => {
       documents3: user.uid
     }, true)
 
-    setAction({
+    setAction((n) => ({
       style: "nice__button--un_nice",
-      value: "Nice! " + nicecount,
+      value: n.value + 1,
+      caption: "Nice! " + (n.value + 1),
       function: () => { un_nice() }
-    })
+    }))
   }
 
   const un_nice = () => {
@@ -124,11 +122,12 @@ const Diarydisplay: React.FC = () => {
         documents3: user.uid
       },
     )
-    setAction({
+    setAction((n) => ({
       style: "nice__button--to_nice",
-      value: "Nice! " + nicecount,
+      value: n.value - 1,
+      caption: "Nice! " + (n.value - 1),
       function: () => { to_nice() }
-    })
+    }))
   }
 
   return <>
@@ -137,7 +136,7 @@ const Diarydisplay: React.FC = () => {
       <Button
         classDiv="nice__div"
         classButton={action.style}
-        value={action.value}
+        value={action.caption}
         action={() => {
           action.function()
         }}
@@ -163,34 +162,15 @@ const Diarydisplay: React.FC = () => {
         </p>
       </div>
 
-      <div className={styles["comments-area"]}>
-        <h2 className={styles["comments-area__title"]}>コメント</h2>
-        <div className={styles["comments-area__comment"]}>
-          <UserInfomation
-            photoUrl={user.photoUrl}
-            displayName={user.displayName}
-            date="2021/3/28"
-          />
-          <p className={styles["comments-area__sentence"]}>学生の友人と遊ぶのはストレス解消になりますよね！ 私も気持ち、すごくわかります。</p>
-        </div>
-      </div>
-
-      <Textarea
-        placeholder="記事にコメントを記載しましょう。"
-        class="profile-text__introduction"
-        id={"introduction"}
-        value={""}
-        setValue={() => { }}
-        label="コメント" />
-
-      <Button
-        classDiv=""
-        classButton="submit__button"
-        value="送信"
-        action={() => {
-          console.log('test');
-        }}
-      />
+      {post.postUserId ? (
+        <CommentsArea
+          postUser={post.postUserId}
+          postID={postid}
+          commentUserID={user.uid}
+          commentUserPhotoURL={user.photoUrl}
+          commentUserDisplayName={user.displayName}
+        />) : ""
+      }
 
     </div>
   </>

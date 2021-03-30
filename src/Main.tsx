@@ -67,7 +67,6 @@ const Main: React.FC = () => {
                 <Route exact path="/home" component={Home} />
                 <Route exact path="/user/:profileid" component={ProfileView} />
                 <Route exact path="/:profileid/status/:postid" component={Diaryview} />
-                {/* <Route exact path="/status" component={Diaryview} /> */}
             </Switch>
         </Router>
     );

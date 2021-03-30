@@ -27,6 +27,13 @@ interface diarywrite {
   update_at?: firebase.firestore.FieldValue
 }
 
+interface diarycomments {
+  photoUrl: string,
+  displayName: string,
+  comment: string,
+  create_at?: firebase.firestore.FieldValue
+}
+
 interface follow {
   userID: string
   create_at?: firebase.firestore.FieldValue
