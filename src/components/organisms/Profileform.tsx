@@ -34,11 +34,17 @@ const Profileform = (): JSX.Element => {
   const [avatar, setAvatar] = useState<File | null>(null)
   const [firstcover, setFirstCover] = useState<File | null>(null)
   const [firstavatar, setFirstAvatar] = useState<File | null>(null)
+  // const [year, setYear] = useState<string | "-">("-")
+  // const [month, setMonth] = useState<string | "-">("-")
+  // const [day, setDay] = useState<string | "-">("-")
 
   // 生年月日 選択値
-  const year = [...Array(new Date().getFullYear() - 1900).keys()].map(i => (i + 1900).toString() + '年').reverse()
-  const month = [...Array(12).keys()].map(i => (i + 1).toString() + '月')
-  const day = [...Array(31).keys()].map(i => (i + 1).toString() + '日')
+  // const yearDataSource = [...Array(new Date().getFullYear() - 1900).keys()].map(i => (i + 1900).toString() + '年').reverse()
+  // yearDataSource.unshift('-')
+  // const monthDataSource = [...Array(12).keys()].map(i => (i + 1).toString() + '月')
+  // monthDataSource.unshift('-')
+  // const dayDataSource = [...Array(31).keys()].map(i => (i + 1).toString() + '日')
+  // dayDataSource.unshift('-')
 
   // 画像選択
   const onChangeImage = (e: React.ChangeEvent<HTMLInputElement>, genre: string) => {
@@ -210,24 +216,28 @@ const Profileform = (): JSX.Element => {
             setValue={setGender}
             selectValue={gender} />
 
-          <div className={styles["profile-text__birthday"]}>
+          {/* <div className={styles["profile-text__birthday"]}>
             <div className={styles["profile-text__birthday--year"]}>
               <List
-                value={year}
+                dataSource={yearDataSource}
+                setValue={setYear}
                 label={"生年月日"} />
             </div>
 
             <div className={styles["profile-text__birthday--month"]}>
               <List
-                value={month} />
+                dataSource={monthDataSource}
+                setValue={setMonth}
+              />
             </div>
 
             <div className={styles["profile-text__birthday--day"]}>
               <List
-                value={day} />
+                dataSource={dayDataSource}
+                setValue={setDay}
+              />
             </div>
-
-          </div>
+          </div> */}
 
           <div className={styles["profile-text__gamename"]}>
             <Textfield
@@ -264,7 +274,7 @@ const Profileform = (): JSX.Element => {
           <div className={styles["profile-text__singup"]}>
             <button className={styles["profile-text__register-button"]}
               type="submit"
-              onClick={(e) => onRegisterClick(e)}> 登録 </button>
+              onClick={(e) => onRegisterClick(e)}>登録</button>
           </div>
 
         </form>
