@@ -23,14 +23,12 @@ export const dataAdd = <T extends profile | diarywrite | diarycomments | follow 
     place.colection3 && place.documents3
   ) {
 
-    const reference = db
-      .collection(place.colection1)
+    db.collection(place.colection1)
       .doc(place.documents1)
       .collection(place.colection2)
       .doc(place.documents2)
       .collection(place.colection3)
-      .doc(place.documents3)
-    reference.set(data)
+      .doc(place.documents3).set(data)
     return
   }
 
@@ -39,13 +37,11 @@ export const dataAdd = <T extends profile | diarywrite | diarycomments | follow 
     place.colection2 && place.documents2 &&
     place.colection3
   ) {
-    const reference = db
-      .collection(place.colection1)
+    db.collection(place.colection1)
       .doc(place.documents1)
       .collection(place.colection2)
       .doc(place.documents2)
-      .collection(place.colection3)
-    reference.add(data)
+      .collection(place.colection3).add(data)
     return
   }
 
@@ -53,12 +49,10 @@ export const dataAdd = <T extends profile | diarywrite | diarycomments | follow 
     place.colection1 && place.documents1 &&
     place.colection2 && place.documents2
   ) {
-    const reference = db
-      .collection(place.colection1)
+    db.collection(place.colection1)
       .doc(place.documents1)
       .collection(place.colection2)
-      .doc(place.documents2)
-    reference.set(data)
+      .doc(place.documents2).set(data)
     return
   }
 
@@ -66,21 +60,15 @@ export const dataAdd = <T extends profile | diarywrite | diarycomments | follow 
     place.colection1 && place.documents1 &&
     place.colection2
   ) {
-    const reference = db
-      .collection(place.colection1)
+    db.collection(place.colection1)
       .doc(place.documents1)
-      .collection(place.colection2)
-    reference.add(data)
+      .collection(place.colection2).add(data)
     return
   }
 
-  if (
-    place.colection1 && place.documents1
-  ) {
-    const reference = db
-      .collection(place.colection1)
-      .doc(place.documents1)
-    reference.set(data)
+  if (place.colection1 && place.documents1) {
+    db.collection(place.colection1)
+      .doc(place.documents1).set(data)
     return
   }
 }
