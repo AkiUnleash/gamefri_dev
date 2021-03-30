@@ -11,6 +11,7 @@ import Profile from './components/pages/Profile';
 import DiaryWrite from './components/pages/Diarywrite';
 import Home from './components/pages/Home';
 import ProfileView from './components/pages/ProfileView';
+import Diaryview from './components/pages/DiaryView';
 // state
 import { login, logout } from './common/state/userSlice'
 import { useDispatch } from 'react-redux'
@@ -65,6 +66,7 @@ const Main: React.FC = () => {
                 <Route exact path="/diarywrite" component={DiaryWrite} />
                 <Route exact path="/home" component={Home} />
                 <Route exact path="/user/:profileid" component={ProfileView} />
+                <Route exact path="/:profileid/status/:postid" component={Diaryview} />
             </Switch>
         </Router>
     );

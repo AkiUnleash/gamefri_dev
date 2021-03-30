@@ -36,7 +36,14 @@ const Profiledata: React.FC<props> = (props: props) => {
 
   const to_follow = () => {
     const follow: follow = { userID: props.id }
-    dataAdd(follow, "user", user.uid, true, "followings", props.id)
+    dataAdd(follow,
+      {
+        colection1: "user",
+        documents1: user.uid,
+        colection2: "followings",
+        documents2: props.id
+      },
+      true)
     setAction({
       style: "profiledata-follow__button--un-follow",
       value: "フォローを解除",
@@ -45,7 +52,14 @@ const Profiledata: React.FC<props> = (props: props) => {
   }
 
   const un_follow = () => {
-    dataDelete("user", user.uid, "followings", props.id)
+    dataDelete(
+      {
+        colection1: "user",
+        documents1: user.uid,
+        colection2: "followings",
+        documents2: props.id
+      }
+    )
     setAction({
       style: "profiledata-follow__button--to-follow",
       value: "フォローする",
@@ -64,7 +78,12 @@ const Profiledata: React.FC<props> = (props: props) => {
         }
       })
     } else {
-      const doc = db.collection('user').doc(user.uid).collection("followings").doc(props.id).get()
+      const doc =
+        db.collection('user')
+          .doc(user.uid)
+          .collection("followings")
+          .doc(props.id)
+          .get()
       doc.then((data) => {
         if (data.exists) {
           setAction({

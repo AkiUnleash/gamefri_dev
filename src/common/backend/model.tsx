@@ -1,34 +1,170 @@
 import { db, auth, storage, serverTime } from '../firebase/firebase'
-import { profile, diarywrite, follow } from '../utils/common-types'
+import { profile, diarywrite, diarycomments, follow, nice } from '../utils/common-types'
+
+type place = {
+  colection1: string,
+  documents1: string,
+  colection2?: string,
+  documents2?: string,
+  colection3?: string,
+  documents3?: string,
+}
 
 // Firestoreにデータを保存
-export const dataAdd = <T extends profile | diarywrite | follow, U extends string, V extends boolean>
-  (data: T, colection: U, documents: U, timestanp?: V, subColection?: U, subColectionDoc?: U) => {
+export const dataAdd = <T extends profile | diarywrite | diarycomments | follow | nice, U extends place, V extends boolean>
+  (data: T, place: U, timestanp?: V,
+) => {
 
-  if (timestanp) {
-    data['create_at'] = serverTime
+  if (timestanp) { data['create_at'] = serverTime }
+
+  if (
+    place.colection1 && place.documents1 &&
+    place.colection2 && place.documents2 &&
+    place.colection3 && place.documents3
+  ) {
+
+    const reference = db
+      .collection(place.colection1)
+      .doc(place.documents1)
+      .collection(place.colection2)
+      .doc(place.documents2)
+      .collection(place.colection3)
+      .doc(place.documents3)
+    reference.set(data)
+    return
   }
 
-  if (subColection) {
-    if (subColectionDoc) {
-      const reference = db.collection(colection).doc(documents).collection(subColection).doc(subColectionDoc)
-      reference.set(data)
-    } else {
-      const reference = db.collection(colection).doc(documents).collection(subColection)
-      reference.add(data)
-    }
-  } else {
-    const reference = db.collection(colection).doc(documents)
+  if (
+    place.colection1 && place.documents1 &&
+    place.colection2 && place.documents2 &&
+    place.colection3
+  ) {
+    const reference = db
+      .collection(place.colection1)
+      .doc(place.documents1)
+      .collection(place.colection2)
+      .doc(place.documents2)
+      .collection(place.colection3)
+    reference.add(data)
+    return
+  }
+
+  if (
+    place.colection1 && place.documents1 &&
+    place.colection2 && place.documents2
+  ) {
+    const reference = db
+      .collection(place.colection1)
+      .doc(place.documents1)
+      .collection(place.colection2)
+      .doc(place.documents2)
     reference.set(data)
+    return
+  }
+
+  if (
+    place.colection1 && place.documents1 &&
+    place.colection2
+  ) {
+    const reference = db
+      .collection(place.colection1)
+      .doc(place.documents1)
+      .collection(place.colection2)
+    reference.add(data)
+    return
+  }
+
+  if (
+    place.colection1 && place.documents1
+  ) {
+    const reference = db
+      .collection(place.colection1)
+      .doc(place.documents1)
+    reference.set(data)
+    return
+  }
+}
+
+// Firestoreのデータ更新
+export const dataUpdate = (data: {}, place: place) => {
+  if (
+    place.colection1 && place.documents1 &&
+    place.colection2 && place.documents2 &&
+    place.colection3 && place.documents3
+  ) {
+    // 更新処理
+    const reference = db
+      .collection(place.colection1)
+      .doc(place.documents1)
+      .collection(place.colection2)
+      .doc(place.documents2)
+      .collection(place.colection3)
+      .doc(place.documents3)
+    reference.update(data)
+    return
+  }
+
+  if (
+    place.colection1 && place.documents1 &&
+    place.colection2 && place.documents2
+  ) {
+    const reference = db
+      .collection(place.colection1)
+      .doc(place.documents1)
+      .collection(place.colection2)
+      .doc(place.documents2)
+    reference.update(data)
+    return
+  }
+
+  if (
+    place.colection1 && place.documents1
+  ) {
+    const reference = db
+      .collection(place.colection1)
+      .doc(place.documents1)
+    reference.update(data)
+    return
   }
 }
 
 // Firestoreのデータを削除
-export const dataDelete = (colection: string, documents: string, subColection?: string, subColectionDoc?: string) => {
-  if (subColection && subColectionDoc) {
-    db.collection(colection).doc(documents).collection(subColection).doc(subColectionDoc).delete()
-  } else {
-    // db.collection(colection).doc(documents).delete()
+export const dataDelete = (place: place) => {
+
+  if (
+    place.colection1 && place.documents1 &&
+    place.colection2 && place.documents2 &&
+    place.colection3 && place.documents3
+  ) {
+    db.collection(place.colection1)
+      .doc(place.documents1)
+      .collection(place.colection2)
+      .doc(place.documents2)
+      .collection(place.colection3)
+      .doc(place.documents3)
+      .delete()
+    return
+  }
+
+  if (
+    place.colection1 && place.documents1 &&
+    place.colection2 && place.documents2
+  ) {
+    db.collection(place.colection1)
+      .doc(place.documents1)
+      .collection(place.documents2)
+      .doc(place.colection2)
+      .delete()
+    return
+  }
+
+  if (
+    place.colection1 && place.documents1
+  ) {
+    db.collection(place.colection1)
+      .doc(place.documents1)
+      .delete()
+    return
   }
 }
 
