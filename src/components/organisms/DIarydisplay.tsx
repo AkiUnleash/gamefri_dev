@@ -4,24 +4,14 @@ import { useParams } from 'react-router-dom'
 import { db } from '../../common/firebase/firebase'
 import { selectUser } from "../../common/state/userSlice"
 import styles from '../../assets/scss/diarydisplay.module.scss';
-import Button from '../atoms/Button'
 import UserInfomation from '../atoms/UserInfomation';
-import { dataAdd, dataDelete } from "../../common/backend/model"
-import { nice } from '../../common/utils/common-types'
 import CommentsArea from '../Molecules/CommentsArea'
-
+import NiceButtonArea from '../Molecules/NiceButtonArea'
 
 const Diarydisplay: React.FC = () => {
   const user = useSelector(selectUser);
 
   const { profileid, postid } = useParams<{ profileid: string, postid: string }>()
-
-  const [action, setAction] = useState({
-    style: "",
-    value: 0,
-    caption: "",
-    function: () => { }
-  })
 
   const [post, setPost] = useState({
     postUserId: "",
@@ -32,6 +22,7 @@ const Diarydisplay: React.FC = () => {
     createDate: "",
     attachImage: "",
     diaryBody: "",
+    niceCount: 0,
   })
 
   useEffect(() => {
@@ -57,32 +48,7 @@ const Diarydisplay: React.FC = () => {
                 createDate: `${doc.data()?.create_at.toDate().getFullYear()}/${("00" + (doc.data()?.create_at.toDate().getMonth() + 1)).slice(-2)}/${("00" + doc.data()?.create_at.toDate().getDate()).slice(-2)}`,
                 attachImage: doc.data()?.attachimage,
                 diaryBody: doc.data()?.body,
-              })
-              // niceボタン
-              const nicedoc =
-                db.collection('user')
-                  .doc(doc.id)
-                  .collection("posts")
-                  .doc(postid)
-                  .collection("nices")
-                  .doc(user.uid)
-                  .get()
-              nicedoc.then((data) => {
-                if (data.exists) {
-                  setAction({
-                    style: "nice__button--un_nice",
-                    value: doc.data()?.nicecount,
-                    caption: `Nice! ${doc.data()?.nicecount}`,
-                    function: () => { un_nice() }
-                  })
-                } else {
-                  setAction({
-                    style: "nice__button--to_nice",
-                    value: doc.data()?.nicecount,
-                    caption: `Nice! ${doc.data()?.nicecount}`,
-                    function: () => { to_nice() }
-                  })
-                }
+                niceCount: doc.data()?.nicecount
               })
             })
         })
@@ -90,57 +56,18 @@ const Diarydisplay: React.FC = () => {
       );
   }, []);
 
-  const to_nice = () => {
-    const nice: nice = { userID: user.uid }
-
-    dataAdd(
-      nice, {
-      colection1: "user",
-      documents1: post.postUserId,
-      colection2: "posts",
-      documents2: postid,
-      colection3: "nices",
-      documents3: user.uid
-    }, true)
-
-    setAction((n) => ({
-      style: "nice__button--un_nice",
-      value: n.value + 1,
-      caption: "Nice! " + (n.value + 1),
-      function: () => { un_nice() }
-    }))
-  }
-
-  const un_nice = () => {
-    dataDelete(
-      {
-        colection1: "user",
-        documents1: post.postUserId,
-        colection2: "posts",
-        documents2: postid,
-        colection3: "nices",
-        documents3: user.uid
-      },
-    )
-    setAction((n) => ({
-      style: "nice__button--to_nice",
-      value: n.value - 1,
-      caption: "Nice! " + (n.value - 1),
-      function: () => { to_nice() }
-    }))
-  }
 
   return <>
     <div className={styles["container"]}>
 
-      <Button
-        classDiv="nice__div"
-        classButton={action.style}
-        value={action.caption}
-        action={() => {
-          action.function()
-        }}
-      />
+      {post.postUserId && user.uid ? (
+        <NiceButtonArea
+          documents1={post.postUserId}
+          documents2={postid}
+          documents3={user.uid}
+          nicecount={post.niceCount}
+        />
+      ) : ""}
 
       <div className={styles["diary-infomation"]}>
         <div className={styles["diary-infomation__game"]}>{post.gameTitle}</div>

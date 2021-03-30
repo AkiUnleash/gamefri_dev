@@ -17,15 +17,6 @@ export const dataAdd = <T extends profile | diarywrite | diarycomments | follow 
 
   if (timestanp) { data['create_at'] = serverTime }
 
-
-  console.log(
-    `colection1: ${place.colection1}`,
-    `documents1: ${place.documents1}`,
-    `colection2: ${place.colection2}`,
-    `documents2: ${place.documents2}`,
-    `colection3: ${place.colection3}`,
-    `documents3: ${place.documents3}`,
-  );
   if (
     place.colection1 && place.documents1 &&
     place.colection2 && place.documents2 &&
@@ -94,6 +85,49 @@ export const dataAdd = <T extends profile | diarywrite | diarycomments | follow 
   }
 }
 
+// Firestoreのデータ更新
+export const dataUpdate = (data: {}, place: place) => {
+  if (
+    place.colection1 && place.documents1 &&
+    place.colection2 && place.documents2 &&
+    place.colection3 && place.documents3
+  ) {
+    // 更新処理
+    const reference = db
+      .collection(place.colection1)
+      .doc(place.documents1)
+      .collection(place.colection2)
+      .doc(place.documents2)
+      .collection(place.colection3)
+      .doc(place.documents3)
+    reference.update(data)
+    return
+  }
+
+  if (
+    place.colection1 && place.documents1 &&
+    place.colection2 && place.documents2
+  ) {
+    const reference = db
+      .collection(place.colection1)
+      .doc(place.documents1)
+      .collection(place.colection2)
+      .doc(place.documents2)
+    reference.update(data)
+    return
+  }
+
+  if (
+    place.colection1 && place.documents1
+  ) {
+    const reference = db
+      .collection(place.colection1)
+      .doc(place.documents1)
+    reference.update(data)
+    return
+  }
+}
+
 // Firestoreのデータを削除
 export const dataDelete = (place: place) => {
 
@@ -107,7 +141,7 @@ export const dataDelete = (place: place) => {
       .collection(place.colection2)
       .doc(place.documents2)
       .collection(place.colection3)
-      .doc(place.colection3)
+      .doc(place.documents3)
       .delete()
     return
   }
@@ -132,7 +166,6 @@ export const dataDelete = (place: place) => {
       .delete()
     return
   }
-
 }
 
 // Firebase strageにイメージを保存

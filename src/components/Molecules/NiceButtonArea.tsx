@@ -1,53 +1,131 @@
 import React, { useState, useEffect } from 'react';
-import styles from '../../assets/scss/diarydisplay.module.scss';
-import Textarea from '../atoms/Textarea'
 import Button from '../atoms/Button'
-import UserInfomation from '../atoms/UserInfomation';
-import { dataAdd } from "../../common/backend/model"
+import { dataAdd, dataUpdate, dataDelete } from "../../common/backend/model"
 import { db } from '../../common/firebase/firebase'
+import { nice } from '../../common/utils/common-types'
+
+type props = {
+  documents1: string,
+  documents2: string,
+  documents3: string,
+  nicecount: number,
+}
 
 const NiceButtonArea: React.FC<props> = (props: props) => {
 
+  let niceCount = props.nicecount
+  const [action, setAction] = useState({
+    style: "",
+    value: 0,
+    caption: "",
+    function: () => { }
+  })
+
   useEffect(() => {
-    const unsub = db.collection("user")
-    return () => unsub();
+    // niceボタン
+    const nicedoc =
+      db.collection('user')
+        .doc(props.documents1) // doc.id
+        .collection("posts")
+        .doc(props.documents2) // postid
+        .collection("nices")
+        .doc(props.documents3) // user.uid
+        .get()
+
+    nicedoc.then((data) => {
+      if (data.exists) {
+        setAction({
+          style: "nice__button--un_nice",
+          value: props.nicecount,
+          caption: `Nice! ${props.nicecount}`,
+          function: () => { un_nice() }
+        })
+      } else {
+        setAction({
+          style: "nice__button--to_nice",
+          value: props.nicecount,
+          caption: `Nice! ${props.nicecount}`,
+          function: () => { to_nice() }
+        })
+      }
+    })
   }, [])
 
+  const to_nice = () => {
+    const nice: nice = { userID: props.documents3 }
+
+    dataAdd(
+      nice, {
+      colection1: "user",
+      documents1: props.documents1,
+      colection2: "posts",
+      documents2: props.documents2,
+      colection3: "nices",
+      documents3: props.documents3
+    }, true)
+
+    setAction((n) => ({
+      style: "nice__button--un_nice",
+      value: n.value + 1,
+      caption: "Nice! " + (n.value + 1),
+      function: () => { un_nice() }
+    }))
+
+
+    dataUpdate({ nicecount: action.value }, {
+      colection1: "user",
+      documents1: props.documents1,
+      colection2: "posts",
+      documents2: props.documents2,
+    })
+
+    dataUpdate({ nicecount: ++niceCount }, {
+      colection1: "user",
+      documents1: props.documents1,
+      colection2: "posts",
+      documents2: props.documents2,
+    })
+  }
+
+  const un_nice = () => {
+    dataDelete(
+      {
+        colection1: "user",
+        documents1: props.documents1,
+        colection2: "posts",
+        documents2: props.documents2,
+        colection3: "nices",
+        documents3: props.documents3
+      },
+    )
+    setAction((n) => ({
+      style: "nice__button--to_nice",
+      value: n.value - 1,
+      caption: "Nice! " + (n.value - 1),
+      function: () => { to_nice() }
+    }))
+
+    dataUpdate({ nicecount: --niceCount }, {
+      colection1: "user",
+      documents1: props.documents1,
+      colection2: "posts",
+      documents2: props.documents2,
+    })
+
+  }
 
   return (
     <>
-      <div className={styles["comments-area"]}>
-        <h2 className={styles["comments-area__title"]}>コメント</h2>
-
-        {comments.map((c, index) => {
-          return (
-            <div key={index} className={styles["comments-area__comment"]}> <UserInfomation
-              photoUrl={c.photoUrl}
-              displayName={c.displayName}
-              date={c.date}
-            />
-              <p className={styles["comments-area__sentence"]}>{c.comment}</p>
-            </div>
-          )
-        })}
-
-        <Textarea
-          placeholder="記事にコメントを記載しましょう。"
-          class="profile-text__introduction"
-          id={"introduction"}
-          value={comment}
-          setValue={setComment}
-          label="コメント" />
-
-        <Button
-          classDiv=""
-          classButton="submit__button"
-          value="送信"
-          action={(e: React.ChangeEvent<HTMLInputElement>) => { onClickRegister(e) }}
-        />
-      </div>
+      <Button
+        classDiv="nice__div"
+        classButton={action.style}
+        value={action.caption}
+        action={() => {
+          action.function()
+        }}
+      />
     </>
   );
 };
 
-export default CommentsArea;
+export default NiceButtonArea;
