@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 // Component
 import Header from '../organisms/Header_in';
-import Profiledata from '../atoms/Profiledata';
+import Profiledata from '../organisms/Profiledata';
 import Diarycard from '../Molecules/Diarycard'
 // state
 import { selectUser } from "../../common/state/userSlice"
