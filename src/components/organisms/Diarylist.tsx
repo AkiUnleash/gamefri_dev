@@ -42,7 +42,7 @@ const Diarylist: React.FC = () => {
                 id: doc.id,
                 title: doc.data().title,
                 body: doc.data().body,
-                gametitle: doc.data().gametitle,
+                gametitle: doc.data().gamename,
                 link: '/' + profileID + '/status/' + doc.id,
                 likecount: 0,
                 displayName: nickname,
