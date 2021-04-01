@@ -36,22 +36,20 @@ const Diarylist: React.FC = () => {
         .collection("posts")
         .orderBy("create_at", "desc")
         .onSnapshot((snapshot) => {
-          snapshot.docs.map((doc) => (
-            setPost(
-              snapshot.docs.map((doc) => ({
-                id: doc.id,
-                title: doc.data().title,
-                body: doc.data().body,
-                gametitle: doc.data().gamename,
-                link: '/' + profileID + '/status/' + doc.id,
-                likecount: 0,
-                displayName: nickname,
-                avatarUrl: avatarUrl,
-                attachUrl: doc.data().attachimage,
-                create_at: `${doc.data().create_at.toDate().getFullYear()}/${("00" + (doc.data().create_at.toDate().getMonth() + 1)).slice(-2)}/${("00" + doc.data().create_at.toDate().getDate()).slice(-2)}`,
-              }))
-            )
-          ))
+          setPost(
+            snapshot.docs.map((doc) => ({
+              id: doc.id,
+              title: doc.data().title,
+              body: doc.data().body,
+              gametitle: doc.data().gamename,
+              link: '/' + profileID + '/status/' + doc.id,
+              likecount: 0,
+              displayName: nickname,
+              avatarUrl: avatarUrl,
+              attachUrl: doc.data().attachimage,
+              create_at: `${doc.data().create_at.toDate().getFullYear()}/${("00" + (doc.data().create_at.toDate().getMonth() + 1)).slice(-2)}/${("00" + doc.data().create_at.toDate().getDate()).slice(-2)}`,
+            }))
+          )
         }
         );
     })
