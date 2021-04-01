@@ -13,7 +13,6 @@ import img_avatar_sample from '../../assets/images/profile/avatar.png'
 import Textfield from '../atoms/Textfield'
 import Textarea from '../atoms/Textarea'
 import Radio from '../atoms/Radio'
-import List from '../atoms/List'
 // common
 import * as DataInterface from '../../common/backend/model'
 import { db } from '../../common/firebase/firebase'
@@ -32,8 +31,8 @@ const Profileform = (): JSX.Element => {
   const [timeend, setTimeend] = useState("")
   const [cover, setCover] = useState<File | null>(null)
   const [avatar, setAvatar] = useState<File | null>(null)
-  const [firstcover, setFirstCover] = useState<File | null>(null)
-  const [firstavatar, setFirstAvatar] = useState<File | null>(null)
+  const [firstcover, setFirstCover] = useState<string>('')
+  const [firstavatar, setFirstAvatar] = useState<string>('')
   // const [year, setYear] = useState<string | "-">("-")
   // const [month, setMonth] = useState<string | "-">("-")
   // const [day, setDay] = useState<string | "-">("-")
@@ -73,10 +72,12 @@ const Profileform = (): JSX.Element => {
     switch (genre) {
       case 'avatar':
         setAvatar(null)
+        setFirstAvatar('')
         imgTag.src = img_avatar_sample
         break;
       case 'cover':
         setCover(null)
+        setFirstCover('')
         imgTag.src = img_cover_sample
         break;
     }
@@ -86,17 +87,19 @@ const Profileform = (): JSX.Element => {
 
     // POST停止
     e.preventDefault();
-    console.log(avatar && avatar !== firstavatar);
-
 
     let avatarurl = ''
-    if (avatar && avatar !== firstavatar) {
+    if (avatar) {
       avatarurl = await DataInterface.imageAdd('avatar', avatar.name, avatar)
+    } else {
+      avatarurl = firstavatar
     }
 
     let coverurl = ''
-    if (cover && cover !== firstavatar) {
+    if (cover) {
       coverurl = await DataInterface.imageAdd('cover', cover.name, cover)
+    } else {
+      coverurl = firstcover
     }
 
     DataInterface.updateProfile(nickname, avatarurl)
@@ -107,6 +110,8 @@ const Profileform = (): JSX.Element => {
         photoUrl: avatarurl,
       })
     );
+
+    console.log(timestart, timeend);
 
     DataInterface.dataAdd(
       {
@@ -138,8 +143,8 @@ const Profileform = (): JSX.Element => {
         setIntroduction(snapshot.data()?.introduction)
         setGender(snapshot.data()?.gender)
         setPlaygame(snapshot.data()?.playgame)
-        setAvatar(snapshot.data()?.avatarurl)
-        setCover(snapshot.data()?.coverurl)
+        setTimestart(snapshot.data()?.timestart)
+        setTimeend(snapshot.data()?.timeend)
         setFirstAvatar(snapshot.data()?.avatarurl)
         setFirstCover(snapshot.data()?.coverurl)
       })
@@ -149,29 +154,29 @@ const Profileform = (): JSX.Element => {
     <>
       <div className={styles["profile-img"]}>
 
-        <img className={styles["profile-img__cover-photo"]} id="img_cover" src={cover || img_cover_sample} alt="cover photos" />
+        <img className={styles["profile-img__cover-photo"]} id="img_cover" src={firstcover || img_cover_sample} alt="cover photos" />
 
         <label>
-          <img className={cover ? styles["profile-img__cover-photo--select"] : styles["profile-img__cover-photo--select_none"]} src={img_photo_select} alt="cover photo select" />
+          <img className={cover || firstcover ? styles["profile-img__cover-photo--select"] : styles["profile-img__cover-photo--select_none"]} src={img_photo_select} alt="cover select" />
           <input type="file" className={styles["profile-img__filesend"]} onChange={(e) => onChangeImage(e, "cover")} />
         </label>
 
-        {cover ? (
+        {cover || firstcover ? (
           <label>
-            <img className={styles["profile-img__cover-photo--clear"]} src={img_photo_clear} alt="cover photo clear" />
+            <img className={styles["profile-img__cover-photo--clear"]} src={img_photo_clear} alt="cover clear" />
             <button type="button" className={styles["profile-img__filesend"]} onClick={(e) => onChangeImageclear("cover")} />
           </label>
         ) : ""}
 
-        <img className={styles["profile-img__avatar-photo"]} id="img_avatar" src={avatar || img_avatar_sample} alt="avatar photos" />
+        <img className={styles["profile-img__avatar-photo"]} id="img_avatar" src={firstavatar || img_avatar_sample} alt="avatar photos" />
         <label>
-          <img className={styles["profile-img__avatar-photo--select"]} src={img_photo_select} alt="avatar photo select" />
+          <img className={styles["profile-img__avatar-photo--select"]} src={img_photo_select} alt="avatar select" />
           <input type="file" className={styles["profile-img__filesend"]} onChange={(e) => onChangeImage(e, "avatar")} />
         </label>
 
-        {avatar ? (
+        {avatar || firstavatar ? (
           <label>
-            <img className={styles["profile-img__avatar-photo--clear"]} src={img_photo_clear} alt="cover photo clear" />
+            <img className={styles["profile-img__avatar-photo--clear"]} src={img_photo_clear} alt="cover clear" />
             <input type="button" className={styles["profile-img__filesend"]} onClick={(e) => onChangeImageclear("avatar")} />
           </label>
         ) : ""}
