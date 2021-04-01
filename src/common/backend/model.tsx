@@ -202,10 +202,20 @@ export const logout = (): void => {
 
 // ログイン済みの確認
 // 認証されていない場合は、ログインページへ転送
-export const loginChack = () => {
+export const loginChack_yat = () => {
   auth.onAuthStateChanged((user) => {
     if (!user) {
       document.location.href = '/login';
+    }
+  })
+}
+
+// ログイン済みの確認
+// 認証済みの場合は、ホーム画面へ
+export const loginChack_done = () => {
+  auth.onAuthStateChanged((user) => {
+    if (user) {
+      document.location.href = '/home';
     }
   })
 }

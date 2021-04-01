@@ -9,7 +9,7 @@ import Diarylist from '../organisms/Diarylist';
 // state
 import { selectUser } from "../../common/state/userSlice"
 // common
-import { loginChack, authenticatedChack, profileDocumentExistence } from "../../common/backend/model"
+import { loginChack_yat, authenticatedChack, profileDocumentExistence } from "../../common/backend/model"
 
 
 const Home: React.FC = () => {
@@ -17,7 +17,7 @@ const Home: React.FC = () => {
 
   useEffect(() => {
     // ログイン済みの確認
-    loginChack();
+    loginChack_yat();
     // メール認証確認
     authenticatedChack();
     // プロフィール入力有無確認

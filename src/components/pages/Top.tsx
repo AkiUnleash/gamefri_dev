@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styles from '../../assets/scss/top.module.scss';
 // Component
 import Header from '../organisms/Header';
@@ -8,6 +8,8 @@ import logo from '../../assets/images/logo.svg'
 import detail_img_1 from '../../assets/images/top/top-img1.png'
 import detail_img_2 from '../../assets/images/top/top-img2.png'
 import detail_img_3 from '../../assets/images/top/top-img3.png'
+// common
+import { loginChack_done } from "../../common/backend/model"
 
 
 const detail = (): JSX.Element => {
@@ -83,6 +85,12 @@ const introduction = (): JSX.Element => {
 };
 
 const Top: React.FC = () => {
+
+  useEffect(() => {
+    // 既にログイン済みの場合はHomeへ移動
+    loginChack_done()
+  })
+
   return (
     <>
       <Header />

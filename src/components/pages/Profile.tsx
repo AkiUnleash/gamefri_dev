@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 import Header from '../organisms/Header_in';
 import Profileform from '../organisms/Profileform';
 // common
-import { loginChack, authenticatedChack } from "../../common/backend/model"
+import { loginChack_yat, authenticatedChack } from "../../common/backend/model"
 // state
 import { selectUser } from "../../common/state/userSlice"
 
@@ -13,7 +13,7 @@ const Profileedit: React.FC = () => {
 
   useEffect(() => {
     // ログイン済みの確認
-    loginChack();
+    loginChack_yat();
     // メール認証確認
     authenticatedChack();
   }, []);

@@ -10,7 +10,7 @@ import { selectUser } from "../../common/state/userSlice"
 // assets
 import styles from '../../assets/scss/profiledata.module.scss';
 // common
-import { loginChack, authenticatedChack, profileDocumentExistence } from "../../common/backend/model"
+import { loginChack_yat, authenticatedChack, profileDocumentExistence } from "../../common/backend/model"
 import { db } from '../../common/firebase/firebase'
 
 
@@ -49,7 +49,7 @@ const ProfileView: React.FC = () => {
 
   useEffect(() => {
     // ログイン済みの確認
-    loginChack();
+    loginChack_yat();
     // メール認証確認
     authenticatedChack();
     // プロフィール入力有無確認
