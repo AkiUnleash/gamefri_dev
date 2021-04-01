@@ -14,7 +14,7 @@ const Diarylist: React.FC = () => {
       title: "",
       body: "",
       gametitle: "",
-      likecount: 0,
+      nicecount: 0,
       attachUrl: "",
       displayName: "",
       avatarUrl: "",
@@ -36,22 +36,20 @@ const Diarylist: React.FC = () => {
         .collection("posts")
         .orderBy("create_at", "desc")
         .onSnapshot((snapshot) => {
-          snapshot.docs.map((doc) => (
-            setPost(
-              snapshot.docs.map((doc) => ({
-                id: doc.id,
-                title: doc.data().title,
-                body: doc.data().body,
-                gametitle: doc.data().gametitle,
-                link: '/' + profileID + '/status/' + doc.id,
-                likecount: 0,
-                displayName: nickname,
-                avatarUrl: avatarUrl,
-                attachUrl: doc.data().attachimage,
-                create_at: `${doc.data().create_at.toDate().getFullYear()}/${("00" + (doc.data().create_at.toDate().getMonth() + 1)).slice(-2)}/${("00" + doc.data().create_at.toDate().getDate()).slice(-2)}`,
-              }))
-            )
-          ))
+          setPost(
+            snapshot.docs.map((doc) => ({
+              id: doc.id,
+              title: doc.data().title,
+              body: doc.data().body,
+              gametitle: doc.data().gamename,
+              link: '/' + profileID + '/status/' + doc.id,
+              nicecount: doc.data().nicecount,
+              displayName: nickname,
+              avatarUrl: avatarUrl,
+              attachUrl: doc.data().attachimage,
+              create_at: `${doc.data().create_at.toDate().getFullYear()}/${("00" + (doc.data().create_at.toDate().getMonth() + 1)).slice(-2)}/${("00" + doc.data().create_at.toDate().getDate()).slice(-2)}`,
+            }))
+          )
         }
         );
     })
@@ -67,7 +65,7 @@ const Diarylist: React.FC = () => {
               title={p.title}
               gametitle={p.gametitle}
               attach_photo={p.attachUrl}
-              likecount={p.likecount}
+              nicecount={p.nicecount}
               link={p.link}
               displayName={p.displayName}
               avatar_photo={p.avatarUrl}

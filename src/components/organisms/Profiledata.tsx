@@ -133,10 +133,10 @@ const Profiledata: React.FC<props> = (props: props) => {
             <div className={styles["profiledata-data__title"]}>性別</div>
             <div className={styles["profiledata-data__value"]}>{props.gender}</div>
           </div>
-          <div className={styles["profiledata-data__side-by-side--right"]}>
+          {/* <div className={styles["profiledata-data__side-by-side--right"]}>
             <div className={styles["profiledata-data__title"]}>生年月日</div>
             <div className={styles["profiledata-data__value"]}>{props.birthday}</div>
-          </div>
+          </div> */}
         </div>
         <div className={styles["profiledata-data__one-line"]}>
           <div className={styles["profiledata-data__title"]}>プレイしているゲーム</div>
