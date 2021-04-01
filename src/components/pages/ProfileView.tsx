@@ -35,7 +35,7 @@ const ProfileView: React.FC = () => {
       title: "",
       body: "",
       gametitle: "",
-      likecount: 0,
+      nicecount: 0,
       attachUrl: "",
       displayName: "",
       avatarUrl: "",
@@ -95,7 +95,7 @@ const ProfileView: React.FC = () => {
                   body: doc.data().body,
                   gametitle: doc.data().gametitle,
                   link: '/' + profileid + '/status/' + doc.id,
-                  likecount: 0,
+                  nicecount: 0,
                   displayName: targetprofile.displayName,
                   avatarUrl: targetprofile.avatarimage,
                   attachUrl: doc.data().attachimage,
@@ -134,7 +134,7 @@ const ProfileView: React.FC = () => {
                   title={p.title}
                   gametitle={p.gametitle}
                   attach_photo={p.attachUrl}
-                  likecount={p.likecount}
+                  nicecount={p.nicecount}
                   link={p.link}
                   displayName={p.displayName}
                   avatar_photo={p.avatarUrl}
