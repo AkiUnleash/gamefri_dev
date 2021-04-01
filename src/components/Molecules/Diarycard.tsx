@@ -49,7 +49,7 @@ const Diarycard: React.FC<props> = (props: props) => {
                 <div className={styles["diary-card__date"]}>{props.create_at}</div>
               </div>
               <div className={styles["diary-card__nice"]}>
-                <div>Nice! {props.likecount}</div>
+                <div>Nice! {props.nicecount}</div>
               </div>
             </div>
           </div></a>
