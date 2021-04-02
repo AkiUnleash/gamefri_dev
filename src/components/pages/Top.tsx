@@ -72,6 +72,7 @@ const introduction = (): JSX.Element => {
   const button_singup: string = "▶ 新規アカウント作成"
   const button_login: string = "ログイン"
 
+
   return (
     <>
       <section className={styles["top-introduction"]}>

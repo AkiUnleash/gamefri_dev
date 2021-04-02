@@ -23,7 +23,7 @@
   },
   "scripts": {
     "start": "webpack serve --open --config webpack.dev.js",
-    "test": "TEST=development webpack serve --open --config webpack.dev.js",
+    "test": "webpack serve --open --config webpack.dev_local_emulator.js",
     "build": "webpack --config webpack.prod.js"
   },
   "eslintConfig": {
