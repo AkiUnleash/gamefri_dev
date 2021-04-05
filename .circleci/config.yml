@@ -2,7 +2,7 @@ version: 2
 jobs:
     deploy_dev:
         docker:
-            - image: circleci/node:12.15
+            - image: circleci/openjdk:buster-node-browsers-legacy
         steps:
             - checkout
             - run:
