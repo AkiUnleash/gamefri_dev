@@ -51,10 +51,17 @@ service cloud.firestore {
         && (request.resource.data.create_at == request.time)
     }
 
-  // match /user/{userID}/posts/{postID}/nices/{commentUserID} {
-    //   allow write, create, update: if 
-    //   (!('userID' in request.resource.data) || (request.resource.data.userID is string && request.resource.data.userID.size() == 28))
-    // }
+    match /user/{userID}/posts/{postID}/comments/{commentUserID} {
+      allow write, create, update: if isUserAuthenticated(userID)
+        && ('comment' in request.resource.data)
+        && ('create_at' in request.resource.data)
+        && ('displayName' in request.resource.data)
+        && ('photoUrl' in request.resource.data)
+        && (!('comment' in request.resource.data) || (request.resource.data.comment is string))
+        && (!('displayName' in request.resource.data) || (request.resource.data.displayName is string))
+        && (!('photoUrl' in request.resource.data) || (request.resource.data.photoUrl is string))
+        && (request.resource.data.create_at == request.time)
+    }
 
   }
 }
