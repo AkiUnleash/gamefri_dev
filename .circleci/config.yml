@@ -19,6 +19,12 @@ jobs:
                       echo MESSAGING_SENDER_ID="${MESSAGING_SENDER_ID}" >> ./.env
                       echo APP_ID="${APP_ID}" >> ./.env
             - run:
+                  name: Testing security rules with JEST.
+                  command: yarn test:jest
+            - run:
+                  name: Deploy security rules
+                  command: firebase deploy --only firestore:rules --token=$FIREBASE_TOKEN
+            - run:
                   name: yarn build
                   command: yarn build
             - run:

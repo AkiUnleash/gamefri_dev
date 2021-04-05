@@ -1,0 +1,75 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    match /{document=**} {
+      allow read: if true;
+    }
+
+    function isAnyAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isUserAuthenticated(userID) {
+      return isAnyAuthenticated() && userID == request.auth.uid
+    }
+
+    match /user/{userID} {
+      allow write, create, update: if isUserAuthenticated(userID)
+        && ('profileid' in request.resource.data)
+        && ('create_at' in request.resource.data)
+        && ('nickname' in request.resource.data)
+        && (request.resource.data.create_at == request.time)
+        && (!('profileid' in request.resource.data) || (request.resource.data.profileid is string && request.resource.data.profileid.size() <= 20))
+        && (!('nickname' in request.resource.data) || (request.resource.data.nickname is string && request.resource.data.nickname.size() <= 100))
+        && (!('introduction' in request.resource.data) || (request.resource.data.introduction is string && request.resource.data.introduction.size() <= 10000))
+        && (!('playgame' in request.resource.data) || (request.resource.data.gender is string))
+        && (!('timestart' in request.resource.data) || (request.resource.data.timestart is string))
+        && (!('timeend' in request.resource.data) || (request.resource.data.timeend is string))
+        && (!('avatarurl' in request.resource.data) || (request.resource.data.avatarurl is string))
+        && (!('coverurl' in request.resource.data) || (request.resource.data.coverurl is string))
+    }
+
+    match /user/{userID}/followings/{followUserID} {
+      allow write, create, update: if isUserAuthenticated(userID)
+        && ('userID' in request.resource.data)
+        && ('create_at' in request.resource.data)
+        && (!('userID' in request.resource.data) || (request.resource.data.userID is string ))
+        && (request.resource.data.create_at == request.time)
+    }
+
+    match /user/{userID}/posts/{postID} {
+      allow write, create, update: if isUserAuthenticated(userID)
+        && ('body' in request.resource.data)
+        && ('create_at' in request.resource.data)
+        && ('title' in request.resource.data)
+        && (!('title' in request.resource.data) || (request.resource.data.title is string))
+        && (!('body' in request.resource.data) || (request.resource.data.body is string))
+        && (!('gamename' in request.resource.data) || (request.resource.data.gamename is string))
+        && (!('attachimage' in request.resource.data) || (request.resource.data.attachimage is string))
+        && (!('nicecount' in request.resource.data) || (request.resource.data.nicecount is number))
+        && (request.resource.data.create_at == request.time)
+    }
+
+    match /user/{userID}/posts/{postID}/comments/{commentUserID} {
+      allow write, create, update: if isAnyAuthenticated()
+        && ('comment' in request.resource.data)
+        && ('create_at' in request.resource.data)
+        && ('displayName' in request.resource.data)
+        && ('photoUrl' in request.resource.data)
+        && (!('comment' in request.resource.data) || (request.resource.data.comment is string))
+        && (!('displayName' in request.resource.data) || (request.resource.data.displayName is string))
+        && (!('photoUrl' in request.resource.data) || (request.resource.data.photoUrl is string))
+        && (request.resource.data.create_at == request.time)
+    }
+
+    match /user/{userID}/posts/{postID}/nices/{niceUserID} {
+      allow write, create, update: if isAnyAuthenticated()
+        && ('create_at' in request.resource.data)
+        && ('userID' in request.resource.data)
+        && (!('userID' in request.resource.data) || (request.resource.data.userID is string))
+        && (request.resource.data.create_at == request.time)
+    }
+
+  }
+}
