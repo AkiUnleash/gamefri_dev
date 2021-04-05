@@ -324,22 +324,32 @@ describe('/user/{uid}/posts/{uid}/comments/{random}', () => {
           .set(testdata_comments)
         )
       })
-    })
 
-    describe('異常系', () => {
-
-      it('ログインせずに正常データの登録', async () => {
-        const userID = randomID().slice(0, 28)
-        const db = clientDB()
-        await firebase.assertFails(db
+      it('本人のアカウント以外でログイン後、正常データ登録', async () => {
+        await firebase.assertSucceeds(db
           .collection('user')
-          .doc(userID)
+          .doc(randomID().slice(0, 28))
           .collection('posts')
           .doc(randomID())
           .collection('comments')
           .doc(randomID())
           .set(testdata_comments)
         )
+      })
+    })
+
+    describe('異常系', () => {
+
+      it('ログインせずに正常データの登録', async () => {
+        const db = clientDB()
+        await firebase.assertFails(db
+          .collection('user')
+          .doc(randomID().slice(0, 28))
+          .collection('posts')
+          .doc(randomID())
+          .collection('comments')
+          .doc(randomID())
+          .set(testdata_comments))
       })
 
       const userID = randomID().slice(0, 28)
@@ -446,16 +456,11 @@ describe('/user/{uid}/posts/{uid}/nices/{random}', () => {
           .set(testdata_nices)
         )
       })
-    })
 
-    describe('異常系', () => {
-
-      it('ログインせずに正常データの登録', async () => {
-        const userID = randomID().slice(0, 28)
-        const db = clientDB()
-        await firebase.assertFails(db
+      it('本人のアカウント以外でログイン後、正常データ登録', async () => {
+        await firebase.assertSucceeds(db
           .collection('user')
-          .doc(userID)
+          .doc(randomID().slice(0, 28))
           .collection('posts')
           .doc(randomID())
           .collection('nices')
@@ -463,6 +468,22 @@ describe('/user/{uid}/posts/{uid}/nices/{random}', () => {
           .set(testdata_nices)
         )
       })
+    })
+
+    describe('異常系', () => {
+
+      it('ログインせずに正常データの登録', async () => {
+        const db = clientDB()
+        await firebase.assertFails(db
+          .collection('user')
+          .doc(randomID().slice(0, 28))
+          .collection('posts')
+          .doc(randomID())
+          .collection('nices')
+          .doc(randomID())
+          .set(testdata_nices))
+      })
+
 
       const userID = randomID().slice(0, 28)
       const db = clientDB({ uid: userID })

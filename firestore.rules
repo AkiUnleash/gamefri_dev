@@ -52,7 +52,7 @@ service cloud.firestore {
     }
 
     match /user/{userID}/posts/{postID}/comments/{commentUserID} {
-      allow write, create, update: if isUserAuthenticated(userID)
+      allow write, create, update: if isAnyAuthenticated()
         && ('comment' in request.resource.data)
         && ('create_at' in request.resource.data)
         && ('displayName' in request.resource.data)
@@ -64,7 +64,7 @@ service cloud.firestore {
     }
 
     match /user/{userID}/posts/{postID}/nices/{niceUserID} {
-      allow write, create, update: if isUserAuthenticated(userID)
+      allow write, create, update: if isAnyAuthenticated()
         && ('create_at' in request.resource.data)
         && ('userID' in request.resource.data)
         && (!('userID' in request.resource.data) || (request.resource.data.userID is string))
