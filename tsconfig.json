@@ -9,7 +9,7 @@
         "jsx": "react",
         "allowSyntheticDefaultImports": true,
         "moduleResolution": "node",
-        "types": [ "jest" ]
+        "esModuleInterop": true,
     },
     "include": [
         "src",

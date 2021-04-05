@@ -1,48 +1,291 @@
-import * as firebase from "@firebase/testing";
-import * as fs from "fs";
+import * as firebase from '@firebase/testing'
+import * as fs from 'fs'
+import { randomID } from './testHelper'
 
-const PROJECT_ID = "qiita-demo";
-const RULES_PATH = "firestore.rules";
+const projectID = 'test-project'
+const databaseName = 'test-firestore'
+const rules = fs.readFileSync('./firestore.rules', 'utf8')
 
-// 認証付きのFreistore appを作成する
-const createAuthApp = (auth?: object): firebase.firestore.Firestore => {
-  return firebase
-    .initializeTestApp({ projectId: PROJECT_ID, auth: auth })
-    .firestore();
-};
+// firestore client for admin
+const adminDB = firebase.initializeAdminApp({ projectId: projectID, databaseName })
 
-// 管理者権限で操作できるFreistore appを作成する
-const createAdminApp = (): firebase.firestore.Firestore => {
-  return firebase.initializeAdminApp({ projectId: PROJECT_ID }).firestore();
-};
+type Auth = {
+  uid?: string,
+  [key: string]: any
+}
 
-// user情報への参照を作る
-const usersRef = (db: firebase.firestore.Firestore) => db.collection("user");
+const clientDB = (auth?: Auth) => firebase.initializeTestApp({ projectId: projectID, databaseName, auth }).firestore()
 
-describe("Firestoreセキュリティルール", () => {
-  // ルールファイルの読み込み
-  beforeAll(async () => {
-    await firebase.loadFirestoreRules({
-      projectId: PROJECT_ID,
-      rules: fs.readFileSync(RULES_PATH, "utf8")
-    });
-  });
+// Create Database Rules
+beforeAll(async () => {
+  await firebase.loadFirestoreRules({ projectId: projectID, rules });
+})
 
-  // Firestoreデータのクリーンアップ
-  afterEach(async () => {
-    await firebase.clearFirestoreData({ projectId: PROJECT_ID });
-  });
+// Create Database
+beforeEach(async () => {
+  await firebase.clearFirestoreData({ projectId: projectID });
+})
 
-  // Firestoreアプリの削除
-  afterAll(async () => {
-    await Promise.all(firebase.apps().map(app => app.delete()));
-  });
+// Delete Database
+afterAll(async () => {
+  await Promise.all(firebase.apps().map(app => app.delete()));
+})
 
-  // 以降にテストを記載
-  test("認証がなくとも読み書きが可能", async () => {
-    const db = createAuthApp();
-    const user = usersRef(db).doc("test");
-    await firebase.assertSucceeds(user.set({ name: "太郎" }));
-    await firebase.assertSucceeds(user.get());
-  });
-});
+describe('/user/{uid}', () => {
+
+  type user_type = {
+    avatarurl: any,
+    coverurl: any,
+    create_at: any,
+    gender: any,
+    introduction: any,
+    nickname: any,
+    playgame: any,
+    profileid: any,
+    timeend: any,
+    timestart: any
+  }
+
+  const testdata_user: user_type = {
+    avatarurl: "http://example.com/avatar",
+    coverurl: "http://example.com/avatar",
+    create_at: firebase.firestore.FieldValue.serverTimestamp(),
+    gender: "male",
+    introduction: "Hello!!!!",
+    nickname: "Nic Name",
+    playgame: "Play Game",
+    profileid: "Profile id",
+    timeend: "08:10",
+    timestart: "20:20"
+  }
+
+  describe('Create', () => {
+    describe('正常系', () => {
+
+      const userID = randomID().slice(0, 28)
+      const db = clientDB({ uid: userID })
+
+      it('ログインユーザーが正常データの登録', async () => {
+        await firebase.assertSucceeds(db.collection('user').doc(userID).set(testdata_user))
+      })
+
+      it('プロフィールIDの桁数しきい値(20桁)', async () => {
+        const { ...testdata } = testdata_user
+        testdata.profileid = "12345678901234567890"
+        await firebase.assertSucceeds(db.collection('user').doc(userID).set(testdata))
+      })
+
+    })
+
+    describe('異常系', () => {
+
+      it('ログインせずに正常データの登録', async () => {
+        const userID = randomID().slice(0, 28)
+        const db = clientDB()
+        await firebase.assertFails(db.collection('user').doc(userID).set(testdata_user))
+      })
+
+      const userID = randomID().slice(0, 28)
+      const db = clientDB({ uid: userID })
+
+      it('必須項目が抜けている（プロフィールID)', async () => {
+        const { profileid, ...testdata } = testdata_user
+        await firebase.assertFails(db.collection('user').doc(userID).set(testdata))
+      })
+
+      it('必須項目が抜けている（登録日時)', async () => {
+        const { create_at, ...testdata } = testdata_user
+        await firebase.assertFails(db.collection('user').doc(userID).set(testdata))
+      })
+
+      it('必須項目が抜けている（ニックネーム))', async () => {
+        const { nickname, ...testdata } = testdata_user
+        await firebase.assertFails(db.collection('user').doc(userID).set(testdata))
+      })
+
+      it('登録日に文字列を挿入', async () => {
+        const { ...testdata } = testdata_user
+        testdata.create_at = "2021/04/01"
+        await firebase.assertFails(db.collection('user').doc(userID).set(testdata))
+      })
+
+      it('プロフィールIDの桁数しきい値を超えている(20桁)', async () => {
+        const { ...testdata } = testdata_user
+        testdata.profileid = "123456789012345678901"
+        await firebase.assertFails(db.collection('user').doc(userID).set(testdata))
+      })
+    })
+  })
+})
+
+describe('/user/{uid}/followings/{uid}', () => {
+
+  type followings_type = {
+    create_at: any,
+    userID: any,
+  }
+
+  const testdata_followings: followings_type = {
+    create_at: firebase.firestore.FieldValue.serverTimestamp(),
+    userID: randomID().slice(0, 28)
+  }
+
+  describe('Create', () => {
+    describe('正常系', () => {
+
+      const userID = randomID().slice(0, 28)
+      const db = clientDB({ uid: userID })
+
+      it('ログインユーザーが正常データの登録', async () => {
+        await firebase.assertSucceeds(db
+          .collection('user')
+          .doc(userID)
+          .collection('followings')
+          .doc(testdata_followings.userID)
+          .set(testdata_followings)
+        )
+      })
+    })
+
+    describe('異常系', () => {
+
+      it('ログインせずに正常データの登録', async () => {
+        const userID = randomID().slice(0, 28)
+        const db = clientDB()
+        await firebase.assertFails(db
+          .collection('user')
+          .doc(userID)
+          .collection('followings')
+          .doc(testdata_followings.userID)
+          .set(testdata_followings))
+      })
+
+      const userID = randomID().slice(0, 28)
+      const db = clientDB({ uid: userID })
+
+      it('必須項目が抜けている（登録日時)', async () => {
+        const { create_at, ...testdata } = testdata_followings
+        await firebase.assertFails(db
+          .collection('user')
+          .doc(userID)
+          .collection('followings')
+          .doc(testdata_followings.userID)
+          .set(testdata))
+      })
+
+      it('登録日に文字列を挿入', async () => {
+        const { ...testdata } = testdata_followings
+        testdata.create_at = "2021/04/01"
+        await firebase.assertFails(db
+          .collection('user')
+          .doc(userID)
+          .collection('followings')
+          .doc(testdata_followings.userID)
+          .set(testdata))
+      })
+    })
+  })
+})
+
+describe('/user/{uid}/posts/{uid}', () => {
+
+  type posts_type = {
+    attachimage: any
+    body: any
+    create_at: any
+    gamename: any
+    nicecount: any
+    title: any
+  }
+
+  const testdata_posts: posts_type = {
+    attachimage: "http://example.com/attachimage.jpeg",
+    body: "bodybodybody",
+    create_at: firebase.firestore.FieldValue.serverTimestamp(),
+    gamename: "gamenamegamename",
+    nicecount: 0,
+    title: "titletitle"
+  }
+
+  describe('Create', () => {
+    describe('正常系', () => {
+
+      const userID = randomID().slice(0, 28)
+      const db = clientDB({ uid: userID })
+
+      it('ログインユーザーが正常データの登録', async () => {
+        await firebase.assertSucceeds(db
+          .collection('user')
+          .doc(userID)
+          .collection('posts')
+          .doc(randomID())
+          .set(testdata_posts)
+        )
+      })
+    })
+
+    describe('異常系', () => {
+
+      it('ログインせずに正常データの登録', async () => {
+        const userID = randomID().slice(0, 28)
+        const db = clientDB()
+        await firebase.assertFails(db
+          .collection('user')
+          .doc(userID)
+          .collection('posts')
+          .doc(randomID())
+          .set(testdata_posts)
+        )
+      })
+
+      const userID = randomID().slice(0, 28)
+      const db = clientDB({ uid: userID })
+
+      it('必須項目が抜けている（日記本文)', async () => {
+        const { body, ...testdata } = testdata_posts
+        await firebase.assertFails(db
+          .collection('user')
+          .doc(userID)
+          .collection('posts')
+          .doc(randomID())
+          .set(testdata)
+        )
+      })
+
+      it('必須項目が抜けている（登録日時)', async () => {
+        const { create_at, ...testdata } = testdata_posts
+        await firebase.assertFails(db
+          .collection('user')
+          .doc(userID)
+          .collection('posts')
+          .doc(randomID())
+          .set(testdata)
+        )
+      })
+
+      it('必須項目が抜けている（日記タイトル)', async () => {
+        const { body, ...testdata } = testdata_posts
+        await firebase.assertFails(db
+          .collection('user')
+          .doc(userID)
+          .collection('posts')
+          .doc(randomID())
+          .set(testdata)
+        )
+      })
+
+      it('登録日に文字列を挿入', async () => {
+        const { ...testdata } = testdata_posts
+        testdata.create_at = "2021/04/01"
+        await firebase.assertFails(db
+          .collection('user')
+          .doc(userID)
+          .collection('posts')
+          .doc(randomID())
+          .set(testdata)
+        )
+      })
+
+    })
+  })
+})

@@ -7,3 +7,4 @@
 .env
 .env_local_emulator
 /*.log
+/report*.json
