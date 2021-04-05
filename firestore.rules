@@ -63,5 +63,13 @@ service cloud.firestore {
         && (request.resource.data.create_at == request.time)
     }
 
+    match /user/{userID}/posts/{postID}/nices/{niceUserID} {
+      allow write, create, update: if isUserAuthenticated(userID)
+        && ('create_at' in request.resource.data)
+        && ('userID' in request.resource.data)
+        && (!('userID' in request.resource.data) || (request.resource.data.userID is string))
+        && (request.resource.data.create_at == request.time)
+    }
+
   }
 }
