@@ -23,7 +23,7 @@ jobs:
                   command: yarn test:jest
             - run:
                   name: Deploy security rules
-                  command: firebase deploy --only firestore:rules --token=$FIREBASE_TOKEN
+                  command: ./node_modules/.bin/firebase deploy --only firestore:rules --token=$FIREBASE_TOKEN
             - run:
                   name: yarn build
                   command: yarn build
