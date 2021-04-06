@@ -1,4 +1,4 @@
-import React, { D useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 import styles from '../../assets/scss/top.module.scss';
 // Component
