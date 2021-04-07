@@ -20,7 +20,7 @@ const Header = (): JSX.Element => {
       <div className={styles["header-in__button"]}>
         <a href="/home"><img className={styles["header-in__button--home"]} src={img_home} alt="Home button" /></a>
         <a href=""><img className={styles["header-in__button--notifications"]} src={img_notifications} alt="Notifications button" /></a>
-        <a href=""><img className={styles["header-in__button--search"]} src={img_search} alt="Search button" /></a>
+        <a href="/search/account"><img className={styles["header-in__button--search"]} src={img_search} alt="Search button" /></a>
 
         <label className={styles["side-menu__icon"]} htmlFor="drawerCheckbox"><img className={styles["side-menu__button--menu"]} src={img_menu} alt="Menu button" /></label>
         <input className={styles["side-menu__checkbox"]} id="drawerCheckbox" type="checkbox" />
