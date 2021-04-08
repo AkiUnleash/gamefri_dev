@@ -14,7 +14,6 @@ type props = {
 const Usercard: React.FC<props> = (props: props) => {
   return (
     <>
-
       <div className={styles["user-card"]}>
         <a href={props.link}>
           <div className={styles["user-card__first-line"]}>
@@ -34,7 +33,7 @@ const Usercard: React.FC<props> = (props: props) => {
             classButton={"follow__button--yet"}
             value={"フォロー"}
             action={() => {
-              console.log('aaa');
+              alert("ここでも出来るフォロー機能を作成予定。今はリンクを開いて、フォローしてください。")
             }} />
         </div>
       </div>
