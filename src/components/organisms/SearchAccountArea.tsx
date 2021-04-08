@@ -26,9 +26,10 @@ const SearchAccountArea: React.FC = () => {
   ])
 
   useEffect(() => {
+    let account_temporary_storing: any
     db.collection("user")
       .onSnapshot((d) => {
-        setAccount(
+        account_temporary_storing =
           d.docs.map((f) => (
             {
               profileId: f.data().profileid,
@@ -37,20 +38,8 @@ const SearchAccountArea: React.FC = () => {
               introduction: f.data().introduction
             }
           ))
-        )
-      })
-    db.collection("user")
-      .onSnapshot((d) => {
-        setAccountall(
-          d.docs.map((f) => (
-            {
-              profileId: f.data().profileid,
-              nickname: f.data().nickname,
-              avatarUrl: f.data().avatarurl,
-              introduction: f.data().introduction
-            }
-          ))
-        )
+        setAccount(account_temporary_storing)
+        setAccountall(account_temporary_storing)
       })
   }, [])
 
