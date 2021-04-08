@@ -23,17 +23,25 @@
         flex: 1;
         border-bottom: 2px solid $mainColor;
         color: $mainColor;
+        &:hover {
+            color: $accentColor;
+            border-bottom: 2px solid $accentColor;
+        }
     }
     &__none {
         line-height: 56px;
         flex: 1;
         border-bottom: 2px solid $glayColor;
         color: $glayColor;
+        &:hover {
+            color: $accentColor;
+            border-bottom: 2px solid $accentColor;
+        }
     }
 }
 
 .search-bar {
-    margin: 56px 40px;
+    margin: 56px 40px 40px;
     display: flex;
     &__text {
         width: 75%;
@@ -48,6 +56,7 @@
     box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.3);
     border-radius: 5px;
     padding: 8px 32px 32px 32px;
+    margin: 24px;
     &__first-line {
         display: flex;
         &--infomation {

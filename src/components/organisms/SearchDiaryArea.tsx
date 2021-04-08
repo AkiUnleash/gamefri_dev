@@ -1,46 +1,23 @@
 import React, { useEffect, useState } from 'react';
-import { db } from '../../common/firebase/firebase'
 import Textfield from '../atoms/Textfield'
 import Button from '../atoms/Button'
-import Usercard from '../Molecules/Usercard'
+import Diarycard from '../Molecules/Diarycard'
 import styles from '../../assets/scss/search.module.scss'
 
 const SearchAccountArea: React.FC = () => {
 
   const [keyword, setKeyword] = useState('')
-  const [account, setAccount] = useState([
-    {
-      profileId: "",
-      nickname: "",
-      avatarUrl: "",
-      introduction: ""
-    }
-  ]
-  )
 
   useEffect(() => {
-    db.collection("user").onSnapshot((d) => {
-      setAccount(
-        d.docs.map((f) => (
-          {
-            profileId: f.data().profileid,
-            nickname: f.data().nickname,
-            avatarUrl: f.data().avatarurl,
-            introduction: f.data().introduction
-          }
-        )
-        )
-      )
-    })
-  }, [])
+  })
 
   return (
     <>
       <div className={styles['container']}>
 
         <div className={styles["search-select"]}>
-          <a href="/search/account" className={styles["search-select__set"]}>アカウント</a>
-          <a href="/search/diary" className={styles["search-select__none"]}>日記</a>
+          <a href="/search/account" className={styles["search-select__none"]}>アカウント</a>
+          <a href="/search/diary" className={styles["search-select__set"]}>日記</a>
         </div>
 
         <div className={styles["search-bar"]}>
@@ -65,14 +42,16 @@ const SearchAccountArea: React.FC = () => {
           </div>
         </div>
 
-        {(account.map((field, index) =>
-          <Usercard key={index}
-            link={`/user/${field.profileId}`}
-            photoUrl={field.avatarUrl}
-            displayName={field.nickname}
-            profileId={field.profileId}
-            introduction={field.introduction} />
-        ))}
+        <Diarycard key={1}
+          title={"ヨツミワドウを倒しまくり！"}
+          gametitle={"モンスターハンターライズ"}
+          attach_photo={"https://firebasestorage.googleapis.com/v0/b/gamefri-develop.appspot.com/o/posts_attach%2FfoIT3shAcy6G7rw3_S__10895366.jpg?alt=media&token=5b937062-d25f-4de4-ab70-e65f9ae811a9"}
+          nicecount={0}
+          link={"/AkiUnleash/status/QQcCwAwhWUjeLoSBk9mD"}
+          displayName={"アキ・アンリッシュ"}
+          avatar_photo={"https://firebasestorage.googleapis.com/v0/b/gamefri-develop.appspot.com/o/avatar%2FZHAPH2PIsxV4vMGr_kokonara121_trim.png?alt=media&token=03199392-e021-4ba8-a142-adcaefbb56a7"}
+          create_at={"2021/04/07"}
+        />
 
       </div>
 

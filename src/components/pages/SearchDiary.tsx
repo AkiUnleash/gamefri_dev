@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-// Component
 import Header from '../organisms/Header_in';
+import SearchDiaryArea from '../organisms/SearchDiaryArea'
 import { loginChack_yat, authenticatedChack, profileDocumentExistence } from "../../common/backend/model"
 
 const SearchAccount: React.FC = () => {
@@ -16,6 +16,7 @@ const SearchAccount: React.FC = () => {
   return (
     <>
       <Header />
+      <SearchDiaryArea />
     </>
   );
 };

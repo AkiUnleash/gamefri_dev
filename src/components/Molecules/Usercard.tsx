@@ -1,0 +1,42 @@
+import React from 'react';
+import styles from '../../assets/scss/search.module.scss'
+import Button from '../atoms/Button'
+import UserInfomation from '../atoms/UserInfomation'
+
+type props = {
+  link: string,
+  photoUrl: string,
+  displayName: string,
+  profileId: string,
+  introduction: string,
+}
+
+const Usercard: React.FC<props> = (props: props) => {
+  return (
+    <a href={props.link}>
+      <div className={styles["user-card"]}>
+        <div className={styles["user-card__first-line"]}>
+          <div className={styles["user-card__first-line--infomation"]}>
+            <UserInfomation
+              photoUrl={props.photoUrl}
+              displayName={props.displayName}
+              date={props.profileId}
+            />
+          </div>
+          <div className={styles["user-card__first-line--follow"]}>
+            <Button
+              classDiv=""
+              classButton={"follow__button--yet"}
+              value={"フォロー"}
+              action={() => {
+                console.log('aaa');
+              }} />
+          </div>
+        </div>
+        <div className="user-card__introduction"> {props.introduction} </div>
+      </div>
+    </a>
+  );
+};
+
+export default Usercard;
