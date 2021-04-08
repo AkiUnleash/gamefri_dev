@@ -13,29 +13,32 @@ type props = {
 
 const Usercard: React.FC<props> = (props: props) => {
   return (
-    <a href={props.link}>
+    <>
+
       <div className={styles["user-card"]}>
-        <div className={styles["user-card__first-line"]}>
-          <div className={styles["user-card__first-line--infomation"]}>
-            <UserInfomation
-              photoUrl={props.photoUrl}
-              displayName={props.displayName}
-              date={props.profileId}
-            />
+        <a href={props.link}>
+          <div className={styles["user-card__first-line"]}>
+            <div className={styles["user-card__first-line--infomation"]}>
+              <UserInfomation
+                photoUrl={props.photoUrl}
+                displayName={props.displayName}
+                date={props.profileId}
+              />
+            </div>
           </div>
-          <div className={styles["user-card__first-line--follow"]}>
-            <Button
-              classDiv=""
-              classButton={"follow__button--yet"}
-              value={"フォロー"}
-              action={() => {
-                console.log('aaa');
-              }} />
-          </div>
+          <div className="user-card__introduction"> {props.introduction} </div>
+        </a>
+        <div className={styles["user-card__first-line--follow"]}>
+          <Button
+            classDiv=""
+            classButton={"follow__button--yet"}
+            value={"フォロー"}
+            action={() => {
+              console.log('aaa');
+            }} />
         </div>
-        <div className="user-card__introduction"> {props.introduction} </div>
       </div>
-    </a>
+    </>
   );
 };
 
