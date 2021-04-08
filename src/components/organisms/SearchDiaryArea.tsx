@@ -24,27 +24,45 @@ const SearchAccountArea: React.FC = () => {
     },
   ])
 
+  const [postall, setPostall] = useState([
+    {
+      id: "",
+      title: "",
+      body: "",
+      gametitle: "",
+      nicecount: 0,
+      attachUrl: "",
+      displayName: "",
+      avatarUrl: "",
+      link: "",
+      create_at: ""
+    },
+  ])
+
   useEffect(() => {
+    let diary_temporary_storing: any
     db.collectionGroup('posts')
+      .orderBy('create_at', 'desc')
       .get()
       .then((snapshot) => {
-        setPost(
-          snapshot.docs.map((doc) => (
-            {
-              id: doc.id,
-              title: doc.data().title,
-              body: doc.data().body,
-              gametitle: doc.data().gamename,
-              link: '/' + "avatarUrl" + '/status/' + doc.id,
-              nicecount: doc.data().nicecount,
-              displayName: "nickname",
-              avatarUrl: "avatarUrl",
-              attachUrl: doc.data().attachimage,
-              create_at: `${doc.data().create_at.toDate().getFullYear()}/${("00" + (doc.data().create_at.toDate().getMonth() + 1)).slice(-2)}/${("00" + doc.data().create_at.toDate().getDate()).slice(-2)}`,
-            }
-          ))
-        )
+        diary_temporary_storing = snapshot.docs.map((doc) => (
+          {
+            id: doc.id,
+            title: doc.data().title,
+            body: doc.data().body,
+            gametitle: doc.data().gamename,
+            link: '/' + "avatarUrl" + '/status/' + doc.id,
+            nicecount: doc.data().nicecount,
+            displayName: "nickname",
+            avatarUrl: "avatarUrl",
+            attachUrl: doc.data().attachimage,
+            create_at: `${doc.data().create_at.toDate().getFullYear()}/${("00" + (doc.data().create_at.toDate().getMonth() + 1)).slice(-2)}/${("00" + doc.data().create_at.toDate().getDate()).slice(-2)}`,
+          }
+        ))
+        setPost(diary_temporary_storing)
+        setPostall(diary_temporary_storing)
       })
+
   }, [])
 
   return (
@@ -72,12 +90,25 @@ const SearchAccountArea: React.FC = () => {
               classDiv="submit__button"
               classButton={"検索"}
               value={"検索"}
-              action={() => {
-                console.log('aaa');
+              action={(e: React.ChangeEvent<HTMLInputElement>) => {
+                e.preventDefault();
+                if (keyword) {
+                  setPost(
+                    postall.filter((a) => {
+                      if (~a.title.indexOf(keyword)
+                        || ~a.gametitle.indexOf(keyword)
+                        || ~a.body.indexOf(keyword)
+                      ) {
+                        return true
+                      }
+                    })
+                  )
+                } else {
+                  setPost(postall)
+                }
               }} />
           </div>
         </div>
-
 
         {
           post[0]?.id && (
