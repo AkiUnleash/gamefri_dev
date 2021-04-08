@@ -5,13 +5,15 @@ import { browserHistory } from "./history";
 // Components
 import Top from './components/pages/Top';
 import Login from './components/pages/Login';
-import Singup from './components/pages/Singup';
+import Singup from './components/pages/SearchAccount';
 import Signupfinish from './components/pages/Signupfinish';
 import Profile from './components/pages/Profile';
 import DiaryWrite from './components/pages/Diarywrite';
 import Home from './components/pages/Home';
 import ProfileView from './components/pages/ProfileView';
 import Diaryview from './components/pages/DiaryView';
+import SearchAccount from './components/pages/SearchAccount';
+import SearchDiary from './components/pages/SearchDiary';
 // state
 import { login, logout } from './common/state/userSlice'
 import { useDispatch } from 'react-redux'
@@ -67,6 +69,8 @@ const Main: React.FC = () => {
                 <Route exact path="/home" component={Home} />
                 <Route exact path="/user/:profileid" component={ProfileView} />
                 <Route exact path="/:profileid/status/:postid" component={Diaryview} />
+                <Route exact path="/search/account" component={SearchAccount} />
+                <Route exact path="/search/diary" component={SearchDiary} />
             </Switch>
         </Router>
     );
