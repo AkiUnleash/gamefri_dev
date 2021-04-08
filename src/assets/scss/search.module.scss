@@ -24,8 +24,9 @@
         border-bottom: 2px solid $mainColor;
         color: $mainColor;
         &:hover {
-            color: $accentColor;
-            border-bottom: 2px solid $accentColor;
+            background-color: $mainColor;
+            color: $baseColor;
+            transition: 0.2s ease-in-out;
         }
     }
     &__none {
@@ -34,8 +35,9 @@
         border-bottom: 2px solid $glayColor;
         color: $glayColor;
         &:hover {
-            color: $accentColor;
-            border-bottom: 2px solid $accentColor;
+            background-color: $mainColor;
+            color: $baseColor;
+            transition: 0.2s ease-in-out;
         }
     }
 }
