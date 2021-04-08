@@ -14,6 +14,7 @@ import ProfileView from './components/pages/ProfileView';
 import Diaryview from './components/pages/DiaryView';
 import SearchAccount from './components/pages/SearchAccount';
 import SearchDiary from './components/pages/SearchDiary';
+import Notification from './components/pages/Notification';
 // state
 import { login, logout } from './common/state/userSlice'
 import { useDispatch } from 'react-redux'
@@ -71,6 +72,7 @@ const Main: React.FC = () => {
                 <Route exact path="/:profileid/status/:postid" component={Diaryview} />
                 <Route exact path="/search/account" component={SearchAccount} />
                 <Route exact path="/search/diary" component={SearchDiary} />
+                <Route exact path="/notification" component={Notification} />
             </Switch>
         </Router>
     );
