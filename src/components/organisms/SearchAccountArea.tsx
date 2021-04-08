@@ -15,23 +15,43 @@ const SearchAccountArea: React.FC = () => {
       avatarUrl: "",
       introduction: ""
     }
-  ]
-  )
+  ])
+  const [accountall, setAccountall] = useState([
+    {
+      profileId: "",
+      nickname: "",
+      avatarUrl: "",
+      introduction: ""
+    }
+  ])
 
   useEffect(() => {
-    db.collection("user").onSnapshot((d) => {
-      setAccount(
-        d.docs.map((f) => (
-          {
-            profileId: f.data().profileid,
-            nickname: f.data().nickname,
-            avatarUrl: f.data().avatarurl,
-            introduction: f.data().introduction
-          }
+    db.collection("user")
+      .onSnapshot((d) => {
+        setAccount(
+          d.docs.map((f) => (
+            {
+              profileId: f.data().profileid,
+              nickname: f.data().nickname,
+              avatarUrl: f.data().avatarurl,
+              introduction: f.data().introduction
+            }
+          ))
         )
+      })
+    db.collection("user")
+      .onSnapshot((d) => {
+        setAccountall(
+          d.docs.map((f) => (
+            {
+              profileId: f.data().profileid,
+              nickname: f.data().nickname,
+              avatarUrl: f.data().avatarurl,
+              introduction: f.data().introduction
+            }
+          ))
         )
-      )
-    })
+      })
   }, [])
 
   return (
@@ -59,8 +79,13 @@ const SearchAccountArea: React.FC = () => {
               classDiv="submit__button"
               classButton={"検索"}
               value={"検索"}
-              action={() => {
-                console.log('aaa');
+              action={(e: React.ChangeEvent<HTMLInputElement>) => {
+                e.preventDefault();
+                if (keyword) {
+                  setAccount(accountall.filter((a) => ~a.nickname.indexOf(keyword)));
+                } else {
+                  setAccount(accountall)
+                }
               }} />
           </div>
         </div>

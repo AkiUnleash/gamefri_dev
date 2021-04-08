@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { db } from '../../common/firebase/firebase'
 import Textfield from '../atoms/Textfield'
 import Button from '../atoms/Button'
 import Diarycard from '../Molecules/Diarycard'
@@ -8,8 +9,43 @@ const SearchAccountArea: React.FC = () => {
 
   const [keyword, setKeyword] = useState('')
 
+  const [post, setPost] = useState([
+    {
+      id: "",
+      title: "",
+      body: "",
+      gametitle: "",
+      nicecount: 0,
+      attachUrl: "",
+      displayName: "",
+      avatarUrl: "",
+      link: "",
+      create_at: ""
+    },
+  ])
+
   useEffect(() => {
-  })
+    db.collectionGroup('posts')
+      .get()
+      .then((snapshot) => {
+        setPost(
+          snapshot.docs.map((doc) => (
+            {
+              id: doc.id,
+              title: doc.data().title,
+              body: doc.data().body,
+              gametitle: doc.data().gamename,
+              link: '/' + "avatarUrl" + '/status/' + doc.id,
+              nicecount: doc.data().nicecount,
+              displayName: "nickname",
+              avatarUrl: "avatarUrl",
+              attachUrl: doc.data().attachimage,
+              create_at: `${doc.data().create_at.toDate().getFullYear()}/${("00" + (doc.data().create_at.toDate().getMonth() + 1)).slice(-2)}/${("00" + doc.data().create_at.toDate().getDate()).slice(-2)}`,
+            }
+          ))
+        )
+      })
+  }, [])
 
   return (
     <>
@@ -42,16 +78,25 @@ const SearchAccountArea: React.FC = () => {
           </div>
         </div>
 
-        <Diarycard key={1}
-          title={"ヨツミワドウを倒しまくり！"}
-          gametitle={"モンスターハンターライズ"}
-          attach_photo={"https://firebasestorage.googleapis.com/v0/b/gamefri-develop.appspot.com/o/posts_attach%2FfoIT3shAcy6G7rw3_S__10895366.jpg?alt=media&token=5b937062-d25f-4de4-ab70-e65f9ae811a9"}
-          nicecount={0}
-          link={"/AkiUnleash/status/QQcCwAwhWUjeLoSBk9mD"}
-          displayName={"アキ・アンリッシュ"}
-          avatar_photo={"https://firebasestorage.googleapis.com/v0/b/gamefri-develop.appspot.com/o/avatar%2FZHAPH2PIsxV4vMGr_kokonara121_trim.png?alt=media&token=03199392-e021-4ba8-a142-adcaefbb56a7"}
-          create_at={"2021/04/07"}
-        />
+
+        {
+          post[0]?.id && (
+            <>
+              {post.map((p, index) => (
+                <Diarycard key={index}
+                  title={p.title}
+                  gametitle={p.gametitle}
+                  attach_photo={p.attachUrl}
+                  nicecount={p.nicecount}
+                  link={p.link}
+                  displayName={p.displayName}
+                  avatar_photo={p.avatarUrl}
+                  create_at={p.create_at}
+                />
+              ))}
+            </>
+          )
+        }
 
       </div>
 
