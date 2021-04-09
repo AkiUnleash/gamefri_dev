@@ -30,8 +30,21 @@ service cloud.firestore {
         && (!('coverurl' in request.resource.data) || (request.resource.data.coverurl is string))
     }
 
+    match /user/{userID}/notifications/{notificationID} {
+      allow write, create, update : if isUserAuthenticated(userID)
+        && ('message' in request.resource.data)
+        && ('nickname' in request.resource.data)
+        && ('profileid' in request.resource.data)
+        && ('create_at' in request.resource.data)
+        && (!('message' in request.resource.data) || (request.resource.data.message is string ))
+        && (!('avatarurl' in request.resource.data) || (request.resource.data.avatarurl is string ))
+        && (!('nickname' in request.resource.data) || (request.resource.data.nickname is string ))
+        && (!('profileid' in request.resource.data) || (request.resource.data.profileid is string ))
+        && (request.resource.data.create_at == request.time)
+    }
+
     match /user/{userID}/followings/{followUserID} {
-      allow write, create, update: if isUserAuthenticated(userID)
+      allow write, create, update, delete: if isUserAuthenticated(userID)
         && ('userID' in request.resource.data)
         && ('create_at' in request.resource.data)
         && (!('userID' in request.resource.data) || (request.resource.data.userID is string ))
@@ -64,7 +77,7 @@ service cloud.firestore {
     }
 
     match /user/{userID}/posts/{postID}/nices/{niceUserID} {
-      allow write, create, update: if isAnyAuthenticated()
+      allow write, create, update, delete: if isAnyAuthenticated()
         && ('create_at' in request.resource.data)
         && ('userID' in request.resource.data)
         && (!('userID' in request.resource.data) || (request.resource.data.userID is string))

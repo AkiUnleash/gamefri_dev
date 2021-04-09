@@ -2,16 +2,21 @@ import React, { useState, useEffect } from 'react';
 import Button from '../atoms/Button'
 import { dataAdd, dataUpdate, dataDelete } from "../../common/backend/model"
 import { db } from '../../common/firebase/firebase'
-import { nice } from '../../common/utils/common-types'
+import { nice, notification } from '../../common/utils/common-types'
+import { selectUser } from "../../common/state/userSlice"
+import { useSelector } from 'react-redux'
 
 type props = {
   documents1: string,
   documents2: string,
   documents3: string,
   nicecount: number,
+  diaryTitle: string,
 }
 
 const NiceButtonArea: React.FC<props> = (props: props) => {
+
+  const user = useSelector(selectUser)
 
   let niceCount = props.nicecount
   const [action, setAction] = useState({
@@ -71,7 +76,23 @@ const NiceButtonArea: React.FC<props> = (props: props) => {
       function: () => { un_nice() }
     }))
 
+    // 通知
+    const notification: notification = {
+      avatarurl: user.photoUrl,
+      nickname: user.displayName,
+      profileid: user.profileID,
+      message: `日記「${props.diaryTitle}」にナイスされました。`,
+      link: `/home`
+    }
+    dataAdd(notification,
+      {
+        colection1: "user",
+        documents1: props.documents1,
+        colection2: "notifications",
+      },
+      true)
 
+    // ナイス
     dataUpdate({ nicecount: action.value }, {
       colection1: "user",
       documents1: props.documents1,
