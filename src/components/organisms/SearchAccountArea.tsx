@@ -4,8 +4,12 @@ import Textfield from '../atoms/Textfield'
 import Button from '../atoms/Button'
 import Usercard from '../Molecules/Usercard'
 import styles from '../../assets/scss/search.module.scss'
+import { selectUser } from "../../common/state/userSlice"
+import { useSelector } from 'react-redux'
 
 const SearchAccountArea: React.FC = () => {
+
+  const user = useSelector(selectUser)
 
   const [keyword, setKeyword] = useState('')
   const [account, setAccount] = useState([
@@ -13,7 +17,8 @@ const SearchAccountArea: React.FC = () => {
       profileId: "",
       nickname: "",
       avatarUrl: "",
-      introduction: ""
+      introduction: "",
+      uid: ""
     }
   ])
   const [accountall, setAccountall] = useState([
@@ -21,7 +26,8 @@ const SearchAccountArea: React.FC = () => {
       profileId: "",
       nickname: "",
       avatarUrl: "",
-      introduction: ""
+      introduction: "",
+      uid: ""
     }
   ])
 
@@ -35,7 +41,8 @@ const SearchAccountArea: React.FC = () => {
               profileId: f.data().profileid,
               nickname: f.data().nickname,
               avatarUrl: f.data().avatarurl,
-              introduction: f.data().introduction
+              introduction: f.data().introduction,
+              uid: f.data().uid.trim()
             }
           ))
         setAccount(account_temporary_storing)
@@ -79,14 +86,15 @@ const SearchAccountArea: React.FC = () => {
           </div>
         </div>
 
-        {(account.map((field, index) =>
+        {user.uid && (account.map((field, index) =>
           <Usercard key={index}
             link={`/user/${field.profileId}`}
             photoUrl={field.avatarUrl}
             displayName={field.nickname}
             profileId={field.profileId}
             message={field.introduction}
-            button={true} />
+            button={true}
+            id={field.uid} />
         ))}
 
       </div>
