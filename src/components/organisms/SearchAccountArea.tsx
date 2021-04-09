@@ -85,7 +85,8 @@ const SearchAccountArea: React.FC = () => {
             photoUrl={field.avatarUrl}
             displayName={field.nickname}
             profileId={field.profileId}
-            introduction={field.introduction} />
+            message={field.introduction}
+            button={true} />
         ))}
 
       </div>

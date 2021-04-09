@@ -13,7 +13,7 @@ const NotificationArea: React.FC = () => {
     nickname: "",
     profileid: "",
     avatarUrl: "",
-    massage: ""
+    message: ""
   }])
 
   useEffect(() => {
@@ -27,7 +27,7 @@ const NotificationArea: React.FC = () => {
             nickname: doc.data().nickname,
             profileid: doc.data().profileid,
             avatarUrl: doc.data().avatarurl,
-            massage: doc.data().massage
+            message: doc.data().message
           }))
         )
       })
@@ -46,7 +46,8 @@ const NotificationArea: React.FC = () => {
             photoUrl={n.avatarUrl}
             displayName={n.nickname}
             profileId={n.profileid}
-            introduction={n.massage} />
+            message={n.message}
+            button={false} />
         )}
       </div>
 

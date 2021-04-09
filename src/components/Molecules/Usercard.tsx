@@ -8,7 +8,8 @@ type props = {
   photoUrl: string,
   displayName: string,
   profileId: string,
-  introduction: string,
+  message: string,
+  button: boolean
 }
 
 const Usercard: React.FC<props> = (props: props) => {
@@ -25,16 +26,18 @@ const Usercard: React.FC<props> = (props: props) => {
               />
             </div>
           </div>
-          <div className="user-card__introduction"> {props.introduction} </div>
+          <div className="user-card__introduction"> {props.message} </div>
         </a>
         <div className={styles["user-card__first-line--follow"]}>
-          <Button
-            classDiv=""
-            classButton={"follow__button--yet"}
-            value={"フォロー"}
-            action={() => {
-              alert("ここでも出来るフォロー機能を作成予定。今はリンクを開いて、フォローしてください。")
-            }} />
+          {props.button &&
+            <Button
+              classDiv=""
+              classButton={"follow__button--yet"}
+              value={"フォロー"}
+              action={() => {
+                alert("ここでも出来るフォロー機能を作成予定。今はリンクを開いて、フォローしてください。")
+              }} />
+          }
         </div>
       </div>
     </>
