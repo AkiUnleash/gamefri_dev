@@ -13,7 +13,8 @@ const NotificationArea: React.FC = () => {
     nickname: "",
     profileid: "",
     avatarUrl: "",
-    message: ""
+    message: "",
+    link: ""
   }])
 
   useEffect(() => {
@@ -27,7 +28,8 @@ const NotificationArea: React.FC = () => {
             nickname: doc.data().nickname,
             profileid: doc.data().profileid,
             avatarUrl: doc.data().avatarurl,
-            message: doc.data().message
+            message: doc.data().message,
+            link: doc.data().link
           }))
         )
       })
@@ -39,15 +41,15 @@ const NotificationArea: React.FC = () => {
         <div className={styles["notification-select"]}>
           <div className={styles["notification-select__set"]}>通知</div>
         </div>
-
         {notification.map((n, index) =>
           <Usercard key={index}
-            link={`/user/${n.profileid}`}
+            link={n.link}
             photoUrl={n.avatarUrl}
             displayName={n.nickname}
             profileId={n.profileid}
             message={n.message}
-            button={false} />
+            button={false}
+            id={""} />
         )}
       </div>
 

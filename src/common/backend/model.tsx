@@ -1,5 +1,5 @@
 import { db, auth, storage, serverTime } from '../firebase/firebase'
-import { profile, diarywrite, diarycomments, follow, nice } from '../utils/common-types'
+import { profile, diarywrite, diarycomments, follow, nice, notification } from '../utils/common-types'
 
 type place = {
   colection1: string,
@@ -11,7 +11,7 @@ type place = {
 }
 
 // Firestoreにデータを保存
-export const dataAdd = <T extends profile | diarywrite | diarycomments | follow | nice, U extends place, V extends boolean>
+export const dataAdd = <T extends profile | diarywrite | diarycomments | follow | nice | notification, U extends place, V extends boolean>
   (data: T, place: U, timestanp?: V,
 ) => {
 

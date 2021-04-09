@@ -42,7 +42,7 @@ const SearchAccountArea: React.FC = () => {
               nickname: f.data().nickname,
               avatarUrl: f.data().avatarurl,
               introduction: f.data().introduction,
-              uid: f.data().uid.trim()
+              uid: f.data().uid
             }
           ))
         setAccount(account_temporary_storing)

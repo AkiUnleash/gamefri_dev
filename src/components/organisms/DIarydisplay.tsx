@@ -66,6 +66,7 @@ const Diarydisplay: React.FC = () => {
           documents2={postid}
           documents3={user.uid}
           nicecount={post.niceCount}
+          diaryTitle={post.diaryTitle}
         />
       ) : ""}
 

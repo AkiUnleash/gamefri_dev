@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styles from '../../assets/scss/search.module.scss'
 import Button from '../atoms/Button'
 import UserInfomation from '../atoms/UserInfomation'
-import { follow } from '../../common/utils/common-types'
+import { follow, notification } from '../../common/utils/common-types'
 import { dataAdd, dataDelete } from "../../common/backend/model"
 import { selectUser } from "../../common/state/userSlice"
 import { useSelector } from 'react-redux'
@@ -26,7 +26,6 @@ const Usercard: React.FC<props> = (props: props) => {
     value: "",
     function: () => { }
   }
-  // console.log(user.follower, props.id, user.follower.includes(props.id));
 
   if (user.follower.includes(props.id)) {
     actionInitialize.style = "follow__button--done"
@@ -58,6 +57,22 @@ const Usercard: React.FC<props> = (props: props) => {
         documents2: props.id.trim()
       },
       true)
+
+    const notification: notification = {
+      avatarurl: user.photoUrl,
+      nickname: user.displayName,
+      profileid: user.profileID,
+      link: `/user/${user.profileID}`,
+      message: "フォローされました。",
+    }
+    dataAdd(notification,
+      {
+        colection1: "user",
+        documents1: props.id,
+        colection2: "notifications",
+      },
+      true)
+
     setAction({
       style: "follow__button--done",
       value: "解除",

@@ -13,6 +13,7 @@ interface profile {
   timeend: string;
   avatarurl: string;
   coverurl: string;
+  uid: string
   create_at?: firebase.firestore.FieldValue
   update_at?: firebase.firestore.FieldValue
 }
@@ -41,5 +42,14 @@ interface follow {
 
 interface nice {
   userID: string,
+  create_at?: firebase.firestore.FieldValue
+}
+
+interface notification {
+  avatarurl: string,
+  message: string,
+  nickname: string,
+  profileid: string,
+  link: string,
   create_at?: firebase.firestore.FieldValue
 }

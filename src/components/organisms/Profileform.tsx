@@ -2,20 +2,18 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { selectUser, updateUserProfile } from '../../common/state/userSlice'
 import { browserHistory } from "../../history"
-// assets
 import styles from '../../assets/scss/profileedit.module.scss';
 import mui from '../../assets/css/mui.module.css'
 import img_photo_select from '../../assets/images/profile/photo-select.svg'
 import img_photo_clear from '../../assets/images/profile/photo-clear.svg'
 import img_cover_sample from '../../assets/images/profile/cover-sample.png'
 import img_avatar_sample from '../../assets/images/profile/avatar.png'
-// atoms
 import Textfield from '../atoms/Textfield'
 import Textarea from '../atoms/Textarea'
 import Radio from '../atoms/Radio'
-// common
 import * as DataInterface from '../../common/backend/model'
 import { db } from '../../common/firebase/firebase'
+import { notification } from '../../common/utils/common-types'
 
 const Profileform = (): JSX.Element => {
 
@@ -123,7 +121,8 @@ const Profileform = (): JSX.Element => {
         timestart: timestart,
         timeend: timeend,
         avatarurl: avatarurl,
-        coverurl: coverurl
+        coverurl: coverurl,
+        uid: user.uid
       },
       {
         colection1: 'user',
@@ -131,6 +130,21 @@ const Profileform = (): JSX.Element => {
       },
       true
     )
+
+    const notification: notification = {
+      avatarurl: user.photoUrl,
+      nickname: user.displayName,
+      profileid: user.profileID,
+      message: "プロフィールを変更しました。",
+      link: `user/${user.profileID}`
+    }
+    DataInterface.dataAdd(notification,
+      {
+        colection1: "user",
+        documents1: user.uid,
+        colection2: "notifications",
+      },
+      true)
     browserHistory.push("/home")
   }
 

@@ -8,7 +8,7 @@ import styles from '../../assets/scss/profiledata.module.scss';
 // common
 import { selectUser } from "../../common/state/userSlice"
 import { dataAdd, dataDelete } from "../../common/backend/model"
-import { follow } from '../../common/utils/common-types'
+import { follow, notification } from '../../common/utils/common-types'
 import { db } from '../../common/firebase/firebase';
 
 type props = {
@@ -44,6 +44,22 @@ const Profiledata: React.FC<props> = (props: props) => {
         documents2: props.id
       },
       true)
+
+    const notification: notification = {
+      avatarurl: user.photoUrl,
+      nickname: user.displayName,
+      profileid: user.profileID,
+      message: "フォローされました。",
+      link: `/user/${user.profileID}`
+    }
+    dataAdd(notification,
+      {
+        colection1: "user",
+        documents1: props.id,
+        colection2: "notifications",
+      },
+      true)
+
     setAction({
       style: "profiledata-follow__button--un-follow",
       value: "フォローを解除",
