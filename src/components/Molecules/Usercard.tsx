@@ -26,7 +26,7 @@ const Usercard: React.FC<props> = (props: props) => {
     value: "",
     function: () => { }
   }
-  console.log(user.follower, props.id, user.follower.includes(props.id));
+  // console.log(user.follower, props.id, user.follower.includes(props.id));
 
   if (user.follower.includes(props.id)) {
     actionInitialize.style = "follow__button--done"
