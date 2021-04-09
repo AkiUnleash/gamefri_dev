@@ -1,0 +1,26 @@
+@import 'variables';
+.container {
+    margin: 80px auto 40px;
+    width: 664px;
+    @include mq(md) {
+        margin: 80px 10%;
+        width: 80%;
+    }
+    @include mq(sm) {
+        margin: 80px 5%;
+        width: 90%;
+    }
+}
+
+.notification-select {
+    width: 100%;
+    display: flex;
+    text-align: center;
+    font-size: 18px;
+    &__set {
+        line-height: 56px;
+        flex: 1;
+        border-bottom: 2px solid $mainColor;
+        color: $mainColor;
+    }
+}

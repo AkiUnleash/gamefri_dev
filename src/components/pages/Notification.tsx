@@ -2,9 +2,12 @@ import React, { useEffect } from 'react';
 import Header from '../organisms/Header_in';
 import NotificationArea from '../organisms/NotificationArea'
 import { loginChack_yat, authenticatedChack, profileDocumentExistence } from "../../common/backend/model"
-
+import { selectUser } from '../../common/state/userSlice'
+import { useSelector } from 'react-redux'
 
 const Home: React.FC = () => {
+
+  const user = useSelector(selectUser)
 
   useEffect(() => {
     // ログイン済みの確認
@@ -18,7 +21,7 @@ const Home: React.FC = () => {
   return (
     <>
       <Header />
-      <NotificationArea />
+      { user.uid && <NotificationArea />}
     </>
   );
 };
