@@ -29,7 +29,7 @@ jobs:
                   command: yarn build
             - run:
                   name: deploy to Firebase Hosting
-                  command: ./node_modules/.bin/firebase deploy --token=$FIREBASE_TOKEN
+                  command: ./node_modules/.bin/firebase deploy --only hosting --token=$FIREBASE_TOKEN
 
 workflows:
     version: 2
