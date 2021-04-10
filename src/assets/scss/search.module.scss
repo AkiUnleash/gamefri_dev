@@ -8,7 +8,7 @@
         width: 80%;
     }
     @include mq(sm) {
-        margin: 104px 5%;
+        margin: 80px 5%;
         width: 90%;
     }
 }
@@ -43,14 +43,42 @@
 }
 
 .search-bar {
-    margin: 56px 40px 40px;
-    display: flex;
+    @include mq(lg) {
+        margin: 56px 40px 40px;
+        display: flex;
+    }
+    @include mq(md) {
+        margin: 32px 16px 32px;
+        display: flex;
+    }
+    @include mq(sm) {
+        margin: 16px 8px 16px;
+        display: flex;
+    }
     &__text {
-        width: 75%;
+        @include mq(lg) {
+            width: 75%;
+        }
+        @include mq(md) {
+            width: 80%;
+        }
+        @include mq(sm) {
+            width: 70%;
+        }
     }
     &__button {
-        width: 19%;
-        margin: auto 3%;
+        @include mq(lg) {
+            width: 19%;
+            margin: auto 3%;
+        }
+        @include mq(md) {
+            width: 22%;
+            margin: auto 3%;
+        }
+        @include mq(sm) {
+            width: 22%;
+            margin: auto 1%;
+        }
     }
 }
 
@@ -58,20 +86,30 @@
     box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.3);
     border-radius: 5px;
     padding: 8px 32px 32px 32px;
-    margin: 24px;
+    margin: 24px auto 8px;
     position: relative;
     &__first-line {
         &--infomation {
             flex: 3;
         }
         &--follow {
-            position: absolute;
-            right: 32px;
-            top: 32px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex: 1;
+            @include mq(lg) {
+                position: absolute;
+                right: 32px;
+                top: 32px;
+                display: flex;
+            }
+            @include mq(md) {
+                display: flex;
+                margin-top: 32px;
+                justify-content: center;
+            }
+            @include mq(sm) {
+                display: flex;
+                justify-content: center;
+                margin-top: 32px;
+                justify-content: center;
+            }
         }
     }
 }
