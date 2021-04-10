@@ -86,6 +86,17 @@ const Profileform = (): JSX.Element => {
     // POST停止
     e.preventDefault();
 
+    // バリデーション
+    if (!/^[a-z\d]{1,100}$/i.test(profileid)) {
+      alert("プロフィールは半角英数字で入力してください。")
+      return
+    }
+
+    if (!profileid || !nickname || !introduction || !gender || !playgame || !timestart || !timeend) {
+      alert("全項目入力してください。")
+      return
+    }
+
     let avatarurl = ''
     if (avatar) {
       avatarurl = await DataInterface.imageAdd('avatar', avatar.name, avatar)

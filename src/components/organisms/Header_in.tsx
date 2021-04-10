@@ -30,7 +30,7 @@ const Header = (): JSX.Element => {
           <div className={styles["side-menu__logo"]}><img className={styles["side-menu__logo_img"]} src={user.photoUrl || img_avatar} alt="Login user avatar" /></div>
           <ul>
             <li className={styles["side-menu__item"]}><a className="side-menu__item-inner" href={"/user/" + user.profileID}>マイページ</a></li>
-            <li className={styles["side-menu__item"]}><a className="side-menu__item-inner" href="./">設定とプライバシー</a></li>
+            {/* <li className={styles["side-menu__item"]}><a className="side-menu__item-inner" href="./">設定とプライバシー</a></li> */}
             <li className={styles["side-menu__item"]}><a href="/login" className="side-menu__item-inner" onClick={async () => await logout()}>ログアウト</a></li>
           </ul>
         </nav>

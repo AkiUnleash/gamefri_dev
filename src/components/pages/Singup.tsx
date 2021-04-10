@@ -8,7 +8,7 @@ import { loginChack_done } from '../../common/backend/model'
 const Singup: React.FC = () => {
   useEffect(() => {
     // 既にログイン済みの場合はHomeへ移動
-    loginChack_done()
+    // loginChack_done()
   })
 
   return (

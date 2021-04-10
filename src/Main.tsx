@@ -5,7 +5,7 @@ import { browserHistory } from "./history";
 // Components
 import Top from './components/pages/Top';
 import Login from './components/pages/Login';
-import Singup from './components/pages/SearchAccount';
+import Singup from './components/pages/Singup';
 import Signupfinish from './components/pages/Signupfinish';
 import Profile from './components/pages/Profile';
 import DiaryWrite from './components/pages/Diarywrite';
