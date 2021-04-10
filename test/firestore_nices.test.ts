@@ -60,64 +60,64 @@ describe('/user/{uid}/posts/{uid}/nices/{random}', () => {
       })
     })
 
-    describe('異常系', () => {
+    // describe('異常系', () => {
 
-      it('ログインせずに正常データの登録', async () => {
-        const db = clientDB()
-        await firebase.assertFails(db
-          .collection('user')
-          .doc(randomID().slice(0, 28))
-          .collection('posts')
-          .doc(randomID())
-          .collection('nices')
-          .doc(randomID())
-          .set(testdata_nices))
-      })
+    //   it('ログインせずに正常データの登録', async () => {
+    //     const db = clientDB()
+    //     await firebase.assertFails(db
+    //       .collection('user')
+    //       .doc(randomID().slice(0, 28))
+    //       .collection('posts')
+    //       .doc(randomID())
+    //       .collection('nices')
+    //       .doc(randomID())
+    //       .set(testdata_nices))
+    //   })
 
 
-      const userID = randomID().slice(0, 28)
-      const db = clientDB({ uid: userID })
+    //   const userID = randomID().slice(0, 28)
+    //   const db = clientDB({ uid: userID })
 
-      it('必須項目が抜けている（ユーザーID)', async () => {
-        const { userID, ...testdata } = testdata_nices
-        await firebase.assertFails(db
-          .collection('user')
-          .doc(userID)
-          .collection('posts')
-          .doc(randomID())
-          .collection('nices')
-          .doc(randomID())
-          .set(testdata)
-        )
-      })
+    //   it('必須項目が抜けている（ユーザーID)', async () => {
+    //     const { userID, ...testdata } = testdata_nices
+    //     await firebase.assertFails(db
+    //       .collection('user')
+    //       .doc(userID)
+    //       .collection('posts')
+    //       .doc(randomID())
+    //       .collection('nices')
+    //       .doc(randomID())
+    //       .set(testdata)
+    //     )
+    //   })
 
-      it('必須項目が抜けている（登録日時)', async () => {
-        const { create_at, ...testdata } = testdata_nices
-        await firebase.assertFails(db
-          .collection('user')
-          .doc(userID)
-          .collection('posts')
-          .doc(randomID())
-          .collection('nices')
-          .doc(randomID())
-          .set(testdata)
-        )
-      })
+    //   it('必須項目が抜けている（登録日時)', async () => {
+    //     const { create_at, ...testdata } = testdata_nices
+    //     await firebase.assertFails(db
+    //       .collection('user')
+    //       .doc(userID)
+    //       .collection('posts')
+    //       .doc(randomID())
+    //       .collection('nices')
+    //       .doc(randomID())
+    //       .set(testdata)
+    //     )
+    //   })
 
-      it('登録日に文字列を挿入', async () => {
-        const { ...testdata } = testdata_nices
-        testdata.create_at = "2021/04/01"
-        await firebase.assertFails(db
-          .collection('user')
-          .doc(userID)
-          .collection('posts')
-          .doc(randomID())
-          .collection('nices')
-          .doc(randomID())
-          .set(testdata)
-        )
-      })
+    //   it('登録日に文字列を挿入', async () => {
+    //     const { ...testdata } = testdata_nices
+    //     testdata.create_at = "2021/04/01"
+    //     await firebase.assertFails(db
+    //       .collection('user')
+    //       .doc(userID)
+    //       .collection('posts')
+    //       .doc(randomID())
+    //       .collection('nices')
+    //       .doc(randomID())
+    //       .set(testdata)
+    //     )
+    //   })
 
-    })
+    // })
   })
 })
