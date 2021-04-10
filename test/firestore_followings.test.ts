@@ -18,22 +18,16 @@ afterAll(async () => {
 })
 
 
-describe('/user/{uid}/notification/{id}', () => {
+describe('/user/{uid}/followings/{uid}', () => {
 
-  type notifications_type = {
-    avatarurl: any,
+  type followings_type = {
     create_at: any,
-    message: any,
-    nickname: any
-    profileid: any,
+    userID: any,
   }
 
-  const testdata_notifications: notifications_type = {
-    avatarurl: "http://example.com/avatarurl",
+  const testdata_followings: followings_type = {
     create_at: firebase.firestore.FieldValue.serverTimestamp(),
-    message: "message/message",
-    nickname: "nickname",
-    profileid: "profileid"
+    userID: randomID().slice(0, 28)
   }
 
   describe('Create', () => {
@@ -46,9 +40,9 @@ describe('/user/{uid}/notification/{id}', () => {
         await firebase.assertSucceeds(db
           .collection('user')
           .doc(userID)
-          .collection('notifications')
-          .doc(randomID())
-          .set(testdata_notifications)
+          .collection('followings')
+          .doc(testdata_followings.userID)
+          .set(testdata_followings)
         )
       })
     })
@@ -61,63 +55,32 @@ describe('/user/{uid}/notification/{id}', () => {
         await firebase.assertFails(db
           .collection('user')
           .doc(userID)
-          .collection('notifications')
-          .doc(randomID())
-          .set(testdata_notifications)
-        )
+          .collection('followings')
+          .doc(testdata_followings.userID)
+          .set(testdata_followings))
       })
 
       const userID = randomID().slice(0, 28)
       const db = clientDB({ uid: userID })
 
       it('必須項目が抜けている（登録日時)', async () => {
-        const { create_at, ...testdata } = testdata_notifications
+        const { create_at, ...testdata } = testdata_followings
         await firebase.assertFails(db
           .collection('user')
           .doc(userID)
-          .collection('notifications')
-          .doc(randomID())
-          .set(testdata))
-      })
-
-      it('必須項目が抜けている（メッセージ)', async () => {
-        const { message, ...testdata } = testdata_notifications
-        await firebase.assertFails(db
-          .collection('user')
-          .doc(userID)
-          .collection('notifications')
-          .doc(randomID())
-          .set(testdata))
-      })
-
-      it('必須項目が抜けている（ニックネーム)', async () => {
-        const { nickname, ...testdata } = testdata_notifications
-        await firebase.assertFails(db
-          .collection('user')
-          .doc(userID)
-          .collection('notifications')
-          .doc(randomID())
-          .set(testdata))
-      })
-
-      it('必須項目が抜けている（ユーザーID)', async () => {
-        const { profileid, ...testdata } = testdata_notifications
-        await firebase.assertFails(db
-          .collection('user')
-          .doc(userID)
-          .collection('notifications')
-          .doc(randomID())
+          .collection('followings')
+          .doc(testdata_followings.userID)
           .set(testdata))
       })
 
       it('登録日に文字列を挿入', async () => {
-        const { ...testdata } = testdata_notifications
+        const { ...testdata } = testdata_followings
         testdata.create_at = "2021/04/01"
         await firebase.assertFails(db
           .collection('user')
           .doc(userID)
-          .collection('notifications')
-          .doc(randomID())
+          .collection('followings')
+          .doc(testdata_followings.userID)
           .set(testdata))
       })
     })

@@ -82,9 +82,11 @@ const Diarydisplay: React.FC = () => {
       />
 
       <div className={styles["diary-main"]}>
-        <div className={styles["diary-main__img-div"]}>
-          <img className={styles["diary-main__img"]} src={post.attachImage} alt="attach photos" />
-        </div>
+        {post.attachImage && (
+          <div className={styles["diary-main__img-div"]}>
+            <img className={styles["diary-main__img"]} src={post.attachImage} alt="attach photos" />
+          </div>
+        )}
         <p className={styles["diary-main__sentence"]}>
           {post.diaryBody}
         </p>

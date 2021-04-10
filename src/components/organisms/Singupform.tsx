@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
+import { browserHistory } from "../../history"
 import styles from '../../assets/scss/signup.module.scss';
 import mui from '../../assets/css/mui.module.css'
 import Textfield from '../atoms/Textfield'
 import { auth, provider } from '../../common/firebase/firebase'
 import logo from '../../assets/images/logo_sm.svg'
+import { logout } from '../../common/backend/model'
+import { ALPN_ENABLED } from 'node:constants';
 
 const Singupform = (): JSX.Element => {
 
@@ -14,19 +17,25 @@ const Singupform = (): JSX.Element => {
   const signUpEmail = async (event: React.FormEvent) => {
     // form処理の矯正中断
     event.preventDefault()
+    // バリデーション
+    if (!/^(?=.*?[a-z])(?=.*?\d)[a-z\d]{7,100}$/i.test(password)) {
+      alert("パスワードは英数字７文字以上で入力してください。")
+      return
+    }
     // サインアップ
     const authUser = await auth.createUserWithEmailAndPassword(email, password)
     // アドレス確認のメール送信
     const createuser = authUser.user
     createuser && await createuser.sendEmailVerification();
+    await logout()
     // 移動
-    await document.location.replace(window.location.origin + '/signupfinished');
+    browserHistory.push("/signupfinished")
   }
 
   const signInGoogle = async (event: React.FormEvent) => {
     event.preventDefault()
     await auth.signInWithPopup(provider).catch(err => alert(err.message));
-    document.location.href = './home'
+    browserHistory.push("/home")
   };
 
   return (
