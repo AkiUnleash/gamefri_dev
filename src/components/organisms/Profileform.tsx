@@ -29,8 +29,8 @@ const Profileform = (): JSX.Element => {
   const [timeend, setTimeend] = useState("")
   const [cover, setCover] = useState<File | null>(null)
   const [avatar, setAvatar] = useState<File | null>(null)
-  const [firstcover, setFirstCover] = useState<string>('')
-  const [firstavatar, setFirstAvatar] = useState<string>('')
+  const [firstcover, setFirstCover] = useState("")
+  const [firstavatar, setFirstAvatar] = useState("")
   // const [year, setYear] = useState<string | "-">("-")
   // const [month, setMonth] = useState<string | "-">("-")
   // const [day, setDay] = useState<string | "-">("-")
@@ -90,14 +90,14 @@ const Profileform = (): JSX.Element => {
     if (avatar) {
       avatarurl = await DataInterface.imageAdd('avatar', avatar.name, avatar)
     } else {
-      avatarurl = firstavatar
+      firstavatar === undefined ? avatarurl = "" : avatarurl = firstavatar
     }
 
     let coverurl = ''
     if (cover) {
       coverurl = await DataInterface.imageAdd('cover', cover.name, cover)
     } else {
-      coverurl = firstcover
+      firstcover === undefined ? coverurl = "" : coverurl = firstcover
     }
 
     DataInterface.updateProfile(nickname, avatarurl)
@@ -108,8 +108,6 @@ const Profileform = (): JSX.Element => {
         photoUrl: avatarurl,
       })
     );
-
-    console.log(timestart, timeend);
 
     DataInterface.dataAdd(
       {
@@ -132,11 +130,11 @@ const Profileform = (): JSX.Element => {
     )
 
     const notification: notification = {
-      avatarurl: user.photoUrl,
-      nickname: user.displayName,
-      profileid: user.profileID,
+      avatarurl: avatarurl,
+      nickname: nickname,
+      profileid: profileid,
       message: "プロフィールを変更しました。",
-      link: `user/${user.profileID}`
+      link: `user/${profileid}`
     }
     DataInterface.dataAdd(notification,
       {
@@ -145,11 +143,13 @@ const Profileform = (): JSX.Element => {
         colection2: "notifications",
       },
       true)
+
+    console.log(user.uid);
     browserHistory.push("/home")
   }
 
   useEffect(() => {
-    db.collection("user")
+    const unsub = db.collection("user")
       .doc(user.uid)
       .onSnapshot((snapshot) => {
         setNickname(snapshot.data()?.nickname)
@@ -162,6 +162,7 @@ const Profileform = (): JSX.Element => {
         setFirstAvatar(snapshot.data()?.avatarurl)
         setFirstCover(snapshot.data()?.coverurl)
       })
+    return () => unsub()
   }, [])
 
   return (
