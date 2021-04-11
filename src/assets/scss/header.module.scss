@@ -12,8 +12,8 @@
         box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
 
         &__img {
-            margin: 32px;
-            height: 56px;
+            margin: 24px;
+            height: 40px;
         }
         &__leftmenu {
             font-size: 16px;
@@ -119,18 +119,18 @@
             background: #ffffff;
             color: #000;
             max-width: 100%;
-            width: 456px;
+            width: 304px;
             height: 100vh;
             overflow-y: auto; //スクロール
             -webkit-overflow-scrolling: touch; //スクロール（SP）
             position: fixed;
             top: 0;
-            right: -456px;
+            right: -304px;
         }
 
         // メニュー内のロゴ
         &__logo {
-            width: 456px;
+            width: 304px;
             padding: 114px 0px 80px;
             text-align: center;
         }
@@ -141,7 +141,7 @@
         &__item {
             text-align: center;
             padding: 0px 0px 48px;
-            font-size: 28px;
+            font-size: 18px;
         }
 
         // z-indexの指定（1がメインエリア）

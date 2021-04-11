@@ -1,10 +1,51 @@
 @import 'variables';
 
+@keyframes fadeIn_under {
+    0% {
+        opacity: 0;
+        transition: 1s;
+        transform: translateY(30px);
+    }
+    60% {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(-10%);
+    }
+    100% {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn_right {
+    0% {
+        opacity: 0;
+        transition: 1s;
+        transform: translateX(50px);
+    }
+    60% {
+        opacity: 1;
+        visibility: visible;
+        transform: translateX(-10px);
+    }
+    100% {
+        opacity: 1;
+        visibility: visible;
+        transform: translateX(0);
+    }
+}
+
+.none {
+    opacity: 0;
+}
+
 .top-introduction {
     display: block;
     text-align: center;
     margin: auto;
 
+    margin: 80px auto 180px;
     @include mq(sm) {
         margin: 100px auto;
     }
@@ -87,6 +128,8 @@
         padding: 0px 0px 36px 0px;
         color: $baseColor;
         font-weight: bold;
+        animation-name: fadeIn_under;
+        animation-duration: 1s;
         @include mq(lg) {
             font-size: 30px;
         }
@@ -101,6 +144,8 @@
         color: $baseColor;
         padding: 12px;
         font-weight: bold;
+        animation-name: fadeIn_under;
+        animation-duration: 1s;
         @include mq(lg) {
             font-size: 28px;
         }
@@ -150,6 +195,8 @@
     }
     &__figure-img {
         margin: 48px;
+        animation-name: fadeIn_under;
+        animation-duration: 1s;
         @include mq(md) {
             margin: auto;
             width: 436px;
@@ -171,6 +218,8 @@
 
     &__title {
         color: $extraColor;
+        animation-name: fadeIn_right;
+        animation-duration: 1s;
         @include mq(lg) {
             font-size: 28px;
             padding: 112px 0px 20px 48px;
@@ -187,6 +236,8 @@
 
     &__discription {
         font-size: 18px;
+        animation-name: fadeIn_right;
+        animation-duration: 1s;
         @include mq(lg) {
             padding: 24px 88px;
         }

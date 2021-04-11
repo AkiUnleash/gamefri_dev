@@ -1,0 +1,66 @@
+@import 'variables';
+
+.container {
+    margin: 104px auto 40px;
+    width: 664px;
+    @include mq(md) {
+        margin: 104px 10%;
+        width: 80%;
+    }
+    @include mq(sm) {
+        margin: 104px 5%;
+        width: 90%;
+    }
+}
+
+.diary-infomation {
+    &__game {
+        font-size: 16px;
+    }
+    &__title {
+        font-size: 22px;
+    }
+}
+
+.diary-main {
+    &__img-div {
+        text-align: center;
+        margin-bottom: 48px;
+    }
+    &__img {
+        max-width: 600px;
+        max-height: 400px;
+        @include mq(md) {
+            width: 100%;
+        }
+        @include mq(sm) {
+            width: 100%;
+        }
+    }
+    &__sentence {
+        white-space: pre-wrap;
+        font-size: 16px;
+        margin-bottom: 80px;
+    }
+}
+
+.comments-area {
+    &__title {
+        font-size: 18px;
+        &::before {
+            content: '';
+            display: inline-block;
+            margin: 8px;
+            width: 24px;
+            height: 24px;
+            background-image: url(../images/diaryview/comments.png);
+            background-size: contain;
+            vertical-align: middle;
+        }
+    }
+    &__sentence {
+        margin: 0px auto 32px;
+        white-space: pre-wrap;
+        font-size: 16px;
+    }
+}

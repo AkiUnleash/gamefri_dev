@@ -1,0 +1,115 @@
+@import 'variables';
+
+.container {
+    margin: 80px auto 40px;
+    width: 664px;
+    @include mq(md) {
+        margin: 80px 10%;
+        width: 80%;
+    }
+    @include mq(sm) {
+        margin: 80px 5%;
+        width: 90%;
+    }
+}
+
+.search-select {
+    width: 100%;
+    display: flex;
+    text-align: center;
+    font-size: 18px;
+    &__set {
+        line-height: 56px;
+        flex: 1;
+        border-bottom: 2px solid $mainColor;
+        color: $mainColor;
+        &:hover {
+            background-color: $mainColor;
+            color: $baseColor;
+            transition: 0.2s ease-in-out;
+        }
+    }
+    &__none {
+        line-height: 56px;
+        flex: 1;
+        border-bottom: 2px solid $glayColor;
+        color: $glayColor;
+        &:hover {
+            background-color: $mainColor;
+            color: $baseColor;
+            transition: 0.2s ease-in-out;
+        }
+    }
+}
+
+.search-bar {
+    @include mq(lg) {
+        margin: 56px 40px 40px;
+        display: flex;
+    }
+    @include mq(md) {
+        margin: 32px 16px 32px;
+        display: flex;
+    }
+    @include mq(sm) {
+        margin: 16px 8px 16px;
+        display: flex;
+    }
+    &__text {
+        @include mq(lg) {
+            width: 75%;
+        }
+        @include mq(md) {
+            width: 80%;
+        }
+        @include mq(sm) {
+            width: 70%;
+        }
+    }
+    &__button {
+        @include mq(lg) {
+            width: 19%;
+            margin: auto 3%;
+        }
+        @include mq(md) {
+            width: 22%;
+            margin: auto 3%;
+        }
+        @include mq(sm) {
+            width: 22%;
+            margin: auto 1%;
+        }
+    }
+}
+
+.user-card {
+    box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
+    padding: 8px 32px 32px 32px;
+    margin: 24px auto 8px;
+    position: relative;
+    &__first-line {
+        &--infomation {
+            flex: 3;
+        }
+        &--follow {
+            @include mq(lg) {
+                position: absolute;
+                right: 32px;
+                top: 32px;
+                display: flex;
+            }
+            @include mq(md) {
+                display: flex;
+                margin-top: 32px;
+                justify-content: center;
+            }
+            @include mq(sm) {
+                display: flex;
+                justify-content: center;
+                margin-top: 32px;
+                justify-content: center;
+            }
+        }
+    }
+}

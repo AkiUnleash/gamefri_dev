@@ -1,20 +1,169 @@
 import { db, auth, storage, serverTime } from '../firebase/firebase'
-import { profile, diarywrite } from '../utils/common-types'
+import { profile, diarywrite, diarycomments, follow, nice, notification } from '../utils/common-types'
+
+type place = {
+  colection1: string,
+  documents1: string,
+  colection2?: string,
+  documents2?: string,
+  colection3?: string,
+  documents3?: string,
+}
 
 // Firestoreにデータを保存
-export const dataAdd = <T extends profile | diarywrite, U extends string, V extends boolean>
-  (data: T, colection: U, documents: U, timestanp?: V, subColection?: U) => {
+export const dataAdd = <T extends profile | diarywrite | diarycomments | follow | nice | notification, U extends place, V extends boolean>
+  (data: T, place: U, timestanp?: V,
+) => {
 
-  if (timestanp) {
-    data['create_at'] = serverTime
+  if (timestanp) { data['create_at'] = serverTime }
+
+  if (
+    place.colection1 && place.documents1 &&
+    place.colection2 && place.documents2 &&
+    place.colection3 && place.documents3
+  ) {
+
+    db.collection(place.colection1)
+      .doc(place.documents1)
+      .collection(place.colection2)
+      .doc(place.documents2)
+      .collection(place.colection3)
+      .doc(place.documents3).set(data)
+    return
   }
 
-  if (subColection) {
-    const reference = db.collection(colection).doc(documents).collection(subColection)
-    reference.add(data)
-  } else {
-    const reference = db.collection(colection).doc(documents)
-    reference.set(data)
+  if (
+    place.colection1 && place.documents1 &&
+    place.colection2 && place.documents2 &&
+    place.colection3
+  ) {
+    db.collection(place.colection1)
+      .doc(place.documents1)
+      .collection(place.colection2)
+      .doc(place.documents2)
+      .collection(place.colection3).add(data)
+    return
+  }
+
+  if (
+    place.colection1 && place.documents1 &&
+    place.colection2 && place.documents2
+  ) {
+    db.collection(place.colection1)
+      .doc(place.documents1)
+      .collection(place.colection2)
+      .doc(place.documents2).set(data)
+    return
+  }
+
+  if (
+    place.colection1 && place.documents1 &&
+    place.colection2
+  ) {
+    db.collection(place.colection1)
+      .doc(place.documents1)
+      .collection(place.colection2).add(data)
+    return
+  }
+
+  if (place.colection1 && place.documents1) {
+    db.collection(place.colection1)
+      .doc(place.documents1).set(data)
+    return
+  }
+}
+
+// Firestoreのデータ更新
+export const dataUpdate = (data: {}, place: place) => {
+  if (
+    place.colection1 && place.documents1 &&
+    place.colection2 && place.documents2 &&
+    place.colection3 && place.documents3
+  ) {
+    // 更新処理
+    const reference = db
+      .collection(place.colection1)
+      .doc(place.documents1)
+      .collection(place.colection2)
+      .doc(place.documents2)
+      .collection(place.colection3)
+      .doc(place.documents3)
+    reference.update(data)
+    return
+  }
+
+  if (
+    place.colection1 && place.documents1 &&
+    place.colection2 && place.documents2
+  ) {
+    const reference = db
+      .collection(place.colection1)
+      .doc(place.documents1)
+      .collection(place.colection2)
+      .doc(place.documents2)
+    reference.update(data)
+    return
+  }
+
+  if (
+    place.colection1 && place.documents1
+  ) {
+    const reference = db
+      .collection(place.colection1)
+      .doc(place.documents1)
+    reference.update(data)
+    return
+  }
+}
+
+// Firestoreのデータを削除
+export const dataDelete = (place: place) => {
+  console.log(
+    {
+      colection1: place.colection1,
+      documents1: place.documents1,
+      colection2: place.colection2,
+      documents2: place.documents2,
+      colection3: place.colection3,
+      documents3: place.documents3
+    }
+  );
+
+
+  if (
+    place.colection1 && place.documents1 &&
+    place.colection2 && place.documents2 &&
+    place.colection3 && place.documents3
+  ) {
+    db.collection(place.colection1)
+      .doc(place.documents1)
+      .collection(place.colection2)
+      .doc(place.documents2)
+      .collection(place.colection3)
+      .doc(place.documents3)
+      .delete()
+    return
+  }
+
+  if (
+    place.colection1 && place.documents1 &&
+    place.colection2 && place.documents2
+  ) {
+    db.collection(place.colection1)
+      .doc(place.documents1)
+      .collection(place.colection2)
+      .doc(place.documents2)
+      .delete()
+    return
+  }
+
+  if (
+    place.colection1 && place.documents1
+  ) {
+    db.collection(place.colection1)
+      .doc(place.documents1)
+      .delete()
+    return
   }
 }
 
@@ -64,10 +213,20 @@ export const logout = (): void => {
 
 // ログイン済みの確認
 // 認証されていない場合は、ログインページへ転送
-export const loginChack = () => {
+export const loginChack_yat = () => {
   auth.onAuthStateChanged((user) => {
     if (!user) {
       document.location.href = '/login';
+    }
+  })
+}
+
+// ログイン済みの確認
+// 認証済みの場合は、ホーム画面へ
+export const loginChack_done = () => {
+  auth.onAuthStateChanged((user) => {
+    if (user) {
+      document.location.href = '/home';
     }
   })
 }

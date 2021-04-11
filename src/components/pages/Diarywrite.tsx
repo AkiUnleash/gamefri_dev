@@ -3,13 +3,13 @@ import React, { useEffect } from 'react';
 import Header from '../organisms/Header_in';
 import DiaryWriteForm from '../organisms/Diarywriteform';
 // common
-import { loginChack, authenticatedChack, profileDocumentExistence } from "../../common/backend/model"
+import { loginChack_yat, authenticatedChack, profileDocumentExistence } from "../../common/backend/model"
 
-const Login: React.FC = () => {
+const DiaryWrite: React.FC = () => {
 
   useEffect(() => {
     // ログイン済みの確認
-    loginChack();
+    loginChack_yat();
     // メール認証確認
     authenticatedChack();
     // プロフィール入力有無確認
@@ -24,4 +24,4 @@ const Login: React.FC = () => {
   );
 };
 
-export default Login;
+export default DiaryWrite;

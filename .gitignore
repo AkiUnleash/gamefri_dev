@@ -5,3 +5,6 @@
 /.DS_STORE
 /.firebase
 .env
+.env_local_emulator
+/*.log
+/report*.json

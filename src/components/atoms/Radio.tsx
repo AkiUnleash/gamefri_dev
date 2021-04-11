@@ -8,6 +8,7 @@ type props = {
     value: string;
   }[],
   setValue: React.Dispatch<React.SetStateAction<string>>
+  selectValue: string
 }
 
 const Radio = (props: props): JSX.Element => {
@@ -18,12 +19,14 @@ const Radio = (props: props): JSX.Element => {
         return (
           <label className={props.class} key={index}>
             <input id={"optionsRadios" + index}
+              checked={p.key === props.selectValue}
               type="radio"
               name="optionsRadios"
               value={p.key}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                 props.setValue(e.target.value)
-              }} />
+              }}
+            />
             {p.value}
           </label>
         )

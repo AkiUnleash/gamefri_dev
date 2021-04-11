@@ -5,7 +5,7 @@ type props = {
   title: string,
   gametitle: string,
   attach_photo?: string,
-  likecount: number,
+  nicecount: number,
   link: string,
   displayName: string,
   avatar_photo: string,
@@ -29,7 +29,7 @@ const Diarycard: React.FC<props> = (props: props) => {
                 <div className={styles["diary-imgcard__name"]}>{props.displayName}</div>
                 <div className={styles["diary-imgcard__date"]}>{props.create_at}</div>
               </div>
-              <div className={styles["diary-imgcard__nice"]}> <div>Nice! {props.likecount}</div> </div>
+              <div className={styles["diary-imgcard__nice"]}> <div>Nice! {props.nicecount}</div> </div>
             </div>
           </div>
         </a>
@@ -49,7 +49,7 @@ const Diarycard: React.FC<props> = (props: props) => {
                 <div className={styles["diary-card__date"]}>{props.create_at}</div>
               </div>
               <div className={styles["diary-card__nice"]}>
-                <div>Nice! {props.likecount}</div>
+                <div>Nice! {props.nicecount}</div>
               </div>
             </div>
           </div></a>
