@@ -20,7 +20,10 @@ const SearchAccountArea: React.FC = () => {
       displayName: "",
       avatarUrl: "",
       link: "",
-      create_at: ""
+      create_at: "",
+      profileid: "",
+      avatarurl: "",
+      nickname: "",
     },
   ])
 
@@ -35,7 +38,10 @@ const SearchAccountArea: React.FC = () => {
       displayName: "",
       avatarUrl: "",
       link: "",
-      create_at: ""
+      create_at: "",
+      profileid: "",
+      avatarurl: "",
+      nickname: "",
     },
   ])
 
@@ -51,10 +57,10 @@ const SearchAccountArea: React.FC = () => {
             title: doc.data().title,
             body: doc.data().body,
             gametitle: doc.data().gamename,
-            link: '/' + "avatarUrl" + '/status/' + doc.id,
+            link: '/' + doc.data().profileid + '/status/' + doc.id,
             nicecount: doc.data().nicecount,
-            displayName: "nickname",
-            avatarUrl: "avatarUrl",
+            displayName: doc.data().nickname,
+            avatarUrl: doc.data().avatarurl,
             attachUrl: doc.data().attachimage,
             create_at: `${doc.data().create_at.toDate().getFullYear()}/${("00" + (doc.data().create_at.toDate().getMonth() + 1)).slice(-2)}/${("00" + doc.data().create_at.toDate().getDate()).slice(-2)}`,
           }
