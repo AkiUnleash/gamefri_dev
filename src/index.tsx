@@ -8,10 +8,9 @@ import { store } from './common/state/store'
 
 
 render(
-  // <React.StrictMode>
-  <Provider store={store}>
-    <Main />
-  </Provider >
-  // </React.StrictMode>,
-  ,
+  <React.StrictMode>
+    <Provider store={store}>
+      <Main />
+    </Provider >
+  </React.StrictMode>,
   document.getElementById('root'));
