@@ -13,6 +13,8 @@ import { loginChack_yat, authenticatedChack, profileDocumentExistence } from "..
 
 
 const Home: React.FC = () => {
+
+  // Reduxにて状態管理のデータを取得
   const user = useSelector(selectUser)
 
   useEffect(() => {

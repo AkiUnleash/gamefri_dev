@@ -9,6 +9,8 @@ import { loginChack_yat, authenticatedChack } from "../../common/backend/model"
 import { selectUser } from "../../common/state/userSlice"
 
 const Profileedit: React.FC = () => {
+
+  // Reduxにて状態管理のデータを取得
   const user = useSelector(selectUser)
 
   useEffect(() => {
