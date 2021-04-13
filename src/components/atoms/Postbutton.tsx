@@ -1,6 +1,7 @@
 import * as React from 'react';
 import style from '../../assets/scss/home.module.scss'
 
+// このコンポーネントで扱う型宣言
 type props = {
   link: string,
 }

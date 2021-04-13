@@ -1,6 +1,7 @@
 import * as React from 'react';
 import mui from '../../assets/css/mui.module.css'
 
+// このコンポーネントで扱う型宣言
 type props = {
   placeholder: string,
   class: string,
@@ -10,7 +11,7 @@ type props = {
   label: string
 }
 
-const Textarea = (props: props): JSX.Element => {
+const Textarea: React.FC<props> = (props: props) => {
   return (
     <div className={mui["mui-textfield"]}>
       <textarea placeholder={props.placeholder}
