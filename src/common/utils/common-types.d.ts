@@ -24,6 +24,9 @@ interface diarywrite {
   gamename: string,
   attachimage: string,
   nicecount: number,
+  profileid: string,
+  avatarurl: string,
+  nickname: string,
   create_at?: firebase.firestore.FieldValue
   update_at?: firebase.firestore.FieldValue
 }

@@ -59,6 +59,9 @@ const DiaryWriteForm: React.FC = () => {
         gamename: gamename,
         attachimage: imageurl,
         nicecount: 0,
+        profileid: user.profileID,
+        avatarurl: user.photoUrl,
+        nickname: user.displayName,
       },
       {
         colection1: 'user',
