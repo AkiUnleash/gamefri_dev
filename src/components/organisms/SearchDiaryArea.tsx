@@ -7,8 +7,8 @@ import styles from '../../assets/scss/search.module.scss'
 
 const SearchAccountArea: React.FC = () => {
 
+  // hookでの状態管理
   const [keyword, setKeyword] = useState('')
-
   const [post, setPost] = useState([
     {
       id: "",
@@ -26,7 +26,6 @@ const SearchAccountArea: React.FC = () => {
       nickname: "",
     },
   ])
-
   const [postall, setPostall] = useState([
     {
       id: "",

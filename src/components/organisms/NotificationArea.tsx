@@ -7,8 +7,7 @@ import { useSelector } from 'react-redux'
 
 const NotificationArea: React.FC = () => {
 
-  const [keyword, setKeyword] = useState('')
-  const user = useSelector(selectUser)
+  // hookによる状態管理
   const [notification, setNotification] = useState([{
     nickname: "",
     profileid: "",
@@ -16,6 +15,9 @@ const NotificationArea: React.FC = () => {
     message: "",
     link: ""
   }])
+
+  // Reduxにて状態管理のデータを取得
+  const user = useSelector(selectUser)
 
   useEffect(() => {
     db.collection('user')
@@ -52,7 +54,6 @@ const NotificationArea: React.FC = () => {
             id={""} />
         )}
       </div>
-
     </>
   );
 };

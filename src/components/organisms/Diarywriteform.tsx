@@ -1,27 +1,26 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux'
 import { browserHistory } from "../../history"
-// Components
 import Textfield from '../atoms/Textfield'
 import Textarea from '../atoms/Textarea'
-// assets
 import styles from '../../assets/scss/diarywriteform.module.scss';
 import mui from '../../assets/css/mui.module.css'
 import img_attach from '../../assets/images/diarywrite/image_attach.svg'
-// until
 import * as DataInterface from '../../common/backend/model'
-// state
 import { selectUser } from "../../common/state/userSlice"
 
 const DiaryWriteForm: React.FC = () => {
 
+  // hookでの状態管理
   const [title, setTitle] = useState("")
   const [body, setBody] = useState("")
   const [gamename, setGamename] = useState("")
   const [image, setImage] = useState<File | null>(null)
+
+  // Reduxにて状態管理のデータを取得
   const user = useSelector(selectUser)
 
-  // 画像選択
+  // 画像選択クリック時の処理
   const onChangeImage = (e: React.ChangeEvent<HTMLInputElement>, genre: string) => {
 
     // 画像が選択されているかの確認
@@ -32,6 +31,7 @@ const DiaryWriteForm: React.FC = () => {
     // 選択された画像の保存
     setImage(e.target.files[0])
 
+    // 選択した画像の表示
     let imgTag = document.getElementById("img_attach") as HTMLImageElement;
     const reader = new FileReader();
     reader.readAsDataURL(file)
@@ -47,11 +47,13 @@ const DiaryWriteForm: React.FC = () => {
     // POST停止
     e.preventDefault();
 
+    // イメージをFireStrageに保存
     let imageurl = ''
     if (image) {
       imageurl = await DataInterface.imageAdd('posts_attach', image.name, image)
     }
 
+    // データをFirestoreへ送信
     await DataInterface.dataAdd(
       {
         title: title,
@@ -71,16 +73,16 @@ const DiaryWriteForm: React.FC = () => {
       true
     )
 
+    // Homeへ画面遷移
     browserHistory.push("/home")
-
   }
+
   return (
     <div className={styles["diarywrite"]}>
       <form className={mui["mui-form"]}>
         <div className={styles["diarywrite__title"]}>
           <legend className={styles["diarywrite__legend"]}>日記を書く</legend>
         </div>
-
 
         <div className={styles["diarywrite-attach"]}>
           <label>
@@ -122,9 +124,9 @@ const DiaryWriteForm: React.FC = () => {
         <div className={styles["diarywrite__singup"]}>
           <button className={styles["diarywrite__register-button"]}
             type="submit"
-            onClick={(e) => onRegisterClick(e)}
-          > 投稿 </button>
+            onClick={(e) => onRegisterClick(e)} > 投稿 </button>
         </div>
+
       </form>
     </div>
   );

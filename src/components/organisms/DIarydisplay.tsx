@@ -9,8 +9,11 @@ import CommentsArea from '../Molecules/CommentsArea'
 import NiceButtonArea from '../Molecules/NiceButtonArea'
 
 const Diarydisplay: React.FC = () => {
+
+  // Reduxにて状態管理のデータを取得
   const user = useSelector(selectUser);
 
+  // URLのパラメーターを取得
   const { profileid, postid } = useParams<{ profileid: string, postid: string }>()
 
   const [post, setPost] = useState({
@@ -31,9 +34,6 @@ const Diarydisplay: React.FC = () => {
       .onSnapshot((snapshot) => {
         snapshot.docs.forEach((doc) => {
           const userid = doc.id
-          const photoUrl = doc.data().avatarurl
-          const nickname = doc.data().nickname
-
           db.collection("user")
             .doc(userid)
             .collection("posts")
@@ -43,8 +43,8 @@ const Diarydisplay: React.FC = () => {
                 postUserId: userid,
                 gameTitle: doc.data()?.gamename,
                 diaryTitle: doc.data()?.title,
-                photoUrl: photoUrl,
-                displayName: nickname,
+                photoUrl: doc.data()?.avatarurl,
+                displayName: doc.data()?.nickname,
                 createDate: `${doc.data()?.create_at.toDate().getFullYear()}/${("00" + (doc.data()?.create_at.toDate().getMonth() + 1)).slice(-2)}/${("00" + doc.data()?.create_at.toDate().getDate()).slice(-2)}`,
                 attachImage: doc.data()?.attachimage,
                 diaryBody: doc.data()?.body,

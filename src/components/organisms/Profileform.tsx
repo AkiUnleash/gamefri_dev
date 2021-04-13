@@ -17,9 +17,11 @@ import { notification } from '../../common/utils/common-types'
 
 const Profileform = (): JSX.Element => {
 
+  // Reduxにて状態管理のデータを取得
   const dispatch = useDispatch();
   const user = useSelector(selectUser)
 
+  // hookによる状態管理
   const [profileid, setProfileID] = useState("")
   const [nickname, setNickname] = useState("")
   const [introduction, setIntroduction] = useState("")
@@ -31,11 +33,11 @@ const Profileform = (): JSX.Element => {
   const [avatar, setAvatar] = useState<File | null>(null)
   const [firstcover, setFirstCover] = useState("")
   const [firstavatar, setFirstAvatar] = useState("")
+
+  // 生年月日はデータを取得するか検討中のため非表示
   // const [year, setYear] = useState<string | "-">("-")
   // const [month, setMonth] = useState<string | "-">("-")
   // const [day, setDay] = useState<string | "-">("-")
-
-  // 生年月日 選択値
   // const yearDataSource = [...Array(new Date().getFullYear() - 1900).keys()].map(i => (i + 1900).toString() + '年').reverse()
   // yearDataSource.unshift('-')
   // const monthDataSource = [...Array(12).keys()].map(i => (i + 1).toString() + '月')
@@ -46,16 +48,19 @@ const Profileform = (): JSX.Element => {
   // 画像選択
   const onChangeImage = (e: React.ChangeEvent<HTMLInputElement>, genre: string) => {
 
+    // 画像が選択されているかの確認
     if (e.target.files === null) { return; }
     const file = e.target.files[0];
     if (file === null) { return; }
 
+    // アバターorカバーを判断。
     if (genre === "avatar") {
       setAvatar(e.target.files[0])
     } else {
       setCover(e.target.files[0])
     }
 
+    // 選択した画像の表示
     let imgTag = document.getElementById("img_" + genre) as HTMLImageElement;
     const reader = new FileReader();
     reader.readAsDataURL(file)
@@ -63,9 +68,12 @@ const Profileform = (): JSX.Element => {
       const result: string = reader.result as string;
       imgTag.src = result;
     }
+
   }
 
+  // 画像削除ボタンをクリックしたときの処理
   const onChangeImageclear = (genre: string) => {
+    // アバターorカバーを判断。
     const imgTag = document.getElementById("img_" + genre) as HTMLImageElement;
     switch (genre) {
       case 'avatar':
@@ -81,6 +89,7 @@ const Profileform = (): JSX.Element => {
     }
   }
 
+  // 登録ボタンクリック時の処理
   const onRegisterClick = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
 
     // POST停止
@@ -91,12 +100,13 @@ const Profileform = (): JSX.Element => {
       alert("プロフィールは半角英数字で入力してください。")
       return
     }
-
     if (!profileid || !nickname || !introduction || !gender || !playgame || !timestart || !timeend) {
       alert("全項目入力してください。")
       return
     }
 
+    // アバター画像の選択有無の確認
+    // あればイメージをFirestrageに保存し、URLをFirestoreに保存。
     let avatarurl = ''
     if (avatar) {
       avatarurl = await DataInterface.imageAdd('avatar', avatar.name, avatar)
@@ -104,6 +114,8 @@ const Profileform = (): JSX.Element => {
       firstavatar === undefined ? avatarurl = "" : avatarurl = firstavatar
     }
 
+    // カバー画像の選択有無の確認
+    // あればイメージをFirestrageに保存し、URLをFirestoreに保存。
     let coverurl = ''
     if (cover) {
       coverurl = await DataInterface.imageAdd('cover', cover.name, cover)
@@ -111,8 +123,8 @@ const Profileform = (): JSX.Element => {
       firstcover === undefined ? coverurl = "" : coverurl = firstcover
     }
 
+    // Firebase authenticationに名称等の情報を送信
     DataInterface.updateProfile(nickname, avatarurl)
-
     dispatch(
       updateUserProfile({
         displayName: nickname,
@@ -120,6 +132,7 @@ const Profileform = (): JSX.Element => {
       })
     );
 
+    // Firestoreにユーザー情報を保存
     DataInterface.dataAdd(
       {
         profileid: profileid,
@@ -140,6 +153,7 @@ const Profileform = (): JSX.Element => {
       true
     )
 
+    // Firestoreに通知書データを表示
     const notification: notification = {
       avatarurl: avatarurl,
       nickname: nickname,
@@ -155,8 +169,9 @@ const Profileform = (): JSX.Element => {
       },
       true)
 
-    console.log(user.uid);
+    // Homeへ画面遷移
     browserHistory.push("/home")
+
   }
 
   useEffect(() => {
@@ -247,6 +262,7 @@ const Profileform = (): JSX.Element => {
             setValue={setGender}
             selectValue={gender} />
 
+          {/* 生年月日は登録するか検討中のため非表示 */}
           {/* <div className={styles["profile-text__birthday"]}>
             <div className={styles["profile-text__birthday--year"]}>
               <List
@@ -254,14 +270,12 @@ const Profileform = (): JSX.Element => {
                 setValue={setYear}
                 label={"生年月日"} />
             </div>
-
             <div className={styles["profile-text__birthday--month"]}>
               <List
                 dataSource={monthDataSource}
                 setValue={setMonth}
               />
             </div>
-
             <div className={styles["profile-text__birthday--day"]}>
               <List
                 dataSource={dayDataSource}
@@ -279,7 +293,6 @@ const Profileform = (): JSX.Element => {
               setValue={setPlaygame}
               label="プレイしているゲーム" />
           </div>
-
 
           <div className={styles["profile-text__timezone"]}>
             <div className={styles["profile-text__timezone--start"]}>

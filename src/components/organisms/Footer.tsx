@@ -9,23 +9,23 @@ const Footer = (): JSX.Element => {
         <nav className={styles["footer-nav"]}>
           <p className={styles["footer-nav__title"]}>規約</p>
           <ul className={styles["footer-nav__ul"]}>
-            <li className={styles["footer-nav__li"]}> <a>利用規約</a></li>
-            <li className={styles["footer-nav__li"]}> <a>プライバシーポリシー</a></li>
+            <li className={styles["footer-nav__li"]}> <a href="./">利用規約</a></li>
+            <li className={styles["footer-nav__li"]}> <a href="./">プライバシーポリシー</a></li>
           </ul>
         </nav>
         <nav className={styles["footer-nav"]}>
           <p className={styles["footer-nav__title"]}>サポート</p>
           <ul className={styles["footer-nav__ul"]}>
-            <li className={styles["footer-nav__li"]}> <a>料金</a></li>
-            <li className={styles["footer-nav__li"]}> <a>よくある質問</a></li>
-            <li className={styles["footer-nav__li"]}> <a>お問い合わせ</a></li>
+            <li className={styles["footer-nav__li"]}> <a href="./">料金</a></li>
+            <li className={styles["footer-nav__li"]}> <a href="./">よくある質問</a></li>
+            <li className={styles["footer-nav__li"]}> <a href="./">お問い合わせ</a></li>
           </ul>
         </nav>
         <nav className={styles["footer-nav"]}>
           <p className={styles["footer-nav__title"]}>サービス</p>
           <ul className={styles["footer-nav__ul"]}>
-            <li className={styles["footer-nav__li"]}> <a>運営会社</a></li>
-            <li className={styles["footer-nav__li"]}> <a>公式ツイッター</a></li>
+            <li className={styles["footer-nav__li"]}> <a href="./">運営会社</a></li>
+            <li className={styles["footer-nav__li"]}> <a href="./">公式ツイッター</a></li>
           </ul>
         </nav>
       </div>
