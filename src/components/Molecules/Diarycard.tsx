@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from '../../assets/scss/home.module.scss';
 
+// このコンポーネントで扱う型宣言
 type props = {
   title: string,
   gametitle: string,
@@ -13,13 +14,14 @@ type props = {
 }
 
 const Diarycard: React.FC<props> = (props: props) => {
+  // 種類は投稿画像の有無で判断
   return (
     props.attach_photo ?
       <>
         <a className={styles["card"]} href={props.link}>
           <div className={styles["diary-imgcard"]}>
             <div className={styles["diary-imgcard__photo"]}>
-              <img className={styles["diary-imgcard__photo-img"]} src={props.attach_photo} />
+              <img className={styles["diary-imgcard__photo-img"]} src={props.attach_photo} alt="Posted" />
               <p className={styles["diary-imgcard__gametitle"]}>{props.gametitle}</p>
               <p className={styles["diary-imgcard__title"]}>{props.title}</p>
             </div>

@@ -16,6 +16,7 @@ const Diarydisplay: React.FC = () => {
   // URLのパラメーターを取得
   const { profileid, postid } = useParams<{ profileid: string, postid: string }>()
 
+  // hookでの状態管理
   const [post, setPost] = useState({
     postUserId: "",
     gameTitle: "",
