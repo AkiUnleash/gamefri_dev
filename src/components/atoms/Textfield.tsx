@@ -1,7 +1,8 @@
 import * as React from 'react';
 import mui from '../../assets/css/mui.module.css'
 
-type Textfieldprops = {
+// このコンポーネントで扱う型宣言
+type props = {
   type: string,
   placeholder: string,
   id: string,
@@ -10,7 +11,8 @@ type Textfieldprops = {
   label: string
 }
 
-const Textfield = (props: Textfieldprops): JSX.Element => {
+const Textfield: React.FC<props> = (props: props) => {
+
   return (
     <div className={mui["mui-textfield"]}>
       <input type={props.type} placeholder={props.placeholder}
@@ -18,8 +20,7 @@ const Textfield = (props: Textfieldprops): JSX.Element => {
         defaultValue={props.value}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
           props.setValue(e.target.value)
-        }}
-      />
+        }} />
       <label>{props.label}</label>
     </div>
   );

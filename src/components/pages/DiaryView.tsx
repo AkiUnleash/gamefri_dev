@@ -1,12 +1,12 @@
 import React from 'react';
 import { useSelector } from 'react-redux'
 import { selectUser } from "../../common/state/userSlice"
-// Component
 import Header from '../organisms/Header_in';
 import Diarydisplay from '../organisms/DIarydisplay'
-// common
 
 const Diaryview: React.FC = () => {
+
+  // Reduxにて状態管理のデータを取得
   const user = useSelector(selectUser)
 
   return (

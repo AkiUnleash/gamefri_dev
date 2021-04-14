@@ -1,28 +1,38 @@
 import React, { useState } from 'react';
-import styles from '../../assets/scss/login.module.scss';
+import styles from '../../assets/scss/organisms/login.module.scss';
 import mui from '../../assets/css/mui.module.css'
 import Textfield from '../atoms/Textfield'
 import { auth, provider } from '../../common/firebase/firebase'
 import logo from '../../assets/images/logo_sm.svg'
+import { browserHistory } from "../../history"
 
-const Loginform = (): JSX.Element => {
+const Loginform: React.FC = () => {
+
+  // hookによる状態管理
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
 
+  // E-mailでのサインイン処理
   const signInEmail = async (event: React.FormEvent) => {
     event.preventDefault()
+    // 認証処理
     await auth.signInWithEmailAndPassword(email, password)
-    document.location.href = './home'
+    // Homeへ画面遷移
+    browserHistory.push("/home")
   }
+
+  // Googleアカウント認証処理
   const signInGoogle = async (event: React.FormEvent) => {
     event.preventDefault()
+    // 認証処理
     await auth.signInWithPopup(provider).catch((err) => alert(err.message));
-    document.location.href = './home'
+    // Homeへ画面遷移
+    browserHistory.push("/home")
   };
 
   return (
     <div className={styles["login-form"]}>
-      <div className={styles["login-form__logo"]}><img className={styles["login-form__logoimg"]} src={logo} /></div>
+      <div className={styles["login-form__logo"]}><img className={styles["login-form__logoimg"]} src={logo} alt="Site log" /></div>
       <form className={mui["mui-form"]}>
         <div className={styles["login-form__title"]}>
           <legend className={styles["login-form__legend"]}>ゲムフレにログイン</legend>
@@ -49,8 +59,8 @@ const Loginform = (): JSX.Element => {
             onClick={signInEmail} > ログイン</button>
         </div>
         <div className={styles["login-form__supplement"]}>
-          <div className={styles["login-form__password-forgot"]}> <a>パスワードを忘れたら？</a></div>
-          <div className={styles["login-form__new-account"]}><a>新規アカウント登録はこちら</a></div>
+          <div className={styles["login-form__password-forgot"]}> <a href="./">パスワードを忘れたら？</a></div>
+          <div className={styles["login-form__new-account"]}><a href="./signup">新規アカウント登録はこちら</a></div>
         </div>
         <div className={styles["login-other"]}>
           <div className={styles["login-other__title"]}>その他のログイン方法</div>

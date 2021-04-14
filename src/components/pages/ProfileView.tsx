@@ -4,11 +4,11 @@ import { useSelector } from 'react-redux'
 // Component
 import Header from '../organisms/Header_in';
 import Profiledata from '../organisms/Profiledata';
-import Diarycard from '../Molecules/Diarycard'
+import Diarycard from '../molecules/Diarycard'
 // state
 import { selectUser } from "../../common/state/userSlice"
 // assets
-import styles from '../../assets/scss/profiledata.module.scss';
+import styles from '../../assets/scss/pages/profileview.module.scss';
 // common
 import { loginChack_yat, authenticatedChack, profileDocumentExistence } from "../../common/backend/model"
 import { db } from '../../common/firebase/firebase'
@@ -93,7 +93,7 @@ const ProfileView: React.FC = () => {
                   id: doc.id,
                   title: doc.data().title,
                   body: doc.data().body,
-                  gametitle: doc.data().gametitle,
+                  gametitle: doc.data().gamename,
                   link: '/' + profileid + '/status/' + doc.id,
                   nicecount: 0,
                   displayName: targetprofile.displayName,

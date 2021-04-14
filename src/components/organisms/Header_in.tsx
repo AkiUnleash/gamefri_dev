@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from '../../assets/scss/header_in.module.scss';
+import styles from '../../assets/scss/organisms/header_in.module.scss';
 import img_logo_sm from '../../assets/images/logo_sm.svg'
 import img_home from '../../assets/images/header_in/home.svg'
 import img_notifications from '../../assets/images/header_in/notifications.svg'
@@ -10,7 +10,7 @@ import { logout } from '../../common/backend/model'
 import { useSelector } from 'react-redux'
 import { selectUser } from "../../common/state/userSlice"
 
-const Header = (): JSX.Element => {
+const Header: React.FC = () => {
   const user = useSelector(selectUser)
   return (
     <header className={styles["header-in"]}>
@@ -30,6 +30,7 @@ const Header = (): JSX.Element => {
           <div className={styles["side-menu__logo"]}><img className={styles["side-menu__logo_img"]} src={user.photoUrl || img_avatar} alt="Login user avatar" /></div>
           <ul>
             <li className={styles["side-menu__item"]}><a className="side-menu__item-inner" href={"/user/" + user.profileID}>マイページ</a></li>
+            {/* 実装するまで以下は非表示 */}
             {/* <li className={styles["side-menu__item"]}><a className="side-menu__item-inner" href="./">設定とプライバシー</a></li> */}
             <li className={styles["side-menu__item"]}><a href="/login" className="side-menu__item-inner" onClick={async () => await logout()}>ログアウト</a></li>
           </ul>

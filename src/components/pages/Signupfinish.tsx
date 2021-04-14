@@ -1,9 +1,8 @@
-import React from 'react';
-// Component
+import React, { useEffect } from 'react';
 import Header from '../organisms/Header';
 import Footer from '../organisms/Footer';
-// assets
-import styles from '../../assets/scss/signup-finish.module.scss';
+import styles from '../../assets/scss/pages/signup-finish.module.scss';
+import { logout } from '../../common/backend/model'
 
 const Massege: React.FC = () => {
   return (
@@ -21,6 +20,12 @@ const Massege: React.FC = () => {
 }
 
 const Signupfinish: React.FC = () => {
+
+  useEffect(() => {
+    // 既にログイン済みの場合はHomeへ移動
+    logout()
+  })
+
   return (
     <>
       <Header />

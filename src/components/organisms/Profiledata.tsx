@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux'
 import { browserHistory } from "../../history"
-// assets
 import img_cover_sample from '../../assets/images/profile/cover-sample.png'
 import img_avatar_sample from '../../assets/images/profile/avatar.png'
-import styles from '../../assets/scss/profiledata.module.scss';
-// common
+import styles from '../../assets/scss/organisms/profiledata.module.scss';
 import { selectUser } from "../../common/state/userSlice"
 import { dataAdd, dataDelete } from "../../common/backend/model"
 import { follow, notification } from '../../common/utils/common-types'
 import { db } from '../../common/firebase/firebase';
 
+// hookによる状態管理
 type props = {
   id: string,
   avatarimage: string,
@@ -24,17 +23,22 @@ type props = {
   gametime: string
 }
 
-
 const Profiledata: React.FC<props> = (props: props) => {
+
+  // Reduxにて状態管理のデータを取得
   const user = useSelector(selectUser)
 
+  // hookによる状態管理
   const [action, setAction] = useState({
     style: "",
     value: "",
     function: () => { }
   })
 
+  // フォローボタンクリック時の処理
   const to_follow = () => {
+
+    // フォローした結果のデータを送信
     const follow: follow = { userID: props.id }
     dataAdd(follow,
       {
@@ -45,6 +49,7 @@ const Profiledata: React.FC<props> = (props: props) => {
       },
       true)
 
+    // 通知データの送信
     const notification: notification = {
       avatarurl: user.photoUrl,
       nickname: user.displayName,
@@ -60,6 +65,7 @@ const Profiledata: React.FC<props> = (props: props) => {
       },
       true)
 
+    // ボタン表示の変更
     setAction({
       style: "profiledata-follow__button--un-follow",
       value: "フォローを解除",
@@ -67,7 +73,10 @@ const Profiledata: React.FC<props> = (props: props) => {
     })
   }
 
+  // フォロワー解除ボタンのクリック時処理
   const un_follow = () => {
+
+    // フォローしていたデータを削除
     dataDelete(
       {
         colection1: "user",
@@ -76,6 +85,8 @@ const Profiledata: React.FC<props> = (props: props) => {
         documents2: props.id
       }
     )
+
+    // ボタン表示の変更
     setAction({
       style: "profiledata-follow__button--to-follow",
       value: "フォローする",
@@ -85,6 +96,7 @@ const Profiledata: React.FC<props> = (props: props) => {
 
   useEffect(() => {
     // 自分のプロフィールであれば、編集画面の表示
+    // 自部員以外のプロフィールであれば、フォロー及び解除ボタンの表示
     if (user.uid === props.id) {
       setAction({
         style: "profiledata-follow__button--profileedit",
@@ -118,7 +130,6 @@ const Profiledata: React.FC<props> = (props: props) => {
     }
   }, [])
 
-
   return (
     <>
       <div className={styles["profiledata-img"]}>
@@ -149,6 +160,7 @@ const Profiledata: React.FC<props> = (props: props) => {
             <div className={styles["profiledata-data__title"]}>性別</div>
             <div className={styles["profiledata-data__value"]}>{props.gender}</div>
           </div>
+          {/* 生年月日はデータとして残すかどうか検討中のため非表示 */}
           {/* <div className={styles["profiledata-data__side-by-side--right"]}>
             <div className={styles["profiledata-data__title"]}>生年月日</div>
             <div className={styles["profiledata-data__value"]}>{props.birthday}</div>

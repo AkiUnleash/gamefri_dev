@@ -3,16 +3,20 @@ import { useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { db } from '../../common/firebase/firebase'
 import { selectUser } from "../../common/state/userSlice"
-import styles from '../../assets/scss/diarydisplay.module.scss';
+import styles from '../../assets/scss/organisms/diarydisplay.module.scss';
 import UserInfomation from '../atoms/UserInfomation';
-import CommentsArea from '../Molecules/CommentsArea'
-import NiceButtonArea from '../Molecules/NiceButtonArea'
+import CommentsArea from '../molecules/CommentsArea'
+import NiceButtonArea from '../molecules/NiceButtonArea'
 
 const Diarydisplay: React.FC = () => {
+
+  // Reduxにて状態管理のデータを取得
   const user = useSelector(selectUser);
 
+  // URLのパラメーターを取得
   const { profileid, postid } = useParams<{ profileid: string, postid: string }>()
 
+  // hookでの状態管理
   const [post, setPost] = useState({
     postUserId: "",
     gameTitle: "",
@@ -31,9 +35,6 @@ const Diarydisplay: React.FC = () => {
       .onSnapshot((snapshot) => {
         snapshot.docs.forEach((doc) => {
           const userid = doc.id
-          const photoUrl = doc.data().avatarurl
-          const nickname = doc.data().nickname
-
           db.collection("user")
             .doc(userid)
             .collection("posts")
@@ -43,8 +44,8 @@ const Diarydisplay: React.FC = () => {
                 postUserId: userid,
                 gameTitle: doc.data()?.gamename,
                 diaryTitle: doc.data()?.title,
-                photoUrl: photoUrl,
-                displayName: nickname,
+                photoUrl: doc.data()?.avatarurl,
+                displayName: doc.data()?.nickname,
                 createDate: `${doc.data()?.create_at.toDate().getFullYear()}/${("00" + (doc.data()?.create_at.toDate().getMonth() + 1)).slice(-2)}/${("00" + doc.data()?.create_at.toDate().getDate()).slice(-2)}`,
                 attachImage: doc.data()?.attachimage,
                 diaryBody: doc.data()?.body,

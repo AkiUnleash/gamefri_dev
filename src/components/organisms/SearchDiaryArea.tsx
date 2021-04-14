@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { db } from '../../common/firebase/firebase'
 import Textfield from '../atoms/Textfield'
 import Button from '../atoms/Button'
-import Diarycard from '../Molecules/Diarycard'
-import styles from '../../assets/scss/search.module.scss'
+import Diarycard from '../molecules/Diarycard'
+import styles from '../../assets/scss/organisms/search.module.scss'
 
 const SearchAccountArea: React.FC = () => {
 
+  // hookでの状態管理
   const [keyword, setKeyword] = useState('')
-
   const [post, setPost] = useState([
     {
       id: "",
@@ -26,7 +26,6 @@ const SearchAccountArea: React.FC = () => {
       nickname: "",
     },
   ])
-
   const [postall, setPostall] = useState([
     {
       id: "",

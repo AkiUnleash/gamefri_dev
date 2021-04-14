@@ -1,13 +1,14 @@
 import * as React from 'react';
 import mui from '../../assets/css/mui.module.css'
 
-type Textfieldprops = {
+// このコンポーネントで扱う型宣言
+type props = {
   dataSource: string[],
   setValue: React.Dispatch<React.SetStateAction<string | "-">>,
   label?: string
 }
 
-const List = (props: Textfieldprops): JSX.Element => {
+const List: React.FC<props> = (props: props) => {
 
   return (
     <div className={mui["mui-select"]}>

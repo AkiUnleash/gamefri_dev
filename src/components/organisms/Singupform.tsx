@@ -1,21 +1,20 @@
 import React, { useState } from 'react';
 import { browserHistory } from "../../history"
-import styles from '../../assets/scss/signup.module.scss';
+import styles from '../../assets/scss/organisms/signupform.module.scss';
 import mui from '../../assets/css/mui.module.css'
 import Textfield from '../atoms/Textfield'
 import { auth, provider } from '../../common/firebase/firebase'
 import logo from '../../assets/images/logo_sm.svg'
 import { logout } from '../../common/backend/model'
-import { ALPN_ENABLED } from 'node:constants';
 
-const Singupform = (): JSX.Element => {
+const Singupform: React.FC = () => {
 
+  // hookでの状態管理
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
 
   // Emailでのサインアップ処理
   const signUpEmail = async (event: React.FormEvent) => {
-    // form処理の矯正中断
     event.preventDefault()
     // バリデーション
     if (!/^(?=.*?[a-z])(?=.*?\d)[a-z\d]{7,100}$/i.test(password)) {
@@ -32,6 +31,7 @@ const Singupform = (): JSX.Element => {
     browserHistory.push("/signupfinished")
   }
 
+  // Googleアカウント認証処理
   const signInGoogle = async (event: React.FormEvent) => {
     event.preventDefault()
     await auth.signInWithPopup(provider).catch(err => alert(err.message));
@@ -40,7 +40,7 @@ const Singupform = (): JSX.Element => {
 
   return (
     <div className={styles["signup-form"]}>
-      <div className={styles["signup-form__logo"]}><img className={styles["signup-form__logoimg"]} src={logo} /></div>
+      <div className={styles["signup-form__logo"]}><img className={styles["signup-form__logoimg"]} src={logo} alt="Site logo" /></div>
       <form onSubmit={signUpEmail} className={mui["mui-form"]}>
         <div className={styles["signup-form__title"]}>
           <legend className={styles["signup-form__legend"]}>ゲムフレに新規アカウント登録</legend>
@@ -67,7 +67,7 @@ const Singupform = (): JSX.Element => {
         </div>
 
         <div className={styles["signup-form__supplement"]}>
-          <div className={styles["signup-form__new-account"]}><a>新規アカウント登録はこちら</a></div>
+          <div className={styles["signup-form__new-account"]}><a href="./login">ログインはこちら</a></div>
         </div>
 
         <div className={styles["signup-other"]}>
@@ -77,6 +77,7 @@ const Singupform = (): JSX.Element => {
               onClick={signInGoogle}>Googleアカウント</button>
           </div>
         </div>
+
       </form>
     </div >
   );

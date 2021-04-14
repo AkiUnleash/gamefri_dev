@@ -6,6 +6,7 @@ import { nice, notification } from '../../common/utils/common-types'
 import { selectUser } from "../../common/state/userSlice"
 import { useSelector } from 'react-redux'
 
+// このコンポーネントで扱う型宣言
 type props = {
   documents1: string,
   documents2: string,
@@ -16,8 +17,10 @@ type props = {
 
 const NiceButtonArea: React.FC<props> = (props: props) => {
 
+  // Reduxにて状態管理のデータを取得
   const user = useSelector(selectUser)
 
+  // hookでの状態管理
   let niceCount = props.nicecount
   const [action, setAction] = useState({
     style: "",
@@ -27,14 +30,15 @@ const NiceButtonArea: React.FC<props> = (props: props) => {
   })
 
   useEffect(() => {
-    // niceボタン
+    // ログインユーザしているユーザーから
+    // ナイスされているかを確認し、表示するボタンを判断。
     const nicedoc =
       db.collection('user')
-        .doc(props.documents1) // doc.id
+        .doc(props.documents1)
         .collection("posts")
-        .doc(props.documents2) // postid
+        .doc(props.documents2)
         .collection("nices")
-        .doc(props.documents3) // user.uid
+        .doc(props.documents3)
         .get()
 
     nicedoc.then((data) => {
@@ -56,9 +60,11 @@ const NiceButtonArea: React.FC<props> = (props: props) => {
     })
   }, [])
 
+  // ナイスボタンのクリック時処理
   const to_nice = () => {
     const nice: nice = { userID: props.documents3 }
 
+    // ナイスしたユーザーの登録
     dataAdd(
       nice, {
       colection1: "user",
@@ -69,6 +75,15 @@ const NiceButtonArea: React.FC<props> = (props: props) => {
       documents3: props.documents3
     }, true)
 
+    // 件数を加算
+    dataUpdate({ nicecount: ++niceCount }, {
+      colection1: "user",
+      documents1: props.documents1,
+      colection2: "posts",
+      documents2: props.documents2,
+    })
+
+    // 解除ボタンに表示を変更
     setAction((n) => ({
       style: "nice__button--un_nice",
       value: n.value + 1,
@@ -76,7 +91,7 @@ const NiceButtonArea: React.FC<props> = (props: props) => {
       function: () => { un_nice() }
     }))
 
-    // 通知
+    // 通知データの登録
     const notification: notification = {
       avatarurl: user.photoUrl,
       nickname: user.displayName,
@@ -92,23 +107,12 @@ const NiceButtonArea: React.FC<props> = (props: props) => {
       },
       true)
 
-    // ナイス
-    dataUpdate({ nicecount: action.value }, {
-      colection1: "user",
-      documents1: props.documents1,
-      colection2: "posts",
-      documents2: props.documents2,
-    })
-
-    dataUpdate({ nicecount: ++niceCount }, {
-      colection1: "user",
-      documents1: props.documents1,
-      colection2: "posts",
-      documents2: props.documents2,
-    })
   }
 
+  // ナイス解除ボタンのクリック時処理
   const un_nice = () => {
+
+    // ナイスしたログインユーザーデータを削除
     dataDelete(
       {
         colection1: "user",
@@ -119,19 +123,22 @@ const NiceButtonArea: React.FC<props> = (props: props) => {
         documents3: props.documents3
       },
     )
-    setAction((n) => ({
-      style: "nice__button--to_nice",
-      value: n.value - 1,
-      caption: "Nice! " + (n.value - 1),
-      function: () => { to_nice() }
-    }))
 
+    // 件数を加算
     dataUpdate({ nicecount: --niceCount }, {
       colection1: "user",
       documents1: props.documents1,
       colection2: "posts",
       documents2: props.documents2,
     })
+
+    // ナイスボタンに表示を変更
+    setAction((n) => ({
+      style: "nice__button--to_nice",
+      value: n.value - 1,
+      caption: "Nice! " + (n.value - 1),
+      function: () => { to_nice() }
+    }))
 
   }
 

@@ -1,0 +1,46 @@
+@import '../variables';
+
+.adddiary {
+    position: fixed;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: $mainColor;
+    vertical-align: middle;
+    text-align: center;
+    color: $baseColor;
+    z-index: 10;
+    transition-duration: 1s;
+    bottom: 32px;
+    right: 32px;
+    @include mq(sm) {
+        bottom: 16px;
+        right: 16px;
+    }
+
+    &::before {
+        @extend %mark;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    &::after {
+        @extend %mark;
+        left: 25%;
+        transform: rotate(90deg);
+    }
+    &:hover {
+        text-decoration: none;
+        transform: rotate(180deg);
+    }
+}
+
+%mark {
+    position: absolute;
+    background-color: #ffffff;
+    border-radius: 4px;
+    content: '';
+    display: inline-block;
+    top: 45%;
+    width: 40px;
+    height: 8px;
+}

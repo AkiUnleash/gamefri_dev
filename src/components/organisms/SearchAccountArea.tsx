@@ -2,15 +2,17 @@ import React, { useEffect, useState } from 'react';
 import { db } from '../../common/firebase/firebase'
 import Textfield from '../atoms/Textfield'
 import Button from '../atoms/Button'
-import Usercard from '../Molecules/Usercard'
-import styles from '../../assets/scss/search.module.scss'
+import Usercard from '../molecules/Usercard'
+import styles from '../../assets/scss/organisms/search.module.scss'
 import { selectUser } from "../../common/state/userSlice"
 import { useSelector } from 'react-redux'
 
 const SearchAccountArea: React.FC = () => {
 
+  // Reduxにて状態管理のデータを取得
   const user = useSelector(selectUser)
 
+  // hookでの状態管理
   const [keyword, setKeyword] = useState('')
   const [account, setAccount] = useState([
     {
@@ -32,6 +34,7 @@ const SearchAccountArea: React.FC = () => {
   ])
 
   useEffect(() => {
+    // オープン時にアカウントデータの全表示
     let account_temporary_storing: any
     db.collection("user")
       .onSnapshot((d) => {
@@ -45,7 +48,9 @@ const SearchAccountArea: React.FC = () => {
               uid: f.data().uid
             }
           ))
+        // 表示用のデータ
         setAccount(account_temporary_storing)
+        // 検索の元となるデータ
         setAccountall(account_temporary_storing)
       })
   }, [])

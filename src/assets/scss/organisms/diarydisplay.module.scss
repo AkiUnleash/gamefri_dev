@@ -1,4 +1,4 @@
-@import 'variables';
+@import '../variables';
 
 .container {
     margin: 104px auto 40px;
@@ -41,26 +41,5 @@
         white-space: pre-wrap;
         font-size: 16px;
         margin-bottom: 80px;
-    }
-}
-
-.comments-area {
-    &__title {
-        font-size: 18px;
-        &::before {
-            content: '';
-            display: inline-block;
-            margin: 8px;
-            width: 24px;
-            height: 24px;
-            background-image: url(../images/diaryview/comments.png);
-            background-size: contain;
-            vertical-align: middle;
-        }
-    }
-    &__sentence {
-        margin: 0px auto 32px;
-        white-space: pre-wrap;
-        font-size: 16px;
     }
 }

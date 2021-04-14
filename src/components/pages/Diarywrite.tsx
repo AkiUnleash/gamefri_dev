@@ -1,8 +1,6 @@
 import React, { useEffect } from 'react';
-// Component
 import Header from '../organisms/Header_in';
 import DiaryWriteForm from '../organisms/Diarywriteform';
-// common
 import { loginChack_yat, authenticatedChack, profileDocumentExistence } from "../../common/backend/model"
 
 const DiaryWrite: React.FC = () => {
