@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from '../../assets/scss/home.module.scss';
+import styles from '../../assets/scss/Molecules/diarycard.module.scss';
 
 // このコンポーネントで扱う型宣言
 type props = {

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
-import styles from '../../assets/scss/top.module.scss';
+import styles from '../../assets/scss/pages/top.module.scss';
 // Component
 import Header from '../organisms/Header';
 import Footer from '../organisms/Footer';

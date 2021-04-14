@@ -1,0 +1,33 @@
+@import '../variables';
+
+.user-card {
+    box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
+    padding: 8px 32px 32px 32px;
+    margin: 24px auto 8px;
+    position: relative;
+    &__first-line {
+        &--infomation {
+            flex: 3;
+        }
+        &--follow {
+            @include mq(lg) {
+                position: absolute;
+                right: 32px;
+                top: 32px;
+                display: flex;
+            }
+            @include mq(md) {
+                display: flex;
+                margin-top: 32px;
+                justify-content: center;
+            }
+            @include mq(sm) {
+                display: flex;
+                justify-content: center;
+                margin-top: 32px;
+                justify-content: center;
+            }
+        }
+    }
+}

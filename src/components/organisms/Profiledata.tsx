@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux'
 import { browserHistory } from "../../history"
 import img_cover_sample from '../../assets/images/profile/cover-sample.png'
 import img_avatar_sample from '../../assets/images/profile/avatar.png'
-import styles from '../../assets/scss/profiledata.module.scss';
+import styles from '../../assets/scss/organisms/profiledata.module.scss';
 import { selectUser } from "../../common/state/userSlice"
 import { dataAdd, dataDelete } from "../../common/backend/model"
 import { follow, notification } from '../../common/utils/common-types'

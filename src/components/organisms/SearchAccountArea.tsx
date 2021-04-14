@@ -3,7 +3,7 @@ import { db } from '../../common/firebase/firebase'
 import Textfield from '../atoms/Textfield'
 import Button from '../atoms/Button'
 import Usercard from '../Molecules/Usercard'
-import styles from '../../assets/scss/search.module.scss'
+import styles from '../../assets/scss/organisms/search.module.scss'
 import { selectUser } from "../../common/state/userSlice"
 import { useSelector } from 'react-redux'
 

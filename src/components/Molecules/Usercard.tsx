@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styles from '../../assets/scss/search.module.scss'
+import styles from '../../assets/scss/Molecules/usercard.module.scss'
 import Button from '../atoms/Button'
 import UserInfomation from '../atoms/UserInfomation'
 import { follow, notification } from '../../common/utils/common-types'

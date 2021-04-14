@@ -3,7 +3,7 @@ import { db } from '../../common/firebase/firebase'
 import Textfield from '../atoms/Textfield'
 import Button from '../atoms/Button'
 import Diarycard from '../Molecules/Diarycard'
-import styles from '../../assets/scss/search.module.scss'
+import styles from '../../assets/scss/organisms/search.module.scss'
 
 const SearchAccountArea: React.FC = () => {
 

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { db } from '../../common/firebase/firebase'
 import Usercard from '../Molecules/Usercard'
-import styles from '../../assets/scss/notification.module.scss'
+import styles from '../../assets/scss/organisms/notification.module.scss'
 import { selectUser } from '../../common/state/userSlice'
 import { useSelector } from 'react-redux'
 

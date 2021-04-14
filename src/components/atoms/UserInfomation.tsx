@@ -1,6 +1,6 @@
 import * as React from 'react';
 import img_avatar_sample from '../../assets/images/profile/avatar.png'
-import styles from '../../assets/scss/userinfomation.module.scss'
+import styles from '../../assets/scss/atoms/userinfomation.module.scss'
 
 // このコンポーネントで扱う型宣言
 type props = {

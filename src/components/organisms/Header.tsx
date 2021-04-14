@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from '../../assets/scss/header.module.scss';
+import styles from '../../assets/scss/organisms/header.module.scss';
 import logo from '../../assets/images/logo.svg'
 import logo_sm from '../../assets/images/logo_sm.svg'
 

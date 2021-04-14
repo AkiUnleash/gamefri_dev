@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import Header from '../organisms/Header';
 import Footer from '../organisms/Footer';
-import styles from '../../assets/scss/signup-finish.module.scss';
+import styles from '../../assets/scss/pages/signup-finish.module.scss';
 import { logout } from '../../common/backend/model'
 
 const Massege: React.FC = () => {

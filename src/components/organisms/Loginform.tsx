@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styles from '../../assets/scss/login.module.scss';
+import styles from '../../assets/scss/organisms/login.module.scss';
 import mui from '../../assets/css/mui.module.css'
 import Textfield from '../atoms/Textfield'
 import { auth, provider } from '../../common/firebase/firebase'

@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { db } from '../../common/firebase/firebase'
 import { selectUser } from "../../common/state/userSlice"
-import styles from '../../assets/scss/diarydisplay.module.scss';
+import styles from '../../assets/scss/organisms/diarydisplay.module.scss';
 import UserInfomation from '../atoms/UserInfomation';
 import CommentsArea from '../Molecules/CommentsArea'
 import NiceButtonArea from '../Molecules/NiceButtonArea'

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux'
 // assets
-import styles from '../../assets/scss/home.module.scss';
+import styles from '../../assets/scss/pages/home.module.scss';
 // Component
 import Header from '../organisms/Header_in';
 import Postbutton from '../atoms/Postbutton';

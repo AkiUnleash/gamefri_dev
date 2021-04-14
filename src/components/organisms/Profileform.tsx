@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { selectUser, updateUserProfile } from '../../common/state/userSlice'
 import { browserHistory } from "../../history"
-import styles from '../../assets/scss/profileedit.module.scss';
+import styles from '../../assets/scss/organisms/profileedit.module.scss';
 import mui from '../../assets/css/mui.module.css'
 import img_photo_select from '../../assets/images/profile/photo-select.svg'
 import img_photo_clear from '../../assets/images/profile/photo-clear.svg'

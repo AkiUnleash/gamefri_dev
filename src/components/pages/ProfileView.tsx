@@ -8,7 +8,7 @@ import Diarycard from '../Molecules/Diarycard'
 // state
 import { selectUser } from "../../common/state/userSlice"
 // assets
-import styles from '../../assets/scss/profiledata.module.scss';
+import styles from '../../assets/scss/pages/profileview.module.scss';
 // common
 import { loginChack_yat, authenticatedChack, profileDocumentExistence } from "../../common/backend/model"
 import { db } from '../../common/firebase/firebase'

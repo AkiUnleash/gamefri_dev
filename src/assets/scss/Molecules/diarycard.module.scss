@@ -1,17 +1,4 @@
-@import 'variables';
-
-.cardaria {
-    margin: 104px auto 40px;
-    width: 664px;
-    @include mq(md) {
-        margin: 104px 10%;
-        width: 80%;
-    }
-    @include mq(sm) {
-        margin: 104px 5%;
-        width: 90%;
-    }
-}
+@import '../variables';
 
 .card:hover {
     text-decoration: none;
@@ -172,49 +159,4 @@
             margin-right: 24px;
         }
     }
-}
-
-.adddiary {
-    position: fixed;
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    background: $mainColor;
-    vertical-align: middle;
-    text-align: center;
-    color: $baseColor;
-    z-index: 10;
-    transition-duration: 1s;
-    bottom: 32px;
-    right: 32px;
-    @include mq(sm) {
-        bottom: 16px;
-        right: 16px;
-    }
-
-    &::before {
-        @extend %mark;
-        left: 50%;
-        transform: translateX(-50%);
-    }
-    &::after {
-        @extend %mark;
-        left: 25%;
-        transform: rotate(90deg);
-    }
-    &:hover {
-        text-decoration: none;
-        transform: rotate(180deg);
-    }
-}
-
-%mark {
-    position: absolute;
-    background-color: #ffffff;
-    border-radius: 4px;
-    content: '';
-    display: inline-block;
-    top: 45%;
-    width: 40px;
-    height: 8px;
 }

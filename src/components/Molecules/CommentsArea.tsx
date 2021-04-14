@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import styles from '../../assets/scss/diarydisplay.module.scss';
+import styles from '../../assets/scss/Molecules/commentsarea.module.scss';
 import Textarea from '../atoms/Textarea'
 import Button from '../atoms/Button'
 import UserInfomation from '../atoms/UserInfomation';

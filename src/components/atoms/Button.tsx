@@ -1,5 +1,5 @@
 import * as React from 'react';
-import styles from '../../assets/scss/button.module.scss'
+import styles from '../../assets/scss/atoms/button.module.scss'
 
 // このコンポーネントで扱う型宣言
 type props = {

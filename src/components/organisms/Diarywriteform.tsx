@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux'
 import { browserHistory } from "../../history"
 import Textfield from '../atoms/Textfield'
 import Textarea from '../atoms/Textarea'
-import styles from '../../assets/scss/diarywriteform.module.scss';
+import styles from '../../assets/scss/organisms/diarywriteform.module.scss';
 import mui from '../../assets/css/mui.module.css'
 import img_attach from '../../assets/images/diarywrite/image_attach.svg'
 import * as DataInterface from '../../common/backend/model'
