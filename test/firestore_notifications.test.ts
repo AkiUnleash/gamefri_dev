@@ -26,6 +26,7 @@ describe('/user/{uid}/notification/{id}', () => {
     message: any,
     nickname: any
     profileid: any,
+    link: any
   }
 
   const testdata_notifications: notifications_type = {
@@ -33,7 +34,8 @@ describe('/user/{uid}/notification/{id}', () => {
     create_at: firebase.firestore.FieldValue.serverTimestamp(),
     message: "message/message",
     nickname: "nickname",
-    profileid: "profileid"
+    profileid: "profileid",
+    link: "./user/aaa"
   }
 
   describe('Create', () => {
@@ -53,73 +55,73 @@ describe('/user/{uid}/notification/{id}', () => {
       })
     })
 
-    // describe('異常系', () => {
+    describe('異常系', () => {
 
-    //   it('ログインせずに正常データの登録', async () => {
-    //     const userID = randomID().slice(0, 28)
-    //     const db = clientDB()
-    //     await firebase.assertFails(db
-    //       .collection('user')
-    //       .doc(userID)
-    //       .collection('notifications')
-    //       .doc(randomID())
-    //       .set(testdata_notifications)
-    //     )
-    //   })
+      it('ログインせずに正常データの登録', async () => {
+        const userID = randomID().slice(0, 28)
+        const db = clientDB()
+        await firebase.assertFails(db
+          .collection('user')
+          .doc(userID)
+          .collection('notifications')
+          .doc(randomID())
+          .set(testdata_notifications)
+        )
+      })
 
-    //   const userID = randomID().slice(0, 28)
-    //   const db = clientDB({ uid: userID })
+      const userID = randomID().slice(0, 28)
+      const db = clientDB({ uid: userID })
 
-    //   it('必須項目が抜けている（登録日時)', async () => {
-    //     const { create_at, ...testdata } = testdata_notifications
-    //     await firebase.assertFails(db
-    //       .collection('user')
-    //       .doc(userID)
-    //       .collection('notifications')
-    //       .doc(randomID())
-    //       .set(testdata))
-    //   })
+      it('必須項目が抜けている（登録日時)', async () => {
+        const { create_at, ...testdata } = testdata_notifications
+        await firebase.assertFails(db
+          .collection('user')
+          .doc(userID)
+          .collection('notifications')
+          .doc(randomID())
+          .set(testdata))
+      })
 
-    //   it('必須項目が抜けている（メッセージ)', async () => {
-    //     const { message, ...testdata } = testdata_notifications
-    //     await firebase.assertFails(db
-    //       .collection('user')
-    //       .doc(userID)
-    //       .collection('notifications')
-    //       .doc(randomID())
-    //       .set(testdata))
-    //   })
+      it('必須項目が抜けている（メッセージ)', async () => {
+        const { message, ...testdata } = testdata_notifications
+        await firebase.assertFails(db
+          .collection('user')
+          .doc(userID)
+          .collection('notifications')
+          .doc(randomID())
+          .set(testdata))
+      })
 
-    //   it('必須項目が抜けている（ニックネーム)', async () => {
-    //     const { nickname, ...testdata } = testdata_notifications
-    //     await firebase.assertFails(db
-    //       .collection('user')
-    //       .doc(userID)
-    //       .collection('notifications')
-    //       .doc(randomID())
-    //       .set(testdata))
-    //   })
+      it('必須項目が抜けている（ニックネーム)', async () => {
+        const { nickname, ...testdata } = testdata_notifications
+        await firebase.assertFails(db
+          .collection('user')
+          .doc(userID)
+          .collection('notifications')
+          .doc(randomID())
+          .set(testdata))
+      })
 
-    //   it('必須項目が抜けている（ユーザーID)', async () => {
-    //     const { profileid, ...testdata } = testdata_notifications
-    //     await firebase.assertFails(db
-    //       .collection('user')
-    //       .doc(userID)
-    //       .collection('notifications')
-    //       .doc(randomID())
-    //       .set(testdata))
-    //   })
+      it('必須項目が抜けている（ユーザーID)', async () => {
+        const { profileid, ...testdata } = testdata_notifications
+        await firebase.assertFails(db
+          .collection('user')
+          .doc(userID)
+          .collection('notifications')
+          .doc(randomID())
+          .set(testdata))
+      })
 
-    //   it('登録日に文字列を挿入', async () => {
-    //     const { ...testdata } = testdata_notifications
-    //     testdata.create_at = "2021/04/01"
-    //     await firebase.assertFails(db
-    //       .collection('user')
-    //       .doc(userID)
-    //       .collection('notifications')
-    //       .doc(randomID())
-    //       .set(testdata))
-    //   })
-    // })
+      it('登録日に文字列を挿入', async () => {
+        const { ...testdata } = testdata_notifications
+        testdata.create_at = "2021/04/01"
+        await firebase.assertFails(db
+          .collection('user')
+          .doc(userID)
+          .collection('notifications')
+          .doc(randomID())
+          .set(testdata))
+      })
+    })
   })
 })
