@@ -13,7 +13,7 @@ import detail_img_3 from '../../assets/images/top/top-img3.png'
 import { loginChack_done } from "../../common/backend/model"
 
 
-const Detail1 = (): JSX.Element => {
+const Detail1: React.FC = () => {
   const { ref, inView } = useInView({ rootMargin: '-50% 0px', triggerOnce: true });
 
   const detail_data = [

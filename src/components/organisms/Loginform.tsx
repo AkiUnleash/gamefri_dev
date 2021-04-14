@@ -6,7 +6,7 @@ import { auth, provider } from '../../common/firebase/firebase'
 import logo from '../../assets/images/logo_sm.svg'
 import { browserHistory } from "../../history"
 
-const Loginform = (): JSX.Element => {
+const Loginform: React.FC = () => {
 
   // hookによる状態管理
   const [email, setEmail] = useState("")

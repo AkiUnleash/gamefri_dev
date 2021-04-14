@@ -15,7 +15,7 @@ import * as DataInterface from '../../common/backend/model'
 import { db } from '../../common/firebase/firebase'
 import { notification } from '../../common/utils/common-types'
 
-const Profileform = (): JSX.Element => {
+const Profileform: React.FC = () => {
 
   // Reduxにて状態管理のデータを取得
   const dispatch = useDispatch();

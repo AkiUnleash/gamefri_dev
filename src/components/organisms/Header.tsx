@@ -3,7 +3,7 @@ import styles from '../../assets/scss/organisms/header.module.scss';
 import logo from '../../assets/images/logo.svg'
 import logo_sm from '../../assets/images/logo_sm.svg'
 
-const Header = (): JSX.Element => {
+const Header: React.FC = () => {
   return (
     <>
       <header className={styles["header"]}>

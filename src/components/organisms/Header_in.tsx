@@ -10,7 +10,7 @@ import { logout } from '../../common/backend/model'
 import { useSelector } from 'react-redux'
 import { selectUser } from "../../common/state/userSlice"
 
-const Header = (): JSX.Element => {
+const Header: React.FC = () => {
   const user = useSelector(selectUser)
   return (
     <header className={styles["header-in"]}>

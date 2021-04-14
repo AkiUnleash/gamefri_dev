@@ -7,7 +7,7 @@ import { auth, provider } from '../../common/firebase/firebase'
 import logo from '../../assets/images/logo_sm.svg'
 import { logout } from '../../common/backend/model'
 
-const Singupform = (): JSX.Element => {
+const Singupform: React.FC = () => {
 
   // hookでの状態管理
   const [email, setEmail] = useState("")
