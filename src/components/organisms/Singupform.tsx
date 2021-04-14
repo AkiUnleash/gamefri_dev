@@ -21,13 +21,12 @@ const Singupform: React.FC = () => {
     event.preventDefault()
 
     // バリデーション
-    let ErrorData = isPassword(password)
+    let ErrorData = isEmail(email)
     if (ErrorData) {
       setError(ErrorData)
       return
     }
-
-    ErrorData = isEmail(email)
+    ErrorData = isPassword(password)
     if (ErrorData) {
       setError(ErrorData)
       return

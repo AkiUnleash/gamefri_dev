@@ -1,22 +1,49 @@
 import React, { useState } from 'react';
+import Errormessage from '../atoms/Errormessage'
 import styles from '../../assets/scss/organisms/login.module.scss';
 import mui from '../../assets/css/mui.module.css'
 import Textfield from '../atoms/Textfield'
 import { auth, provider } from '../../common/firebase/firebase'
 import logo from '../../assets/images/logo_sm.svg'
 import { browserHistory } from "../../history"
+import { isPassword, isEmail } from '../../common/validation/validation'
 
 const Loginform: React.FC = () => {
 
   // hookによる状態管理
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [error, setError] = useState<string | undefined>("")
 
   // E-mailでのサインイン処理
   const signInEmail = async (event: React.FormEvent) => {
     event.preventDefault()
+    // バリデーション
+    let ErrorData = isEmail(email)
+    if (ErrorData) {
+      setError(ErrorData)
+      return
+    }
+    ErrorData = isPassword(password)
+    if (ErrorData) {
+      setError(ErrorData)
+      return
+    }
+
     // 認証処理
-    await auth.signInWithEmailAndPassword(email, password)
+    try {
+      await auth.signInWithEmailAndPassword(email, password)
+    } catch (e) {
+      switch (e.code) {
+        case 'auth/user-not-found':
+          setError("入力されたユーザーは登録されていません。")
+          return
+        case 'auth/wrong-password':
+          setError("パスワードが違います。")
+          return
+      }
+    }
+
     // Homeへ画面遷移
     browserHistory.push("/home")
   }
@@ -37,6 +64,11 @@ const Loginform: React.FC = () => {
         <div className={styles["login-form__title"]}>
           <legend className={styles["login-form__legend"]}>ゲムフレにログイン</legend>
         </div>
+
+        {error && (
+          <Errormessage
+            message={error} />
+        )}
 
         <Textfield
           type="text"
