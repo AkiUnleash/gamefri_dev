@@ -93,7 +93,7 @@ const ProfileView: React.FC = () => {
                   id: doc.id,
                   title: doc.data().title,
                   body: doc.data().body,
-                  gametitle: doc.data().gametitle,
+                  gametitle: doc.data().gamename,
                   link: '/' + profileid + '/status/' + doc.id,
                   nicecount: 0,
                   displayName: targetprofile.displayName,
