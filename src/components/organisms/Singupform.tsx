@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Errormessage from '../atoms/Errormessage'
 import { browserHistory } from "../../history"
 import styles from '../../assets/scss/organisms/signupform.module.scss';
 import mui from '../../assets/css/mui.module.css'
@@ -6,27 +7,40 @@ import Textfield from '../atoms/Textfield'
 import { auth, provider } from '../../common/firebase/firebase'
 import logo from '../../assets/images/logo_sm.svg'
 import { logout } from '../../common/backend/model'
+import { isPassword, isEmail } from '../../common/validation/validation'
 
 const Singupform: React.FC = () => {
 
   // hookでの状態管理
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [error, setError] = useState("")
 
   // Emailでのサインアップ処理
   const signUpEmail = async (event: React.FormEvent) => {
     event.preventDefault()
+
     // バリデーション
-    if (!/^(?=.*?[a-z])(?=.*?\d)[a-z\d]{7,100}$/i.test(password)) {
-      alert("パスワードは英数字７文字以上で入力してください。")
+    let ErrorData = isPassword(password)
+    if (ErrorData) {
+      setError(ErrorData)
       return
     }
+
+    ErrorData = isEmail(email)
+    if (ErrorData) {
+      setError(ErrorData)
+      return
+    }
+
     // サインアップ
     const authUser = await auth.createUserWithEmailAndPassword(email, password)
+
     // アドレス確認のメール送信
     const createuser = authUser.user
     createuser && await createuser.sendEmailVerification();
     await logout()
+
     // 移動
     browserHistory.push("/signupfinished")
   }
@@ -45,6 +59,11 @@ const Singupform: React.FC = () => {
         <div className={styles["signup-form__title"]}>
           <legend className={styles["signup-form__legend"]}>ゲムフレに新規アカウント登録</legend>
         </div>
+
+        {error && (
+          <Errormessage
+            message={error} />
+        )}
 
         <Textfield
           type="text"
