@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux'
 import { db } from '../../common/firebase/firebase'
-import Diarycard from '../Molecules/Diarycard'
+import Diarycard from '../molecules/Diarycard'
 import { selectUser } from "../../common/state/userSlice"
 
 const Diarylist: React.FC = () => {

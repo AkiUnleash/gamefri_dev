@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { db } from '../../common/firebase/firebase'
 import Textfield from '../atoms/Textfield'
 import Button from '../atoms/Button'
-import Diarycard from '../Molecules/Diarycard'
+import Diarycard from '../molecules/Diarycard'
 import styles from '../../assets/scss/organisms/search.module.scss'
 
 const SearchAccountArea: React.FC = () => {

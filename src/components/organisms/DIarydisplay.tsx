@@ -5,8 +5,8 @@ import { db } from '../../common/firebase/firebase'
 import { selectUser } from "../../common/state/userSlice"
 import styles from '../../assets/scss/organisms/diarydisplay.module.scss';
 import UserInfomation from '../atoms/UserInfomation';
-import CommentsArea from '../Molecules/CommentsArea'
-import NiceButtonArea from '../Molecules/NiceButtonArea'
+import CommentsArea from '../molecules/CommentsArea'
+import NiceButtonArea from '../molecules/NiceButtonArea'
 
 const Diarydisplay: React.FC = () => {
 

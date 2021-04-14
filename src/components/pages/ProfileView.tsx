@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 // Component
 import Header from '../organisms/Header_in';
 import Profiledata from '../organisms/Profiledata';
-import Diarycard from '../Molecules/Diarycard'
+import Diarycard from '../molecules/Diarycard'
 // state
 import { selectUser } from "../../common/state/userSlice"
 // assets
