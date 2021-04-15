@@ -14,6 +14,8 @@ import Radio from '../atoms/Radio'
 import * as DataInterface from '../../common/backend/model'
 import { db } from '../../common/firebase/firebase'
 import { notification } from '../../common/utils/common-types'
+import Errormessage from '../atoms/Errormessage'
+import { isProfileid, isNickname } from '../../common/validation/validation'
 
 const Profileform: React.FC = () => {
 
@@ -33,6 +35,7 @@ const Profileform: React.FC = () => {
   const [avatar, setAvatar] = useState<File | null>(null)
   const [firstcover, setFirstCover] = useState("")
   const [firstavatar, setFirstAvatar] = useState("")
+  const [error, setError] = useState<string | undefined>("")
 
   // 生年月日はデータを取得するか検討中のため非表示
   // const [year, setYear] = useState<string | "-">("-")
@@ -96,12 +99,14 @@ const Profileform: React.FC = () => {
     e.preventDefault();
 
     // バリデーション
-    if (!/^[a-z\d]{1,100}$/i.test(profileid)) {
-      alert("プロフィールは半角英数字で入力してください。")
+    let ErrorData = isProfileid(profileid)
+    if (ErrorData) {
+      setError(ErrorData)
       return
     }
-    if (!profileid || !nickname || !introduction || !gender || !playgame || !timestart || !timeend) {
-      alert("全項目入力してください。")
+    ErrorData = isNickname(nickname)
+    if (ErrorData) {
+      setError(ErrorData)
       return
     }
 
@@ -132,6 +137,20 @@ const Profileform: React.FC = () => {
       })
     );
 
+    console.log(
+      {
+        profileid: profileid,
+        nickname: nickname,
+        introduction: introduction,
+        gender: gender,
+        playgame: playgame,
+        timestart: timestart,
+        timeend: timeend,
+        avatarurl: avatarurl,
+        coverurl: coverurl,
+        uid: user.uid
+      },
+    )
     // Firestoreにユーザー情報を保存
     DataInterface.dataAdd(
       {
@@ -180,11 +199,11 @@ const Profileform: React.FC = () => {
       .onSnapshot((snapshot) => {
         setNickname(snapshot.data()?.nickname)
         setProfileID(snapshot.data()?.profileid)
-        setIntroduction(snapshot.data()?.introduction)
-        setGender(snapshot.data()?.gender)
-        setPlaygame(snapshot.data()?.playgame)
-        setTimestart(snapshot.data()?.timestart)
-        setTimeend(snapshot.data()?.timeend)
+        setIntroduction(snapshot.data()?.introduction ? snapshot.data()?.introduction : introduction)
+        setGender(snapshot.data()?.gender ? snapshot.data()?.gender : gender)
+        setPlaygame(snapshot.data()?.playgame ? snapshot.data()?.playgame : playgame)
+        setTimestart(snapshot.data()?.timestart ? snapshot.data()?.timestart : timestart)
+        setTimeend(snapshot.data()?.timeend ? snapshot.data()?.timeend : timeend)
         setFirstAvatar(snapshot.data()?.avatarurl)
         setFirstCover(snapshot.data()?.coverurl)
       })
@@ -231,11 +250,11 @@ const Profileform: React.FC = () => {
 
           <Textfield
             type="text"
-            placeholder="プロフィールIDを入力"
+            placeholder="プロフィールIDを半角英数字で入力"
             id={"profileid"}
             value={profileid}
             setValue={setProfileID}
-            label="プロフィールID" />
+            label="プロフィールID *" />
 
           <Textfield
             type="text"
@@ -243,7 +262,7 @@ const Profileform: React.FC = () => {
             id={"nickname"}
             value={nickname}
             setValue={setNickname}
-            label="ニックネーム" />
+            label="ニックネーム *" />
 
           <Textarea
             placeholder="自分をＰＲしましょう。"
@@ -314,6 +333,11 @@ const Profileform: React.FC = () => {
                 label="" />
             </div>
           </div>
+
+          {error && (
+            <Errormessage
+              message={error} />
+          )}
 
           <div className={styles["profile-text__singup"]}>
             <button className={styles["profile-text__register-button"]}
