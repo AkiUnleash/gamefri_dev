@@ -39,3 +39,17 @@ export const isNickname = (props: string) => {
   }
   return ""
 }
+
+export const isDiraryTitle = (props: string) => {
+  if (!props.trim()) {
+    return "タイトルは、必ず入力してください。"
+  }
+  return ""
+}
+
+export const isDiraryBody = (props: string) => {
+  if (!props.trim()) {
+    return "本文は、必ず入力してください。"
+  }
+  return ""
+}

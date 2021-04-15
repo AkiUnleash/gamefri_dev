@@ -17,7 +17,9 @@ const Loginform: React.FC = () => {
 
   // E-mailでのサインイン処理
   const signInEmail = async (event: React.FormEvent) => {
+
     event.preventDefault()
+
     // バリデーション
     let ErrorData = isEmail(email)
     if (ErrorData) {
