@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Errormessage from '../atoms/Errormessage'
 import { useSelector } from 'react-redux'
 import { browserHistory } from "../../history"
 import Textfield from '../atoms/Textfield'
@@ -8,6 +9,7 @@ import mui from '../../assets/css/mui.module.css'
 import img_attach from '../../assets/images/diarywrite/image_attach.svg'
 import * as DataInterface from '../../common/backend/model'
 import { selectUser } from "../../common/state/userSlice"
+import { isDiraryTitle, isDiraryBody } from '../../common/validation/validation'
 
 const DiaryWriteForm: React.FC = () => {
 
@@ -16,6 +18,7 @@ const DiaryWriteForm: React.FC = () => {
   const [body, setBody] = useState("")
   const [gamename, setGamename] = useState("")
   const [image, setImage] = useState<File | null>(null)
+  const [error, setError] = useState<string | undefined>("")
 
   // Reduxにて状態管理のデータを取得
   const user = useSelector(selectUser)
@@ -46,6 +49,18 @@ const DiaryWriteForm: React.FC = () => {
 
     // POST停止
     e.preventDefault();
+
+    // バリデーション
+    let ErrorData = isDiraryTitle(title)
+    if (ErrorData) {
+      setError(ErrorData)
+      return
+    }
+    ErrorData = isDiraryBody(body)
+    if (ErrorData) {
+      setError(ErrorData)
+      return
+    }
 
     // イメージをFireStrageに保存
     let imageurl = ''
@@ -103,7 +118,7 @@ const DiaryWriteForm: React.FC = () => {
           id={"title"}
           value={title}
           setValue={setTitle}
-          label="タイトル" />
+          label="タイトル *" />
 
         <Textarea
           placeholder="日記の内容を記載しましょう。"
@@ -111,15 +126,20 @@ const DiaryWriteForm: React.FC = () => {
           id={"body"}
           value={body}
           setValue={setBody}
-          label="本文" />
+          label="本文 *" />
 
         <Textfield
           type="text"
-          placeholder="プレイしたゲーム"
+          placeholder="ゲーム名を入力"
           id={"gamename"}
           value={gamename}
           setValue={setGamename}
-          label="ゲーム名を入力" />
+          label="プレイしたゲーム" />
+
+        {error && (
+          <Errormessage
+            message={error} />
+        )}
 
         <div className={styles["diarywrite__singup"]}>
           <button className={styles["diarywrite__register-button"]}
