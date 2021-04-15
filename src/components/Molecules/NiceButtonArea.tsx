@@ -75,21 +75,27 @@ const NiceButtonArea: React.FC<props> = (props: props) => {
       documents3: props.documents3
     }, true)
 
-    // 件数を加算
-    dataUpdate({ nicecount: ++niceCount }, {
-      colection1: "user",
-      documents1: props.documents1,
-      colection2: "posts",
-      documents2: props.documents2,
-    })
+    // ナイスのドキュメント数を取得して反映
+    db.doc(`user/${props.documents1}/posts/${props.documents2}`)
+      .collection('nices').get()
+      .then((doc) => {
 
-    // 解除ボタンに表示を変更
-    setAction((n) => ({
-      style: "nice__button--un_nice",
-      value: n.value + 1,
-      caption: "Nice! " + (n.value + 1),
-      function: () => { un_nice() }
-    }))
+        // 件数を加算
+        dataUpdate({ nicecount: doc.size }, {
+          colection1: "user",
+          documents1: props.documents1,
+          colection2: "posts",
+          documents2: props.documents2,
+        })
+
+        // 解除ボタンに表示を変更
+        setAction((n) => ({
+          style: "nice__button--un_nice",
+          value: doc.size,
+          caption: `Nice! ${doc.size}`,
+          function: () => { un_nice() }
+        }))
+      })
 
     // 通知データの登録
     const notification: notification = {
@@ -124,22 +130,27 @@ const NiceButtonArea: React.FC<props> = (props: props) => {
       },
     )
 
-    // 件数を加算
-    dataUpdate({ nicecount: --niceCount }, {
-      colection1: "user",
-      documents1: props.documents1,
-      colection2: "posts",
-      documents2: props.documents2,
-    })
+    // ナイスのドキュメント数を取得して反映
+    db.doc(`user/${props.documents1}/posts/${props.documents2}`)
+      .collection('nices').get()
+      .then((doc) => {
 
-    // ナイスボタンに表示を変更
-    setAction((n) => ({
-      style: "nice__button--to_nice",
-      value: n.value - 1,
-      caption: "Nice! " + (n.value - 1),
-      function: () => { to_nice() }
-    }))
+        // 件数を加算
+        dataUpdate({ nicecount: doc.size }, {
+          colection1: "user",
+          documents1: props.documents1,
+          colection2: "posts",
+          documents2: props.documents2,
+        })
 
+        // ナイスボタンに表示を変更
+        setAction((n) => ({
+          style: "nice__button--to_nice",
+          value: doc.size,
+          caption: `Nice! ${doc.size}`,
+          function: () => { to_nice() }
+        }))
+      })
   }
 
   return (
