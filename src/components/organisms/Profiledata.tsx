@@ -5,7 +5,7 @@ import img_cover_sample from '../../assets/images/profile/cover-sample.png'
 import img_avatar_sample from '../../assets/images/profile/avatar.png'
 import styles from '../../assets/scss/organisms/profiledata.module.scss';
 import { selectUser } from "../../common/state/userSlice"
-import { dataAdd, dataDelete } from "../../common/backend/model"
+import { dataAdd, dataUpdate, dataDelete } from "../../common/backend/model"
 import { follow, notification } from '../../common/utils/common-types'
 import { db } from '../../common/firebase/firebase';
 
@@ -29,6 +29,7 @@ const Profiledata: React.FC<props> = (props: props) => {
   const user = useSelector(selectUser)
 
   // hookによる状態管理
+  const [follower, setFollower] = useState(props.followercount)
   const [action, setAction] = useState({
     style: "",
     value: "",
@@ -65,12 +66,25 @@ const Profiledata: React.FC<props> = (props: props) => {
       },
       true)
 
+    // ナイスのドキュメント数を取得して反映
+    db.doc(`user/${user.uid}`)
+      .collection('followings').get()
+      .then((doc) => {
+        // 件数を加算
+        dataUpdate({ followercount: doc.size }, {
+          colection1: "user",
+          documents1: props.id,
+        })
+        setFollower(doc.size)
+      })
+
     // ボタン表示の変更
     setAction({
       style: "profiledata-follow__button--un-follow",
       value: "フォローを解除",
       function: () => { un_follow() }
     })
+
   }
 
   // フォロワー解除ボタンのクリック時処理
@@ -85,6 +99,18 @@ const Profiledata: React.FC<props> = (props: props) => {
         documents2: props.id
       }
     )
+
+    // ナイスのドキュメント数を取得して反映
+    db.doc(`user/${user.uid}`)
+      .collection('followings').get()
+      .then((doc) => {
+        // 件数を加算
+        dataUpdate({ followercount: doc.size }, {
+          colection1: "user",
+          documents1: props.id,
+        })
+        setFollower(doc.size)
+      })
 
     // ボタン表示の変更
     setAction({
@@ -140,7 +166,7 @@ const Profiledata: React.FC<props> = (props: props) => {
       <div className={styles["profiledata-follow"]}>
         <div>
           <div className={styles["profiledata-follow__title"]}>フォロワー</div>
-          <span className={styles["profiledata-follow__value"]}>12000人</span>
+          <span className={styles["profiledata-follow__value"]}>{follower}人</span>
         </div>
         <button className={styles[action.style]}
           onClick={action.function}>{action.value}</button>

@@ -60,7 +60,6 @@ describe('/user/{uid}', () => {
         testdata.profileid = "12345678901234567890"
         await firebase.assertSucceeds(db.collection('user').doc(userID).set(testdata))
       })
-
     })
 
     describe('異常系', () => {
