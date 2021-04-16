@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from '../../assets/scss/Molecules/diarycard.module.scss';
+import UserInfomation from '../atoms/UserInfomation';
 
 // このコンポーネントで扱う型宣言
 type props = {
@@ -26,11 +27,11 @@ const Diarycard: React.FC<props> = (props: props) => {
               <p className={styles["diary-imgcard__title"]}>{props.title}</p>
             </div>
             <div className={styles["diary-imgcard__infomation"]}>
-              <img className={styles["diary-imgcard__avatar"]} src={props.avatar_photo} alt="avatar photos" />
-              <div className={styles["diary-imgcard__data"]}>
-                <div className={styles["diary-imgcard__name"]}>{props.displayName}</div>
-                <div className={styles["diary-imgcard__date"]}>{props.create_at}</div>
-              </div>
+              <UserInfomation
+                photoUrl={props.avatar_photo}
+                displayName={props.displayName}
+                date={props.create_at}
+              />
               <div className={styles["diary-imgcard__nice"]}> <div>Nice! {props.nicecount}</div> </div>
             </div>
           </div>
@@ -45,11 +46,11 @@ const Diarycard: React.FC<props> = (props: props) => {
               <p className={styles["diary-card__title"]}>{props.title}</p>
             </div>
             <div className={styles["diary-card__infomation"]}>
-              <img className={styles["diary-card__avatar"]} src={props.avatar_photo} alt="avatar photos" />
-              <div className={styles["diary-card__data"]}>
-                <div className={styles["diary-card__name"]}>{props.displayName}</div>
-                <div className={styles["diary-card__date"]}>{props.create_at}</div>
-              </div>
+              <UserInfomation
+                photoUrl={props.avatar_photo}
+                displayName={props.displayName}
+                date={props.create_at}
+              />
               <div className={styles["diary-card__nice"]}>
                 <div>Nice! {props.nicecount}</div>
               </div>
