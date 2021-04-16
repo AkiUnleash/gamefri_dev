@@ -45,7 +45,6 @@ const ProfileView: React.FC = () => {
 
   ])
   const { profileid } = useParams<{ profileid?: string }>()
-  const [userid, setUserid] = useState('')
 
   useEffect(() => {
     // ログイン済みの確認
