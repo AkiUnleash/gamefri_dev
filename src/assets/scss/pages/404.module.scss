@@ -1,0 +1,34 @@
+@import '../variables';
+
+.contaner {
+    text-align: center;
+    margin: 104px auto 40px;
+    width: 664px;
+    @include mq(md) {
+        margin: 104px 10%;
+        width: 80%;
+    }
+    @include mq(sm) {
+        margin: 104px 5%;
+        width: 90%;
+    }
+}
+
+.logo {
+    width: 464px;
+    @include mq(md) {
+        width: 464px;
+    }
+    @include mq(sm) {
+        width: 90%;
+    }
+}
+
+.message {
+    margin: 32px auto 24px;
+}
+
+.link {
+    color: $mainColor;
+    border-bottom: $mainColor 1px solid;
+}
