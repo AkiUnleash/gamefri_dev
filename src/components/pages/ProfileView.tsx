@@ -71,7 +71,7 @@ const ProfileView: React.FC = () => {
             id: doc.id,
             avatarimage: doc.data().avatarurl,
             coverimage: doc.data().coverurl,
-            followercount: 0,
+            followercount: doc.data().followercount,
             nickname: doc.data().nickname,
             introduction: doc.data().introduction,
             gender: doc.data().gender,

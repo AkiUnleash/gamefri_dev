@@ -15,7 +15,7 @@ service cloud.firestore {
     }
 
     match /user/{userID} {
-      allow create, update: if isUserAuthenticated(userID)
+      allow create: if isUserAuthenticated(userID)
         && ('profileid' in request.resource.data)
         && ('create_at' in request.resource.data)
         && ('nickname' in request.resource.data)
@@ -28,9 +28,24 @@ service cloud.firestore {
         && (!('timeend' in request.resource.data) || (request.resource.data.timeend is string))
         && (!('avatarurl' in request.resource.data) || (request.resource.data.avatarurl is string))
         && (!('coverurl' in request.resource.data) || (request.resource.data.coverurl is string))
+      allow update: if (isUserAuthenticated(userID)
+        && ('profileid' in request.resource.data)
+        && ('create_at' in request.resource.data)
+        && ('nickname' in request.resource.data)
+        && (request.resource.data.create_at == request.time)
+        && (!('profileid' in request.resource.data) || (request.resource.data.profileid is string && request.resource.data.profileid.size() <= 20))
+        && (!('nickname' in request.resource.data) || (request.resource.data.nickname is string && request.resource.data.nickname.size() <= 100))
+        && (!('introduction' in request.resource.data) || (request.resource.data.introduction is string && request.resource.data.introduction.size() <= 10000))
+        && (!('playgame' in request.resource.data) || (request.resource.data.gender is string))
+        && (!('timestart' in request.resource.data) || (request.resource.data.timestart is string))
+        && (!('timeend' in request.resource.data) || (request.resource.data.timeend is string))
+        && (!('avatarurl' in request.resource.data) || (request.resource.data.avatarurl is string))
+        && (!('coverurl' in request.resource.data) || (request.resource.data.coverurl is string)))
+        || (isAnyAuthenticated() && (!('followercount' in request.resource.data) || (request.resource.data.followercount is number)))
     }
 
     match /user/{userID}/notifications/{notificationID} {
+      // allow create, update, delete: if true
       allow create, update : if isAnyAuthenticated()
         && ('message' in request.resource.data)
         && ('nickname' in request.resource.data)
@@ -44,6 +59,7 @@ service cloud.firestore {
     }
 
     match /user/{userID}/followings/{followUserID} {
+      // allow create, update, delete: if true
       allow create, update: if isUserAuthenticated(userID)
         && ('userID' in request.resource.data)
         && ('create_at' in request.resource.data)
@@ -79,6 +95,7 @@ service cloud.firestore {
     }
 
     match /user/{userID}/posts/{postID}/nices/{niceUserID} {
+      // allow create, update, delete: if true
       allow create, update: if isAnyAuthenticated()
         && ('create_at' in request.resource.data)
         && ('userID' in request.resource.data)
