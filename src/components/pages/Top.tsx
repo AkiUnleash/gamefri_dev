@@ -131,7 +131,8 @@ const Top: React.FC = () => {
   useEffect(() => {
     // 既にログイン済みの場合はHomeへ移動
     loginChack_done()
-  })
+    return () => loginChack_done()
+  }, [])
 
   return (
     <>

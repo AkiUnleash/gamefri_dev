@@ -30,7 +30,7 @@ const Diarydisplay: React.FC = () => {
   })
 
   useEffect(() => {
-    db.collection("user")
+    const unSub = db.collection("user")
       .where('profileid', '==', profileid)
       .onSnapshot((snapshot) => {
         snapshot.docs.forEach((doc) => {
@@ -55,6 +55,7 @@ const Diarydisplay: React.FC = () => {
         })
       }
       );
+    return () => unSub()
   }, []);
 
 

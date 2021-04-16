@@ -20,7 +20,7 @@ const NotificationArea: React.FC = () => {
   const user = useSelector(selectUser)
 
   useEffect(() => {
-    db.collection('user')
+    const unSub = db.collection('user')
       .doc(user.uid)
       .collection('notifications')
       .orderBy('create_at', 'desc')
@@ -35,6 +35,7 @@ const NotificationArea: React.FC = () => {
           }))
         )
       })
+    return () => unSub()
   }, [])
 
   return (

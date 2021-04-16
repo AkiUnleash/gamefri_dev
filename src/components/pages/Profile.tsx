@@ -15,6 +15,10 @@ const Profileedit: React.FC = () => {
     loginChack_yat();
     // メール認証確認
     authenticatedChack();
+    return () => {
+      loginChack_yat();
+      authenticatedChack();
+    }
   }, []);
 
   return (

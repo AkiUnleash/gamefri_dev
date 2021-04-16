@@ -24,7 +24,8 @@ const Signupfinish: React.FC = () => {
   useEffect(() => {
     // 既にログイン済みの場合はHomeへ移動
     logout()
-  })
+    return () => logout()
+  }, [])
 
   return (
     <>
