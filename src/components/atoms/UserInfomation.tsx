@@ -9,7 +9,7 @@ type props = {
   date: string
 }
 
-const UserInfomation = (props: props): JSX.Element => {
+const UserInfomation: React.FC<props> = (props: props) => {
   return (
     <div className={styles["contributor-infomation"]}>
       <img className={styles["contributor-infomation__avatar"]} src={props.photoUrl || img_avatar_sample} alt="avatar photos" />

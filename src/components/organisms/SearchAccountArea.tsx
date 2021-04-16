@@ -36,7 +36,7 @@ const SearchAccountArea: React.FC = () => {
   useEffect(() => {
     // オープン時にアカウントデータの全表示
     let account_temporary_storing: any
-    db.collection("user")
+    const unSub = db.collection("user")
       .onSnapshot((d) => {
         account_temporary_storing =
           d.docs.map((f) => (
@@ -53,6 +53,7 @@ const SearchAccountArea: React.FC = () => {
         // 検索の元となるデータ
         setAccountall(account_temporary_storing)
       })
+    return () => unSub()
   }, [])
 
   return (

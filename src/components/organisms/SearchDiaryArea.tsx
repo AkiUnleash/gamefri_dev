@@ -67,7 +67,6 @@ const SearchAccountArea: React.FC = () => {
         setPost(diary_temporary_storing)
         setPostall(diary_temporary_storing)
       })
-
   }, [])
 
   return (

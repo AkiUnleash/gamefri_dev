@@ -21,7 +21,6 @@ const NiceButtonArea: React.FC<props> = (props: props) => {
   const user = useSelector(selectUser)
 
   // hookでの状態管理
-  let niceCount = props.nicecount
   const [action, setAction] = useState({
     style: "",
     value: 0,
