@@ -101,4 +101,57 @@ describe('/user/{uid}', () => {
       })
     })
   })
+
+
+  describe('Update', () => {
+    describe('正常系', () => {
+
+      const userID = randomID().slice(0, 28)
+      const db = clientDB({ uid: userID })
+      const userID2 = randomID().slice(0, 28)
+      const db2 = clientDB({ uid: userID2 })
+
+      it('同じログインユーザーがデータを更新', async () => {
+        await db.collection('user').doc(userID).set(testdata_user)
+        await firebase.assertSucceeds(db.collection('user').doc(userID).update(testdata_user))
+      })
+
+      it('別のログインユーザーがフォロワー数を更新', async () => {
+        await db.collection('user').doc(userID).set(testdata_user)
+        await firebase.assertSucceeds(db2.collection('user').doc(userID).update({ followercount: 100 }))
+      })
+    })
+
+    describe('異常系', () => {
+      it('別のログインユーザーがフォロワー数以外の項目を更新', async () => {
+
+        const userID = randomID().slice(0, 28)
+        const db = clientDB({ uid: userID })
+
+        const userID2 = randomID().slice(0, 28)
+        const db2 = clientDB({ uid: userID2 })
+
+        await db.collection('user').doc(userID).set(testdata_user)
+        await firebase.assertFails(db2.collection('user').doc(userID).update(testdata_user))
+
+      })
+
+      const userID = randomID().slice(0, 28)
+      const db = clientDB({ uid: userID })
+
+      it('登録日に文字列を挿入', async () => {
+        db.collection('user').doc(userID).set(testdata_user)
+        const { ...testdata } = testdata_user
+        testdata.create_at = "2021/04/01"
+        await firebase.assertFails(db.collection('user').doc(userID).update(testdata))
+      })
+
+      it('プロフィールIDの桁数しきい値を超えている(20桁)', async () => {
+        db.collection('user').doc(userID).set(testdata_user)
+        const { ...testdata } = testdata_user
+        testdata.profileid = "123456789012345678901"
+        await firebase.assertFails(db.collection('user').doc(userID).update(testdata))
+      })
+    })
+  })
 })

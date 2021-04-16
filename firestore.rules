@@ -41,11 +41,10 @@ service cloud.firestore {
         && (!('timeend' in request.resource.data) || (request.resource.data.timeend is string))
         && (!('avatarurl' in request.resource.data) || (request.resource.data.avatarurl is string))
         && (!('coverurl' in request.resource.data) || (request.resource.data.coverurl is string)))
-        || (isAnyAuthenticated() && (!('followercount' in request.resource.data) || (request.resource.data.followercount is number)))
+        || (isAnyAuthenticated() && ('followercount' in request.resource.data)); 
     }
 
     match /user/{userID}/notifications/{notificationID} {
-      // allow create, update, delete: if true
       allow create, update : if isAnyAuthenticated()
         && ('message' in request.resource.data)
         && ('nickname' in request.resource.data)
@@ -59,7 +58,6 @@ service cloud.firestore {
     }
 
     match /user/{userID}/followings/{followUserID} {
-      // allow create, update, delete: if true
       allow create, update: if isUserAuthenticated(userID)
         && ('userID' in request.resource.data)
         && ('create_at' in request.resource.data)
@@ -95,7 +93,6 @@ service cloud.firestore {
     }
 
     match /user/{userID}/posts/{postID}/nices/{niceUserID} {
-      // allow create, update, delete: if true
       allow create, update: if isAnyAuthenticated()
         && ('create_at' in request.resource.data)
         && ('userID' in request.resource.data)
