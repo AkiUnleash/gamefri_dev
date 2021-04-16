@@ -13,6 +13,7 @@ import Diaryview from './components/pages/DiaryView';
 import SearchAccount from './components/pages/SearchAccount';
 import SearchDiary from './components/pages/SearchDiary';
 import Notification from './components/pages/Notification';
+import NotFound from './components/pages/404'
 import { login, logout } from './common/state/userSlice'
 import { useDispatch } from 'react-redux'
 import { auth, db } from "./common/firebase/firebase"
@@ -72,6 +73,7 @@ const Main: React.FC = () => {
                 <Route exact path="/search/account" component={SearchAccount} />
                 <Route exact path="/search/diary" component={SearchDiary} />
                 <Route exact path="/notification" component={Notification} />
+                <Route component={NotFound} />
             </Switch>
         </Router>
     );
