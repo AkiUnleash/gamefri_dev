@@ -6,6 +6,7 @@ import Usercard from '../molecules/Usercard'
 import styles from '../../assets/scss/organisms/search.module.scss'
 import { selectUser } from "../../common/state/userSlice"
 import { useSelector } from 'react-redux'
+import Loader from '../atoms/Loader'
 
 const SearchAccountArea: React.FC = () => {
 
@@ -13,6 +14,7 @@ const SearchAccountArea: React.FC = () => {
   const user = useSelector(selectUser)
 
   // hookでの状態管理
+  const [load, setLoad] = useState<boolean>(false)
   const [keyword, setKeyword] = useState('')
   const [account, setAccount] = useState([
     {
@@ -52,6 +54,8 @@ const SearchAccountArea: React.FC = () => {
         setAccount(account_temporary_storing)
         // 検索の元となるデータ
         setAccountall(account_temporary_storing)
+        // 読み込み完了
+        setLoad(true);
       })
     return () => unSub()
   }, [])
@@ -92,17 +96,18 @@ const SearchAccountArea: React.FC = () => {
           </div>
         </div>
 
-        {user.uid && (account.map((field, index) =>
-          <Usercard key={index}
-            link={`/user/${field.profileId}`}
-            photoUrl={field.avatarUrl}
-            displayName={field.nickname}
-            profileId={field.profileId}
-            message={field.introduction}
-            button={true}
-            id={field.uid} />
-        ))}
-
+        {load &&
+          user.uid && (account.map((field, index) =>
+            <Usercard key={index}
+              link={`/user/${field.profileId}`}
+              photoUrl={field.avatarUrl}
+              displayName={field.nickname}
+              profileId={field.profileId}
+              message={field.introduction}
+              button={true}
+              id={field.uid} />
+          ))}
+        {!load && <Loader />}
       </div>
 
     </>

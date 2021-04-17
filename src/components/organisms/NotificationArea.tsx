@@ -4,10 +4,12 @@ import Usercard from '../molecules/Usercard'
 import styles from '../../assets/scss/organisms/notification.module.scss'
 import { selectUser } from '../../common/state/userSlice'
 import { useSelector } from 'react-redux'
+import Loader from '../atoms/Loader'
 
 const NotificationArea: React.FC = () => {
 
   // hookによる状態管理
+  const [load, setLoad] = useState<boolean>(false)
   const [notification, setNotification] = useState([{
     nickname: "",
     profileid: "",
@@ -34,6 +36,7 @@ const NotificationArea: React.FC = () => {
             link: doc.data().link
           }))
         )
+        setLoad(true)
       })
     return () => unSub()
   }, [])
@@ -44,7 +47,7 @@ const NotificationArea: React.FC = () => {
         <div className={styles["notification-select"]}>
           <div className={styles["notification-select__set"]}>通知</div>
         </div>
-        {notification.map((n, index) =>
+        {load && notification.map((n, index) =>
           <Usercard key={index}
             link={n.link}
             photoUrl={n.avatarUrl}
@@ -54,6 +57,7 @@ const NotificationArea: React.FC = () => {
             button={false}
             id={""} />
         )}
+        {!load && <Loader />}
       </div>
     </>
   );

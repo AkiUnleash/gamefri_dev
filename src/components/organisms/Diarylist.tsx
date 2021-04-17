@@ -3,6 +3,8 @@ import { useSelector } from 'react-redux'
 import { db } from '../../common/firebase/firebase'
 import Diarycard from '../molecules/Diarycard'
 import { selectUser } from "../../common/state/userSlice"
+import Loader from '../atoms/Loader'
+import styles from '../../assets/scss/organisms/diarylist.module.scss'
 
 const Diarylist: React.FC = () => {
 
@@ -10,6 +12,7 @@ const Diarylist: React.FC = () => {
   const user = useSelector(selectUser);
 
   // hookでの状態管理
+  const [load, setLoad] = useState<boolean>(false)
   const [post, setPost] = useState([
     {
       id: "",
@@ -58,6 +61,7 @@ const Diarylist: React.FC = () => {
               if (a.create_at > b.create_at) { return -1; } else { return 1; }
             })
             setPost(posts)
+            setLoad(true)
           }
         }
         );
@@ -67,6 +71,7 @@ const Diarylist: React.FC = () => {
 
   return <div>
     {
+      load &&
       post[0]?.id && (
         <>
           {post.map((p, index) => (
@@ -85,6 +90,7 @@ const Diarylist: React.FC = () => {
       )
     }
     {
+      load &&
       !post[0]?.id && (
         <>
           <div>上の検索ボタンを押して、誰かをフォローしてください。</div>
@@ -92,6 +98,7 @@ const Diarylist: React.FC = () => {
         </>
       )
     }
+    {!load && <Loader />}
   </div>
 };
 
