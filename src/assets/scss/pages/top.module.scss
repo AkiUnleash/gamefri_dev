@@ -1,4 +1,4 @@
-@import 'variables';
+@import '../variables';
 
 @keyframes fadeIn_under {
     0% {
@@ -118,7 +118,7 @@
     padding: 88px 0px;
     flex-direction: column;
     flex-wrap: wrap;
-    background: repeat url('../images/top/top-background.png');
+    background: repeat url('../../images/top/top-background.png');
     background-size: 50px;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
     text-align: center;

@@ -1,8 +1,6 @@
 import React, { useEffect } from 'react';
-// Component
 import Header from '../organisms/Header_in';
 import DiaryWriteForm from '../organisms/Diarywriteform';
-// common
 import { loginChack_yat, authenticatedChack, profileDocumentExistence } from "../../common/backend/model"
 
 const DiaryWrite: React.FC = () => {
@@ -14,6 +12,12 @@ const DiaryWrite: React.FC = () => {
     authenticatedChack();
     // プロフィール入力有無確認
     profileDocumentExistence();
+
+    return () => {
+      loginChack_yat();
+      authenticatedChack();
+      profileDocumentExistence();
+    }
   }, []);
 
   return (

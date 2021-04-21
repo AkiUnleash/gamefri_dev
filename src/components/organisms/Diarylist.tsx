@@ -1,14 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux'
 import { db } from '../../common/firebase/firebase'
-// components
-import Diarycard from '../Molecules/Diarycard'
-// until
+import Diarycard from '../molecules/Diarycard'
 import { selectUser } from "../../common/state/userSlice"
-import { any } from 'prop-types';
+import Loader from '../atoms/Loader'
+import styles from '../../assets/scss/organisms/diarylist.module.scss'
 
 const Diarylist: React.FC = () => {
+
+  // Reduxにて状態管理のデータを取得
   const user = useSelector(selectUser);
+
+  // hookでの状態管理
+  const [load, setLoad] = useState<boolean>(false)
   const [post, setPost] = useState([
     {
       id: "",
@@ -24,15 +28,11 @@ const Diarylist: React.FC = () => {
     },
   ])
 
-  // フォロワーの日記データ取得
   useEffect(() => {
     let posts: any = []
+    // フォロワーを取得し日記データを取得する。
     user.follower.forEach(async (follower, index, array) => {
       const f = await db.collection("user").doc(follower).get()
-      const nickname = f.data()?.nickname
-      const avatarUrl = f.data()?.avatarurl
-      const profileID = f.data()?.profileid
-
       db.collection("user")
         .doc(follower)
         .collection("posts")
@@ -43,24 +43,25 @@ const Diarylist: React.FC = () => {
             title: doc.data().title,
             body: doc.data().body,
             gametitle: doc.data().gamename,
-            link: '/' + profileID + '/status/' + doc.id,
+            link: '/' + f.data()?.profileid + '/status/' + doc.id,
             nicecount: doc.data().nicecount,
-            displayName: nickname,
-            avatarUrl: avatarUrl,
+            displayName: f.data()?.nickname,
+            avatarUrl: f.data()?.avatarurl,
             attachUrl: doc.data().attachimage,
             create_at: `${doc.data().create_at.toDate().getFullYear()}/${("00" + (doc.data().create_at.toDate().getMonth() + 1)).slice(-2)}/${("00" + doc.data().create_at.toDate().getDate()).slice(-2)}`,
           }))
 
-          // Data accumulation
+          // フォロワーの日記データを蓄積していく。
           posts.push(...p)
+
+          // 最終ループ時に、useStateに挿入。
           if ((index + 1) === array.length) {
             // Sort 
             posts.sort((a: any, b: any) => {
-              if (a.create_at > b.create_at) {
-                return -1;
-              } else { return 1; }
+              if (a.create_at > b.create_at) { return -1; } else { return 1; }
             })
             setPost(posts)
+            setLoad(true)
           }
         }
         );
@@ -70,6 +71,7 @@ const Diarylist: React.FC = () => {
 
   return <div>
     {
+      load &&
       post[0]?.id && (
         <>
           {post.map((p, index) => (
@@ -88,6 +90,7 @@ const Diarylist: React.FC = () => {
       )
     }
     {
+      load &&
       !post[0]?.id && (
         <>
           <div>上の検索ボタンを押して、誰かをフォローしてください。</div>
@@ -95,6 +98,7 @@ const Diarylist: React.FC = () => {
         </>
       )
     }
+    {!load && <Loader />}
   </div>
 };
 

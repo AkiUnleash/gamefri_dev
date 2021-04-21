@@ -2,15 +2,19 @@ import React, { useEffect, useState } from 'react';
 import { db } from '../../common/firebase/firebase'
 import Textfield from '../atoms/Textfield'
 import Button from '../atoms/Button'
-import Usercard from '../Molecules/Usercard'
-import styles from '../../assets/scss/search.module.scss'
+import Usercard from '../molecules/Usercard'
+import styles from '../../assets/scss/organisms/search.module.scss'
 import { selectUser } from "../../common/state/userSlice"
 import { useSelector } from 'react-redux'
+import Loader from '../atoms/Loader'
 
 const SearchAccountArea: React.FC = () => {
 
+  // Reduxにて状態管理のデータを取得
   const user = useSelector(selectUser)
 
+  // hookでの状態管理
+  const [load, setLoad] = useState<boolean>(false)
   const [keyword, setKeyword] = useState('')
   const [account, setAccount] = useState([
     {
@@ -32,8 +36,9 @@ const SearchAccountArea: React.FC = () => {
   ])
 
   useEffect(() => {
+    // オープン時にアカウントデータの全表示
     let account_temporary_storing: any
-    db.collection("user")
+    const unSub = db.collection("user")
       .onSnapshot((d) => {
         account_temporary_storing =
           d.docs.map((f) => (
@@ -45,9 +50,14 @@ const SearchAccountArea: React.FC = () => {
               uid: f.data().uid
             }
           ))
+        // 表示用のデータ
         setAccount(account_temporary_storing)
+        // 検索の元となるデータ
         setAccountall(account_temporary_storing)
+        // 読み込み完了
+        setLoad(true);
       })
+    return () => unSub()
   }, [])
 
   return (
@@ -86,17 +96,18 @@ const SearchAccountArea: React.FC = () => {
           </div>
         </div>
 
-        {user.uid && (account.map((field, index) =>
-          <Usercard key={index}
-            link={`/user/${field.profileId}`}
-            photoUrl={field.avatarUrl}
-            displayName={field.nickname}
-            profileId={field.profileId}
-            message={field.introduction}
-            button={true}
-            id={field.uid} />
-        ))}
-
+        {load &&
+          user.uid && (account.map((field, index) =>
+            <Usercard key={index}
+              link={`/user/${field.profileId}`}
+              photoUrl={field.avatarUrl}
+              displayName={field.nickname}
+              profileId={field.profileId}
+              message={field.introduction}
+              button={true}
+              id={field.uid} />
+          ))}
+        {!load && <Loader />}
       </div>
 
     </>

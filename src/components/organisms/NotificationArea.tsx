@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { db } from '../../common/firebase/firebase'
-import Usercard from '../Molecules/Usercard'
-import styles from '../../assets/scss/notification.module.scss'
+import Usercard from '../molecules/Usercard'
+import styles from '../../assets/scss/organisms/notification.module.scss'
 import { selectUser } from '../../common/state/userSlice'
 import { useSelector } from 'react-redux'
+import Loader from '../atoms/Loader'
 
 const NotificationArea: React.FC = () => {
 
-  const [keyword, setKeyword] = useState('')
-  const user = useSelector(selectUser)
+  // hookによる状態管理
+  const [load, setLoad] = useState<boolean>(false)
   const [notification, setNotification] = useState([{
     nickname: "",
     profileid: "",
@@ -17,8 +18,11 @@ const NotificationArea: React.FC = () => {
     link: ""
   }])
 
+  // Reduxにて状態管理のデータを取得
+  const user = useSelector(selectUser)
+
   useEffect(() => {
-    db.collection('user')
+    const unSub = db.collection('user')
       .doc(user.uid)
       .collection('notifications')
       .orderBy('create_at', 'desc')
@@ -32,7 +36,9 @@ const NotificationArea: React.FC = () => {
             link: doc.data().link
           }))
         )
+        setLoad(true)
       })
+    return () => unSub()
   }, [])
 
   return (
@@ -41,7 +47,7 @@ const NotificationArea: React.FC = () => {
         <div className={styles["notification-select"]}>
           <div className={styles["notification-select__set"]}>通知</div>
         </div>
-        {notification.map((n, index) =>
+        {load && notification.map((n, index) =>
           <Usercard key={index}
             link={n.link}
             photoUrl={n.avatarUrl}
@@ -51,8 +57,8 @@ const NotificationArea: React.FC = () => {
             button={false}
             id={""} />
         )}
+        {!load && <Loader />}
       </div>
-
     </>
   );
 };

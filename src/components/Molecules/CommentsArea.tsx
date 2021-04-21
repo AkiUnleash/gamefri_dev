@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import styles from '../../assets/scss/diarydisplay.module.scss';
+import styles from '../../assets/scss/Molecules/commentsarea.module.scss';
 import Textarea from '../atoms/Textarea'
 import Button from '../atoms/Button'
 import UserInfomation from '../atoms/UserInfomation';
 import { dataAdd } from "../../common/backend/model"
 import { db } from '../../common/firebase/firebase'
 
+// このコンポーネントで扱う型宣言
 type props = {
   postUser: string,
   postID: string,
@@ -13,26 +14,19 @@ type props = {
   commentUserPhotoURL: string,
   commentUserDisplayName: string
 }
-type comments = [
-  {
-    photoUrl: string,
-    displayName: string,
-    date: string,
-    comment: string,
-  }]
-
 
 const CommentsArea: React.FC<props> = (props: props) => {
 
+  // hookでの状態管理
   const [comments, setComments] = useState([{
     photoUrl: "",
     displayName: "",
     date: "",
     comment: "",
   }])
-
   const [comment, setComment] = useState('')
 
+  // 登録ボタンクリック時の処理
   const onClickRegister = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault()
     dataAdd(
@@ -52,6 +46,7 @@ const CommentsArea: React.FC<props> = (props: props) => {
   }
 
   useEffect(() => {
+    // コメントの一覧表示
     const unsub = db.collection("user")
       .doc(props.postUser)
       .collection("posts")
@@ -64,7 +59,7 @@ const CommentsArea: React.FC<props> = (props: props) => {
             photoUrl: doc.data().photoUrl,
             displayName: doc.data().displayName,
             comment: doc.data().comment,
-            date: "2020/3/12"
+            date: `${doc.data().create_at.toDate().getFullYear()}/${("00" + (doc.data().create_at.toDate().getMonth() + 1)).slice(-2)}/${("00" + doc.data().create_at.toDate().getDate()).slice(-2)}`
           }))
         )
       })
