@@ -1,37 +1,50 @@
 import React, { useState } from 'react';
+import Errormessage from '../atoms/Errormessage'
 import { browserHistory } from "../../history"
-import styles from '../../assets/scss/signup.module.scss';
+import styles from '../../assets/scss/organisms/signupform.module.scss';
 import mui from '../../assets/css/mui.module.css'
 import Textfield from '../atoms/Textfield'
 import { auth, provider } from '../../common/firebase/firebase'
 import logo from '../../assets/images/logo_sm.svg'
 import { logout } from '../../common/backend/model'
-import { ALPN_ENABLED } from 'node:constants';
+import { isPassword, isEmail } from '../../common/validation/validation'
 
-const Singupform = (): JSX.Element => {
+const Singupform: React.FC = () => {
 
+  // hookでの状態管理
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [error, setError] = useState("")
 
   // Emailでのサインアップ処理
   const signUpEmail = async (event: React.FormEvent) => {
-    // form処理の矯正中断
     event.preventDefault()
+
     // バリデーション
-    if (!/^(?=.*?[a-z])(?=.*?\d)[a-z\d]{7,100}$/i.test(password)) {
-      alert("パスワードは英数字７文字以上で入力してください。")
+    let ErrorData = isEmail(email)
+    if (ErrorData) {
+      setError(ErrorData)
       return
     }
+    ErrorData = isPassword(password)
+    if (ErrorData) {
+      setError(ErrorData)
+      return
+    }
+
     // サインアップ
     const authUser = await auth.createUserWithEmailAndPassword(email, password)
+
     // アドレス確認のメール送信
     const createuser = authUser.user
     createuser && await createuser.sendEmailVerification();
     await logout()
+
     // 移動
     browserHistory.push("/signupfinished")
   }
 
+  // Googleアカウント認証処理
   const signInGoogle = async (event: React.FormEvent) => {
     event.preventDefault()
     await auth.signInWithPopup(provider).catch(err => alert(err.message));
@@ -40,11 +53,16 @@ const Singupform = (): JSX.Element => {
 
   return (
     <div className={styles["signup-form"]}>
-      <div className={styles["signup-form__logo"]}><img className={styles["signup-form__logoimg"]} src={logo} /></div>
+      <div className={styles["signup-form__logo"]}><img className={styles["signup-form__logoimg"]} src={logo} alt="Site logo" /></div>
       <form onSubmit={signUpEmail} className={mui["mui-form"]}>
         <div className={styles["signup-form__title"]}>
           <legend className={styles["signup-form__legend"]}>ゲムフレに新規アカウント登録</legend>
         </div>
+
+        {error && (
+          <Errormessage
+            message={error} />
+        )}
 
         <Textfield
           type="text"
@@ -67,7 +85,7 @@ const Singupform = (): JSX.Element => {
         </div>
 
         <div className={styles["signup-form__supplement"]}>
-          <div className={styles["signup-form__new-account"]}><a>新規アカウント登録はこちら</a></div>
+          <div className={styles["signup-form__new-account"]}><a href="./login">ログインはこちら</a></div>
         </div>
 
         <div className={styles["signup-other"]}>
@@ -77,6 +95,7 @@ const Singupform = (): JSX.Element => {
               onClick={signInGoogle}>Googleアカウント</button>
           </div>
         </div>
+
       </form>
     </div >
   );

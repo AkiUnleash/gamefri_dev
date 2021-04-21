@@ -2,13 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { db } from '../../common/firebase/firebase'
 import Textfield from '../atoms/Textfield'
 import Button from '../atoms/Button'
-import Diarycard from '../Molecules/Diarycard'
-import styles from '../../assets/scss/search.module.scss'
+import Diarycard from '../molecules/Diarycard'
+import styles from '../../assets/scss/organisms/search.module.scss'
+import Loader from '../atoms/Loader'
 
 const SearchAccountArea: React.FC = () => {
 
+  // hookでの状態管理
+  const [load, setLoad] = useState<boolean>(false)
   const [keyword, setKeyword] = useState('')
-
   const [post, setPost] = useState([
     {
       id: "",
@@ -26,7 +28,6 @@ const SearchAccountArea: React.FC = () => {
       nickname: "",
     },
   ])
-
   const [postall, setPostall] = useState([
     {
       id: "",
@@ -67,8 +68,9 @@ const SearchAccountArea: React.FC = () => {
         ))
         setPost(diary_temporary_storing)
         setPostall(diary_temporary_storing)
+        // 読み込み完了
+        setLoad(true);
       })
-
   }, [])
 
   return (
@@ -116,7 +118,7 @@ const SearchAccountArea: React.FC = () => {
           </div>
         </div>
 
-        {
+        {load &&
           post[0]?.id && (
             <>
               {post.map((p, index) => (
@@ -134,9 +136,8 @@ const SearchAccountArea: React.FC = () => {
             </>
           )
         }
-
+        {!load && <Loader />}
       </div>
-
     </>
   );
 };

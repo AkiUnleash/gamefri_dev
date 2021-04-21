@@ -1,0 +1,11 @@
+@import '../variables';
+
+.error-message {
+    margin: 16px auto;
+    padding: 4px;
+    border: $errorColor1 solid 1px;
+    border-radius: 3px;
+    text-align: center;
+    background-color: $errorColor2;
+    color: $errorColor1;
+}

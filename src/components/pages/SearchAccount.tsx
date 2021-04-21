@@ -11,6 +11,11 @@ const SearchAccount: React.FC = () => {
     authenticatedChack();
     // プロフィール入力有無確認
     profileDocumentExistence();
+    return () => {
+      loginChack_yat();
+      authenticatedChack();
+      profileDocumentExistence();
+    }
   })
 
   return (

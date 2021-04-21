@@ -1,6 +1,7 @@
 import { db, auth, storage, serverTime } from '../firebase/firebase'
 import { profile, diarywrite, diarycomments, follow, nice, notification } from '../utils/common-types'
 
+// 保存場所を指定する型宣言
 type place = {
   colection1: string,
   documents1: string,
@@ -11,10 +12,12 @@ type place = {
 }
 
 // Firestoreにデータを保存
-export const dataAdd = <T extends profile | diarywrite | diarycomments | follow | nice | notification, U extends place, V extends boolean>
-  (data: T, place: U, timestanp?: V,
+export const dataAdd = <T extends profile | diarywrite | diarycomments | follow | nice | notification
+  , U extends place
+  , V extends boolean>(data: T, place: U, timestanp?: V,
 ) => {
 
+  // タイムスタンプの有無
   if (timestanp) { data['create_at'] = serverTime }
 
   if (
@@ -75,6 +78,7 @@ export const dataAdd = <T extends profile | diarywrite | diarycomments | follow 
 
 // Firestoreのデータ更新
 export const dataUpdate = (data: {}, place: place) => {
+
   if (
     place.colection1 && place.documents1 &&
     place.colection2 && place.documents2 &&
@@ -169,14 +173,14 @@ export const dataDelete = (place: place) => {
 
 // Firebase strageにイメージを保存
 export const imageAdd = async (path: string, fileName: string, imageFile: File) => {
-  // ランダムファイル名
+
+  // ファイル名をrandomで生成
   const S =
     "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
   const N = 16
   const randomChar = Array.from(crypto.getRandomValues(new Uint32Array(N)))
     .map((n) => S[n % S.length])
     .join("");
-
   const NewfileName = `${randomChar}_${fileName}`;
 
   // firebase storagenに保存
@@ -187,26 +191,26 @@ export const imageAdd = async (path: string, fileName: string, imageFile: File) 
   return url;
 }
 
+// Firebase Authentication のプロフィールを修正
 export const updateProfile = async (displayName: string, photoURL: string) => {
-
   await auth.currentUser?.updateProfile({
     displayName: displayName,
     photoURL: photoURL,
   });
-
-  console.log("displayname", auth.currentUser?.displayName);
-
 }
 
+// データの取得
 export const dataInport = async (colectionName: string, documentName: string) => {
   const getData = db.collection(colectionName).doc(documentName)
   return getData
 }
 
+// データの取得（サブ）
 export const subDataInport = (colectionName: string, documentName: string, subColectionName: string) => {
   return db.collection(colectionName).doc(documentName).collection(subColectionName)
 }
 
+// ログアウト処理
 export const logout = (): void => {
   auth.signOut();
 }

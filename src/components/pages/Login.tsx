@@ -5,11 +5,12 @@ import Header from '../organisms/Header';
 import Footer from '../organisms/Footer';
 import { loginChack_done } from '../../common/backend/model'
 
-const Login = (): JSX.Element => {
+const Login: React.FC = () => {
   useEffect(() => {
     // 既にログイン済みの場合はHomeへ移動
     loginChack_done()
-  })
+    return () => loginChack_done()
+  }, [])
   return (
     <>
       <Header />
