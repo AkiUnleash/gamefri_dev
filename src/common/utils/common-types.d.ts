@@ -27,6 +27,7 @@ interface diarywrite {
   profileid: string,
   avatarurl: string,
   nickname: string,
+  uid: string,
   create_at?: firebase.firestore.FieldValue
   update_at?: firebase.firestore.FieldValue
 }
