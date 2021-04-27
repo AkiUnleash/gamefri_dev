@@ -50,6 +50,16 @@ const Profiledata: React.FC<props> = (props: props) => {
       },
       true)
 
+    const follower: follow = { userID: props.id }
+    dataAdd(follower,
+      {
+        colection1: "user",
+        documents1: props.id,
+        colection2: "followers",
+        documents2: user.uid,
+      },
+      true)
+
     // 通知データの送信
     const notification: notification = {
       avatarurl: user.photoUrl,
@@ -97,6 +107,15 @@ const Profiledata: React.FC<props> = (props: props) => {
         documents1: user.uid,
         colection2: "followings",
         documents2: props.id
+      }
+    )
+
+    dataDelete(
+      {
+        colection1: "user",
+        documents1: props.id,
+        colection2: "followers",
+        documents2: user.uid,
       }
     )
 
