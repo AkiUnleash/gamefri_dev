@@ -79,6 +79,7 @@ const DiaryWriteForm: React.FC = () => {
         profileid: user.profileID,
         avatarurl: user.photoUrl,
         nickname: user.displayName,
+        userID: user.uid,
       },
       {
         colection1: 'user',
