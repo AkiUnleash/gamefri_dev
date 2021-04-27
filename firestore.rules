@@ -45,6 +45,7 @@ service cloud.firestore {
     }
 
     match /user/{userID}/notifications/{notificationID} {
+      // allow create, update, delete: if true
       allow create, update : if isAnyAuthenticated()
         && ('message' in request.resource.data)
         && ('nickname' in request.resource.data)
@@ -58,12 +59,23 @@ service cloud.firestore {
     }
 
     match /user/{userID}/followings/{followUserID} {
+      // allow create, update, delete: if true
       allow create, update: if isUserAuthenticated(userID)
         && ('userID' in request.resource.data)
         && ('create_at' in request.resource.data)
         && (!('userID' in request.resource.data) || (request.resource.data.userID is string ))
         && (request.resource.data.create_at == request.time)
       allow delete: if isUserAuthenticated(userID)
+    }
+
+    match /user/{userID}/followers/{followersUserID} {
+      allow create, update, delete: if true
+      // allow create, update: if isUserAuthenticated(userID)
+      //   && ('userID' in request.resource.data)
+      //   && ('create_at' in request.resource.data)
+      //   && (!('userID' in request.resource.data) || (request.resource.data.userID is string ))
+      //   && (request.resource.data.create_at == request.time)
+      // allow delete: if isUserAuthenticated(userID)
     }
 
     match /user/{userID}/posts/{postID} {
@@ -93,6 +105,7 @@ service cloud.firestore {
     }
 
     match /user/{userID}/posts/{postID}/nices/{niceUserID} {
+      // allow create, update, delete: if true
       allow create, update: if isAnyAuthenticated()
         && ('create_at' in request.resource.data)
         && ('userID' in request.resource.data)
