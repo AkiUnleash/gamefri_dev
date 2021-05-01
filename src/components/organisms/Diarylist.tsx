@@ -4,7 +4,20 @@ import { db } from '../../common/firebase/firebase'
 import Diarycard from '../molecules/Diarycard'
 import { selectUser } from "../../common/state/userSlice"
 import Loader from '../atoms/Loader'
-import styles from '../../assets/scss/organisms/diarylist.module.scss'
+import InfiniteScroll from 'react-infinite-scroller';
+
+type posts = {
+  id: string,
+  title: string,
+  body: string,
+  gametitle: string,
+  nicecount: number,
+  attachUrl: string,
+  displayName: string,
+  avatarUrl: string,
+  link: string,
+  create_at: string
+}
 
 const Diarylist: React.FC = () => {
 
@@ -12,93 +25,131 @@ const Diarylist: React.FC = () => {
   const user = useSelector(selectUser);
 
   // hookでの状態管理
-  const [load, setLoad] = useState<boolean>(false)
-  const [post, setPost] = useState([
-    {
-      id: "",
-      title: "",
-      body: "",
-      gametitle: "",
-      nicecount: 0,
-      attachUrl: "",
-      displayName: "",
-      avatarUrl: "",
-      link: "",
-      create_at: ""
-    },
-  ])
+  const [post, setPost] = useState<posts[]>([])
+  const [oldestId, setOldestId] = useState('')
+  const [lastDate, setLastDate] = useState('')
+
+  // 通知コレクションの最初の通知IDを取得
+  const getLastID = async () => {
+    const res = await db.collection('user')
+      .doc(user.uid)
+      .collection('timeline')
+      .orderBy('create_at', 'asc')
+      .limit(1)
+      .get()
+
+    setOldestId(res.docs[0].id)
+  }
+
+  const isPost = () => {
+    console.log(post.length);
+
+    if (post.length) {
+      return oldestId !== post[post.length - 1].id
+    } else {
+      return false
+    }
+  }
+
+  const getPosts: any = async () => {
+
+    let fetchPosts = db.collection("user")
+      .doc(user.uid)
+      .collection("timeline")
+      .orderBy('create_at', 'desc')
+
+    if (lastDate) {
+      if (oldestId === post[post.length - 1].id) {
+        return
+      } else {
+        fetchPosts = fetchPosts.startAfter(lastDate)
+      }
+    }
+    const res = await fetchPosts.limit(3).get()
+    setLastDate(res.docs[res.docs.length - 1].data().create_at)
+
+    const datain = async (dataglobal: any) => {
+      const timeline: any = []
+      await res.docs.forEach((doc) => {
+        db.collection('user')
+          .doc(doc.data().userID)
+          .collection('posts')
+          .doc(doc.data().postID)
+          .onSnapshot(doc => {
+            timeline.push({
+              id: doc.id,
+              title: doc.data()?.title,
+              body: doc.data()?.body,
+              gametitle: doc.data()?.gamename,
+              link: '/' + doc.data()?.profileid + '/status/' + doc.id,
+              nicecount: doc.data()?.nicecount,
+              displayName: doc.data()?.nickname,
+              avatarUrl: doc.data()?.avatarurl,
+              attachUrl: doc.data()?.attachimage,
+              create_at: `${doc.data()?.create_at.toDate().getFullYear()}/${("00" + (doc.data()?.create_at.toDate().getMonth() + 1)).slice(-2)}/${("00" + doc.data()?.create_at.toDate().getDate()).slice(-2)}`,
+            })
+          })
+      })
+      await dataglobal(timeline)
+    }
+
+    const dataglobal = (timeline: any) => {
+      const posts: posts[] = timeline.reduce(
+        (acc: posts[], doc: posts) => [
+          ...acc,
+          {
+            id: doc.id,
+            title: doc.title,
+            body: doc.body,
+            gametitle: doc.gametitle,
+            nicecount: doc.nicecount,
+            attachUrl: doc.attachUrl,
+            displayName: doc.displayName,
+            avatarUrl: doc.avatarUrl,
+            link: doc.link,
+            create_at: doc.create_at
+          }
+        ],
+        post
+      )
+      setPost(posts)
+    }
+
+    datain(dataglobal)
+  }
 
   useEffect(() => {
-    let posts: any = []
-    // フォロワーを取得し日記データを取得する。
-    user.follower.forEach(async (follower, index, array) => {
-      const f = await db.collection("user").doc(follower).get()
-      db.collection("user")
-        .doc(follower)
-        .collection("posts")
-        .orderBy("create_at", "desc")
-        .onSnapshot((snapshot) => {
-          const p = snapshot.docs.map((doc) => ({
-            id: doc.id,
-            title: doc.data().title,
-            body: doc.data().body,
-            gametitle: doc.data().gamename,
-            link: '/' + f.data()?.profileid + '/status/' + doc.id,
-            nicecount: doc.data().nicecount,
-            displayName: f.data()?.nickname,
-            avatarUrl: f.data()?.avatarurl,
-            attachUrl: doc.data().attachimage,
-            create_at: `${doc.data().create_at.toDate().getFullYear()}/${("00" + (doc.data().create_at.toDate().getMonth() + 1)).slice(-2)}/${("00" + doc.data().create_at.toDate().getDate()).slice(-2)}`,
-          }))
+    getLastID();
+    getPosts();
 
-          // フォロワーの日記データを蓄積していく。
-          posts.push(...p)
-
-          // 最終ループ時に、useStateに挿入。
-          if ((index + 1) === array.length) {
-            // Sort 
-            posts.sort((a: any, b: any) => {
-              if (a.create_at > b.create_at) { return -1; } else { return 1; }
-            })
-            setPost(posts)
-            setLoad(true)
-          }
-        }
-        );
-    })
+    return () => {
+      getLastID();
+      getPosts();
+    }
   }, []);
 
 
   return <div>
     {
-      load &&
-      post[0]?.id && (
-        <>
-          {post.map((p, index) => (
-            <Diarycard key={index}
-              title={p.title}
-              gametitle={p.gametitle}
-              attach_photo={p.attachUrl}
-              nicecount={p.nicecount}
-              link={p.link}
-              displayName={p.displayName}
-              avatar_photo={p.avatarUrl}
-              create_at={p.create_at}
-            />
-          ))}
-        </>
-      )
+      <InfiniteScroll
+        loadMore={getPosts}
+        hasMore={isPost()}
+        loader={<Loader key={0} />}
+      >
+        {post.map((p, index) => (
+          <Diarycard key={index}
+            title={p.title}
+            gametitle={p.gametitle}
+            attach_photo={p.attachUrl}
+            nicecount={p.nicecount}
+            link={p.link}
+            displayName={p.displayName}
+            avatar_photo={p.avatarUrl}
+            create_at={p.create_at}
+          />
+        ))}
+      </InfiniteScroll>
     }
-    {
-      load &&
-      !post[0]?.id && (
-        <>
-          <div>上の検索ボタンを押して、誰かをフォローしてください。</div>
-          <div>フォローしたアカウントの日記が見られます。</div>
-        </>
-      )
-    }
-    {!load && <Loader />}
   </div>
 };
 
