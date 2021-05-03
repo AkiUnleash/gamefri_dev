@@ -42,7 +42,7 @@ const Diarylist: React.FC = () => {
   }
 
   const isPost = () => {
-    console.log(post.length);
+
 
     if (post.length) {
       return oldestId !== post[post.length - 1].id
@@ -65,16 +65,22 @@ const Diarylist: React.FC = () => {
         fetchPosts = fetchPosts.startAfter(lastDate)
       }
     }
-    const res = await fetchPosts.limit(3).get()
-    setLastDate(res.docs[res.docs.length - 1].data().create_at)
+    const res = await fetchPosts.limit(5).get()
 
     const datain = async (dataglobal: any) => {
       const timeline: any = []
-      await res.docs.forEach((doc) => {
+      const postids: any[] = await res.docs.map((doc) => {
+        return {
+          userID: doc.data().userID,
+          postID: doc.data().postID,
+        }
+      })
+
+      await postids.forEach((p, index, array) => {
         db.collection('user')
-          .doc(doc.data().userID)
+          .doc(p.userID)
           .collection('posts')
-          .doc(doc.data().postID)
+          .doc(p.postID)
           .onSnapshot(doc => {
             timeline.push({
               id: doc.id,
@@ -88,9 +94,13 @@ const Diarylist: React.FC = () => {
               attachUrl: doc.data()?.attachimage,
               create_at: `${doc.data()?.create_at.toDate().getFullYear()}/${("00" + (doc.data()?.create_at.toDate().getMonth() + 1)).slice(-2)}/${("00" + doc.data()?.create_at.toDate().getDate()).slice(-2)}`,
             })
+            if ((index + 1) === array.length) {
+              setLastDate(res.docs[res.docs.length - 1].data().create_at)
+              dataglobal(timeline)
+            }
           })
       })
-      await dataglobal(timeline)
+
     }
 
     const dataglobal = (timeline: any) => {
