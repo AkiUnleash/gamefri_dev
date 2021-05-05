@@ -7,8 +7,14 @@ import styles from '../../assets/scss/organisms/search.module.scss'
 import { selectUser } from "../../common/state/userSlice"
 import { useSelector } from 'react-redux'
 import Loader from '../atoms/Loader'
+import algoliasearch from 'algoliasearch'
 
 const SearchAccountArea: React.FC = () => {
+
+  const client = algoliasearch(
+    process.env.ALGOLIA_APPLICATION_ID || "",
+    process.env.ALGOLIA_SEARCH_ONLY_API || "",
+  );
 
   // Reduxにて状態管理のデータを取得
   const user = useSelector(selectUser)
@@ -25,20 +31,36 @@ const SearchAccountArea: React.FC = () => {
       uid: ""
     }
   ])
-  const [accountall, setAccountall] = useState([
-    {
-      profileId: "",
-      nickname: "",
-      avatarUrl: "",
-      introduction: "",
-      uid: ""
-    }
-  ])
+
+  const accountFind = (e: React.ChangeEvent<HTMLInputElement>) => {
+
+    e.preventDefault();
+
+    const index = client.initIndex(process.env.ALGOLIA_INDEX_ACCOUNT || "");
+    index.search(keyword).then(({ hits }) => {
+      console.log(hits);
+      const accounts: any[] = hits.map(
+        (doc: any) => (
+          {
+            profileId: doc.profileid,
+            nickname: doc.nickname,
+            avatarUrl: doc.avatarurl,
+            introduction: doc.introduction,
+            uid: doc.userID
+          }
+        )
+      )
+      setAccount(accounts)
+    })
+  }
 
   useEffect(() => {
-    // オープン時にアカウントデータの全表示
+    // クリック時の処理（検索）
+    // オープン時にアカウントデータを表示（最新の５個）
     let account_temporary_storing: any
     const unSub = db.collection("user")
+      .limit(5)
+      .orderBy("create_at", 'desc')
       .onSnapshot((d) => {
         account_temporary_storing =
           d.docs.map((f) => (
@@ -52,9 +74,6 @@ const SearchAccountArea: React.FC = () => {
           ))
         // 表示用のデータ
         setAccount(account_temporary_storing)
-        // 検索の元となるデータ
-        setAccountall(account_temporary_storing)
-        // 読み込み完了
         setLoad(true);
       })
     return () => unSub()
@@ -85,14 +104,7 @@ const SearchAccountArea: React.FC = () => {
               classDiv="submit__button"
               classButton={"検索"}
               value={"検索"}
-              action={(e: React.ChangeEvent<HTMLInputElement>) => {
-                e.preventDefault();
-                if (keyword) {
-                  setAccount(accountall.filter((a) => ~a.nickname.indexOf(keyword)));
-                } else {
-                  setAccount(accountall)
-                }
-              }} />
+              action={(e: React.ChangeEvent<HTMLInputElement>) => accountFind(e)} />
           </div>
         </div>
 
