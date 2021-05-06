@@ -86,14 +86,14 @@ const NotificationArea: React.FC = () => {
   }
 
   useEffect(() => {
+    let isMounted = true;
     // 通知コレクションの最初の通知IDを取得
-    getLastID()
-    getNotifications()
-
-    return () => {
+    if (isMounted) {
       getLastID()
       getNotifications()
     }
+
+    return () => { isMounted = false }
   }, [])
 
   return (

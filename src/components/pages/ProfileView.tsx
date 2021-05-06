@@ -47,6 +47,7 @@ const ProfileView: React.FC = () => {
   const { profileid } = useParams<{ profileid?: string }>()
 
   useEffect(() => {
+
     // ログイン済みの確認
     loginChack_yat();
     // メール認証確認

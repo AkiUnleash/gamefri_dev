@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom'
 import { db } from '../../common/firebase/firebase'
 import Textfield from '../atoms/Textfield'
 import Button from '../atoms/Button'
@@ -84,8 +85,8 @@ const SearchAccountArea: React.FC = () => {
       <div className={styles['container']}>
 
         <div className={styles["search-select"]}>
-          <a href="/search/account" className={styles["search-select__set"]}>アカウント</a>
-          <a href="/search/diary" className={styles["search-select__none"]}>日記</a>
+          <Link to="/search/account" className={styles["search-select__set"]}>アカウント</Link>
+          <Link to="/search/diary" className={styles["search-select__none"]}>日記</Link>
         </div>
 
         <div className={styles["search-bar"]}>
