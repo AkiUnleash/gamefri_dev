@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom'
 import styles from '../../assets/scss/Molecules/diarycard.module.scss';
 import UserInfomation from '../atoms/UserInfomation';
 
@@ -19,7 +20,7 @@ const Diarycard: React.FC<props> = (props: props) => {
   return (
     props.attach_photo ?
       <>
-        <a className={styles["card"]} href={props.link}>
+        <Link className={styles["card"]} to={props.link}>
           <div className={styles["diary-imgcard"]}>
             <div className={styles["diary-imgcard__photo"]}>
               <img className={styles["diary-imgcard__photo-img"]} src={props.attach_photo} alt="Posted" />
@@ -35,11 +36,11 @@ const Diarycard: React.FC<props> = (props: props) => {
               <div className={styles["diary-imgcard__nice"]}> <div>Nice! {props.nicecount}</div> </div>
             </div>
           </div>
-        </a>
+        </Link>
       </>
       :
       <>
-        <a className={styles["card"]} href={props.link}>
+        <Link className={styles["card"]} to={props.link}>
           <div className={styles["diary-card"]}>
             <div className={styles["diary-card__text"]}>
               <p className={styles["diary-card__gametitle"]}>{props.gametitle}</p>
@@ -55,7 +56,7 @@ const Diarycard: React.FC<props> = (props: props) => {
                 <div>Nice! {props.nicecount}</div>
               </div>
             </div>
-          </div></a>
+          </div></Link>
       </>
   );
 };

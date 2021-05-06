@@ -129,13 +129,13 @@ const Diarylist: React.FC = () => {
   }
 
   useEffect(() => {
-    getLastID();
-    getPosts();
-
-    return () => {
+    let isMounted = true;
+    if (isMounted) {
       getLastID();
       getPosts();
     }
+
+    return () => { isMounted = false }
   }, []);
 
 
