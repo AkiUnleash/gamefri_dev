@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Textfield from '../atoms/Textfield'
 import styles from '../../assets/scss/Molecules/repassword.module.scss';
 import imgClose from '../../assets/images/button/close.svg'
+import { rePasswordSend } from '../../common/backend/model'
 
 type props = {
   closeAction: () => void,
@@ -29,7 +30,10 @@ const Repassword: React.FunctionComponent<props> = (props: props) => {
           label="ログインID" />
         <div className={styles["repassword__send"]}>
           <button className={styles["repassword__send-button"]}
-            onClick={() => { console.log(email); }} >送信</button>
+            onClick={() => {
+              rePasswordSend(email);
+              props.closeAction()
+            }} >送信</button>
         </div>
       </div>
     </div>

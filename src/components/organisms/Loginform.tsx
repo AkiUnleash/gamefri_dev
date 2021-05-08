@@ -18,11 +18,7 @@ const Loginform: React.FC = () => {
   const [repassword, setRepassword] = useState(false)
 
   // パスワード再設定コンポーネントを閉じる
-  const repasswordClose = () => {
-    setRepassword(false)
-    console.log("are you ok?");
-
-  }
+  const repasswordClose = () => { setRepassword(false) }
 
   // E-mailでのサインイン処理
   const signInEmail = async (event: React.FormEvent) => {
