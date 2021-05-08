@@ -262,7 +262,3 @@ export const profileDocumentExistence = () => {
     }
   })
 }
-
-export const rePasswordSend = (email: string) => {
-  auth.sendPasswordResetEmail(email);
-}
