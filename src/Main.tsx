@@ -6,6 +6,7 @@ import Login from './components/pages/Login';
 import Singup from './components/pages/Singup';
 import TermsOfService from './components/pages/TermsOfService';
 import TermsOfPolicies from './components/pages/TermsOfPolicies';
+import Price from './components/pages/Price';
 import Signupfinish from './components/pages/Signupfinish';
 import Profile from './components/pages/Profile';
 import DiaryWrite from './components/pages/Diarywrite';
@@ -67,6 +68,7 @@ const Main: React.FC = () => {
                 <Route exact path="/login" component={Login} />
                 <Route exact path="/signup" component={Singup} />
                 <Route exact path="/service" component={TermsOfService} />
+                <Route exact path="/price" component={Price} />
                 <Route exact path="/policies" component={TermsOfPolicies} />
                 <Route exact path="/signupfinished" component={Signupfinish} />
                 <Route exact path="/profile" component={Profile} />
