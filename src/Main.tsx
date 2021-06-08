@@ -4,6 +4,7 @@ import { browserHistory } from "./history";
 import Top from './components/pages/Top';
 import Login from './components/pages/Login';
 import Singup from './components/pages/Singup';
+import TermsOfService from './components/pages/TermsOfService';
 import Signupfinish from './components/pages/Signupfinish';
 import Profile from './components/pages/Profile';
 import DiaryWrite from './components/pages/Diarywrite';
@@ -64,6 +65,7 @@ const Main: React.FC = () => {
                 <Route exact path="/" component={Top} />
                 <Route exact path="/login" component={Login} />
                 <Route exact path="/signup" component={Singup} />
+                <Route exact path="/service" component={TermsOfService} />
                 <Route exact path="/signupfinished" component={Signupfinish} />
                 <Route exact path="/profile" component={Profile} />
                 <Route exact path="/diarywrite" component={DiaryWrite} />
