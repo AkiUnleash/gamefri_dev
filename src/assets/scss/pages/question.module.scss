@@ -1,0 +1,38 @@
+@import '../variables';
+
+.contaner {
+    margin: 104px auto;
+    width: 664px;
+    @include mq(md) {
+        margin: 104px 10%;
+        width: 80%;
+    }
+    @include mq(sm) {
+        margin: 104px 5%;
+        width: 90%;
+    }
+}
+
+.question {
+    &__title {
+        font-size: 30px;
+        color: $extraColor;
+    }
+    &__box {
+        width: 100%;
+        margin: 24px 0;
+        &--q {
+            width: 100%;
+            background-color: $mainColor;
+            border: 1px solid $mainColor;
+            color: $baseColor;
+            padding: 24px;
+        }
+        &--a {
+            width: 100%;
+            color: $subColor;
+            padding: 24px;
+            border: 1px solid $mainColor;
+        }
+    }
+}
