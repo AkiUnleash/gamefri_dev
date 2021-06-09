@@ -8,7 +8,7 @@ const Question: React.FC = () => {
   return (
     <>
       <Header />
-      <div className={styles['contaner']}>
+      <div className={styles['container']}>
         <div className={styles['question__title']}>よくある質問</div>
 
         <div className={styles['question__box']}>

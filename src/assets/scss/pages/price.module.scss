@@ -1,7 +1,7 @@
 @import '../variables';
 
 .container {
-    margin: 104px auto 40px;
+    margin: 104px auto;
     width: 664px;
     @include mq(md) {
         margin: 104px 10%;
