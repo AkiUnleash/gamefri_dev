@@ -8,6 +8,7 @@ import TermsOfService from './components/pages/TermsOfService';
 import TermsOfPolicies from './components/pages/TermsOfPolicies';
 import Price from './components/pages/Price';
 import Question from './components/pages/Question'
+import Inquiry from './components/pages/Inquiry'
 import Signupfinish from './components/pages/Signupfinish';
 import Profile from './components/pages/Profile';
 import DiaryWrite from './components/pages/Diarywrite';
@@ -72,6 +73,7 @@ const Main: React.FC = () => {
                 <Route exact path="/price" component={Price} />
                 <Route exact path="/question" component={Question} />
                 <Route exact path="/policies" component={TermsOfPolicies} />
+                <Route exact path="/inquiry" component={Inquiry} />
                 <Route exact path="/signupfinished" component={Signupfinish} />
                 <Route exact path="/profile" component={Profile} />
                 <Route exact path="/diarywrite" component={DiaryWrite} />
