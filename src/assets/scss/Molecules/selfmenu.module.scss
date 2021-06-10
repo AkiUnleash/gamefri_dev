@@ -1,0 +1,20 @@
+@import '../variables';
+
+.selfmenu {
+    display: flex;
+    justify-content: flex-end;
+    margin: 12px 0;
+    z-index: 0;
+    text-align: right;
+    &__window {
+        position: relative;
+        top: 0;
+        left: 0;
+        border: solid $subColor 1px;
+        border-radius: 3px;
+        z-index: 10;
+    }
+    &__button {
+        padding: 8px 24px;
+    }
+}

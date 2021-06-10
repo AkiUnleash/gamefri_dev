@@ -30,6 +30,7 @@ interface diarywrite {
   userID: string,
   create_at?: firebase.firestore.FieldValue
   update_at?: firebase.firestore.FieldValue
+  delete_at?: firebase.firestore.FieldValue
 }
 
 interface diarycomments {

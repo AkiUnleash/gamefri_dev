@@ -7,6 +7,7 @@ import styles from '../../assets/scss/organisms/diarydisplay.module.scss';
 import UserInfomation from '../atoms/UserInfomation';
 import CommentsArea from '../molecules/CommentsArea'
 import NiceButtonArea from '../molecules/NiceButtonArea'
+import SelfMenu from '../molecules/SelfMenu';
 
 const Diarydisplay: React.FC = () => {
 
@@ -82,6 +83,12 @@ const Diarydisplay: React.FC = () => {
         displayName={post.displayName}
         date={post.createDate}
       />
+
+      {post.postUserId === user.uid &&
+        (<SelfMenu
+          documents1={post.postUserId}
+          documents2={postid}
+        />)}
 
       <div className={styles["diary-main"]}>
         {post.attachImage && (
