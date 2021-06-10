@@ -1,6 +1,7 @@
 // Firebase Functionsを使用するための初期値
 import * as functions from "firebase-functions";
 import algoliasearch from "algoliasearch";
+import { createTransport } from 'nodemailer'
 
 // FireStoreを扱うための初期値
 import * as admin from "firebase-admin";
@@ -117,3 +118,48 @@ exports.createToUser = functions.firestore
     return index.saveObject(data);
 
   })
+
+// 問い合わせメール
+exports.sendMail = functions.https.onCall((data, context) => {
+  const gmailEmail = functions.config().gmail.email;
+  const gmailPassword = functions.config().gmail.password;
+
+  // 送信に使用するメールサーバーの設定
+  const mailTransport = createTransport({
+    service: "gmail",
+    auth: {
+      user: gmailEmail,
+      pass: gmailPassword
+    }
+  });
+
+  // 管理者用のメールテンプレート
+  const adminContents = (data: any) => {
+    return `以下内容でホームページよりお問い合わせを受けました。
+お名前：
+${data.name}
+メールアドレス：
+${data.email}
+タイトル：
+${data.title}
+内容：
+${data.contents}
+`;
+  };
+
+  // メール設定
+  const adminMail = {
+    from: gmailEmail,
+    to: gmailEmail,
+    subject: `ゲムフレお問い合わせ｜${data.title}`,
+    text: adminContents(data)
+  };
+
+  // 管理者へのメール送信
+  mailTransport.sendMail(adminMail, (err, info) => {
+    if (err) {
+      return console.error(`send failed. ${err}`);
+    }
+    return console.log("send success.");
+  });
+});
