@@ -7,6 +7,7 @@ import styles from '../../assets/scss/organisms/inquiryform.module.scss';
 import mui from '../../assets/css/mui.module.css'
 import { isName, isEmail, isInquiryTitle, isInquiryBody } from '../../common/validation/validation'
 import { functions } from '../../common/firebase/firebase'
+import MassageModal from '../molecules/MassageModal';
 
 const InquiryForm: React.FC = () => {
 
@@ -16,6 +17,7 @@ const InquiryForm: React.FC = () => {
   const [title, setTitle] = useState("")
   const [body, setBody] = useState("")
   const [error, setError] = useState<string | undefined>("")
+  const [massage, setMassage] = useState(false)
 
   // 投稿処理
   const onSendClick = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -55,70 +57,87 @@ const InquiryForm: React.FC = () => {
     const sendMail = functions.httpsCallable('sendMail');
     sendMail(data)
 
-    // Homeへ画面遷移
-    // browserHistory.push("/")
+    setMassage(true)
 
   }
 
+  const massageClose = () => {
+    setMassage(false)
+    // Homeへ画面遷移
+    browserHistory.push("/")
+  }
+
   return (
-    <div className={styles["inquiry"]}>
-      <form className={mui["mui-form"]}>
+    <>
+      <div className={styles["inquiry"]}>
+        <form className={mui["mui-form"]}>
 
-        <div className={styles["inquiry__title"]}>
-          <legend className={styles["inquiry__legend"]}>お問い合わせ</legend>
-        </div>
+          <div className={styles["inquiry__title"]}>
+            <legend className={styles["inquiry__legend"]}>お問い合わせ</legend>
+          </div>
 
-        <div className={styles["inquiry__meta"]}>
+          <div className={styles["inquiry__meta"]}>
 
-          <Textfield
-            type="text"
-            placeholder="名前をご記入ください。"
-            id={"name"}
-            value={name}
-            setValue={setName}
-            label="名前 *" />
+            <Textfield
+              type="text"
+              placeholder="名前をご記入ください。"
+              id={"name"}
+              value={name}
+              setValue={setName}
+              label="名前 *" />
 
-          <Textfield
-            type="text"
-            placeholder="メールアドレスをご記入ください。"
-            id={"mail"}
-            value={email}
-            setValue={setEmail}
-            label="メールアドレス *" />
+            <Textfield
+              type="text"
+              placeholder="メールアドレスをご記入ください。"
+              id={"mail"}
+              value={email}
+              setValue={setEmail}
+              label="メールアドレス *" />
 
-        </div>
+          </div>
 
-        <div className={styles["inquiry__contents"]}>
-          <Textfield
-            type="text"
-            placeholder="内容の主旨をご記入ください。"
-            id={"title"}
-            value={title}
-            setValue={setTitle}
-            label="タイトル" />
+          <div className={styles["inquiry__contents"]}>
+            <Textfield
+              type="text"
+              placeholder="内容の主旨をご記入ください。"
+              id={"title"}
+              value={title}
+              setValue={setTitle}
+              label="タイトル" />
 
-          <Textarea
-            placeholder="問い合わせ内容を記入ください。"
-            class="inquiry__introduction"
-            id={"body"}
-            value={body}
-            setValue={setBody}
-            label="本文 *" />
-        </div>
+            <Textarea
+              placeholder="問い合わせ内容を記入ください。"
+              class="inquiry__introduction"
+              id={"body"}
+              value={body}
+              setValue={setBody}
+              label="本文 *" />
+          </div>
 
-        {error && (
-          <Errormessage
-            message={error} />
-        )}
+          {error && (
+            <Errormessage
+              message={error} />
+          )}
 
-        <div className={styles["inquiry__singup"]}>
-          <button className={styles["inquiry__register-button"]}
-            type="submit"
-            onClick={(e) => onSendClick(e)} > 投稿 </button>
-        </div>
+          <div className={styles["inquiry__singup"]}>
+            <button className={styles["inquiry__register-button"]}
+              type="submit"
+              onClick={(e) => onSendClick(e)} > 投稿 </button>
+          </div>
 
-      </form>
-    </div>
+        </form>
+
+      </div>
+
+      {massage && (
+        <MassageModal
+          title="問い合わせいただき有難うございました。"
+          body=""
+          closeAction={massageClose} />
+      )}
+
+    </>
+
   );
 };
 export default InquiryForm;

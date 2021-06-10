@@ -19,7 +19,7 @@ const Footer: React.FC = () => {
           <ul className={styles["footer-nav__ul"]}>
             <li className={styles["footer-nav__li"]}><Link to="/price">料金</Link></li>
             <li className={styles["footer-nav__li"]}><Link to="/question">よくある質問</Link></li>
-            <li className={styles["footer-nav__li"]}> <a href="./">お問い合わせ</a></li>
+            <li className={styles["footer-nav__li"]}> <Link to="./inquiry">お問い合わせ</Link></li>
           </ul>
         </nav>
         <nav className={styles["footer-nav"]}>
