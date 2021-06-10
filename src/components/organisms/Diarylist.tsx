@@ -82,21 +82,23 @@ const Diarylist: React.FC = () => {
           .collection('posts')
           .doc(p.postID)
           .onSnapshot(doc => {
-            timeline.push({
-              id: doc.id,
-              title: doc.data()?.title,
-              body: doc.data()?.body,
-              gametitle: doc.data()?.gamename,
-              link: '/' + doc.data()?.profileid + '/status/' + doc.id,
-              nicecount: doc.data()?.nicecount,
-              displayName: doc.data()?.nickname,
-              avatarUrl: doc.data()?.avatarurl,
-              attachUrl: doc.data()?.attachimage,
-              create_at: `${doc.data()?.create_at.toDate().getFullYear()}/${("00" + (doc.data()?.create_at.toDate().getMonth() + 1)).slice(-2)}/${("00" + doc.data()?.create_at.toDate().getDate()).slice(-2)}`,
-            })
-            if ((index + 1) === array.length) {
-              setLastDate(res.docs[res.docs.length - 1].data().create_at)
-              dataglobal(timeline)
+            if (doc.data()?.delete_at === undefined) {
+              timeline.push({
+                id: doc.id,
+                title: doc.data()?.title,
+                body: doc.data()?.body,
+                gametitle: doc.data()?.gamename,
+                link: '/' + doc.data()?.profileid + '/status/' + doc.id,
+                nicecount: doc.data()?.nicecount,
+                displayName: doc.data()?.nickname,
+                avatarUrl: doc.data()?.avatarurl,
+                attachUrl: doc.data()?.attachimage,
+                create_at: `${doc.data()?.create_at.toDate().getFullYear()}/${("00" + (doc.data()?.create_at.toDate().getMonth() + 1)).slice(-2)}/${("00" + doc.data()?.create_at.toDate().getDate()).slice(-2)}`,
+              })
+              if ((index + 1) === array.length) {
+                setLastDate(res.docs[res.docs.length - 1].data().create_at)
+                dataglobal(timeline)
+              }
             }
           })
       })

@@ -6,13 +6,12 @@ type props = {
   title: string,
   body: string,
   closeAction: () => void,
+  closeCaption: string,
+  activeAction?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void,
+  activeCaption?: string,
 }
 
 const MassageModal: React.FunctionComponent<props> = (props: props) => {
-
-  const sendAction = async () => {
-    props.closeAction()
-  }
 
   return (
     <div className={styles["massagemodal__overlay"]}>
@@ -31,8 +30,8 @@ const MassageModal: React.FunctionComponent<props> = (props: props) => {
         </div>
 
         <div className={styles["massagemodal__send"]}>
-          <button className={styles["massagemodal__send-button"]}
-            onClick={() => { sendAction() }} >ＯＫ</button>
+          {props.activeAction && (<button className={styles["massagemodal__send-button"]} onClick={(e) => { if (props.activeAction) { props.activeAction(e) } }} >{props.activeCaption}</button>)}
+          <button className={styles["massagemodal__send-button"]} onClick={() => { props.closeAction() }} >{props.closeCaption}</button>
         </div>
 
       </div>

@@ -133,7 +133,8 @@ const InquiryForm: React.FC = () => {
         <MassageModal
           title="問い合わせいただき有難うございました。"
           body=""
-          closeAction={massageClose} />
+          closeAction={massageClose}
+          closeCaption={"閉じる"} />
       )}
 
     </>
