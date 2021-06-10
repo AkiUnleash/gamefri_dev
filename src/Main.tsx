@@ -66,8 +66,8 @@ const Main: React.FC = () => {
     return (
         // ルート管理
         <Router history={browserHistory}>
-            <Switch>
-                <ScrollToTop>
+            <ScrollToTop>
+                <Switch>
                     <Route exact path="/" component={Top} />
                     <Route exact path="/login" component={Login} />
                     <Route exact path="/signup" component={Singup} />
@@ -86,8 +86,8 @@ const Main: React.FC = () => {
                     <Route exact path="/search/diary" component={SearchDiary} />
                     <Route exact path="/notification" component={Notification} />
                     <Route component={NotFound} />
-                </ScrollToTop>
-            </Switch>
+                </Switch>
+            </ScrollToTop>
         </Router>
     );
 };
