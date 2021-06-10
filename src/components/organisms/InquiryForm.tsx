@@ -6,12 +6,13 @@ import Textarea from '../atoms/Textarea'
 import styles from '../../assets/scss/organisms/inquiryform.module.scss';
 import mui from '../../assets/css/mui.module.css'
 import { isName, isEmail, isInquiryTitle, isInquiryBody } from '../../common/validation/validation'
+import { functions } from '../../common/firebase/firebase'
 
 const InquiryForm: React.FC = () => {
 
   // hookでの状態管理
   const [name, setName] = useState("")
-  const [mail, setMail] = useState("")
+  const [email, setEmail] = useState("")
   const [title, setTitle] = useState("")
   const [body, setBody] = useState("")
   const [error, setError] = useState<string | undefined>("")
@@ -28,7 +29,7 @@ const InquiryForm: React.FC = () => {
       setError(ErrorData)
       return
     }
-    ErrorData = isEmail(mail)
+    ErrorData = isEmail(email)
     if (ErrorData) {
       setError(ErrorData)
       return
@@ -45,9 +46,18 @@ const InquiryForm: React.FC = () => {
     }
 
     // Functions実行処理を記載
+    const data = {
+      name: name,
+      email: email,
+      title: title,
+      contents: body
+    }
+    const sendMail = functions.httpsCallable('sendMail');
+    sendMail(data)
 
     // Homeへ画面遷移
-    browserHistory.push("/home")
+    // browserHistory.push("/")
+
   }
 
   return (
@@ -72,8 +82,8 @@ const InquiryForm: React.FC = () => {
             type="text"
             placeholder="メールアドレスをご記入ください。"
             id={"mail"}
-            value={mail}
-            setValue={setMail}
+            value={email}
+            setValue={setEmail}
             label="メールアドレス *" />
 
         </div>

@@ -3,6 +3,7 @@ import "firebase/auth";
 import "firebase/firestore";
 import "firebase/storage";
 import 'firebase/analytics'
+import 'firebase/functions'
 
 import { firebaseConfig } from "./firebase.conf"
 
@@ -13,6 +14,7 @@ export const db = firebaseApp.firestore();
 export const auth = firebase.auth();
 export const storage = firebase.storage();
 export const provider = new firebase.auth.GoogleAuthProvider();
+export const functions = firebase.functions();
 
 export const serverTime = firebase.firestore.FieldValue.serverTimestamp()
 
