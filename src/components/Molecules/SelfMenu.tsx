@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { browserHistory } from "../../history"
 import point from '../../assets/images/point/point.svg'
-import styles from '../../assets/scss/molecules/selfmenu.module.scss'
+import styles from '../../assets/scss/Molecules/selfmenu.module.scss'
 import { dataUpdate } from '../../common/backend/model';
 import { serverTime } from '../../common/firebase/firebase';
 import MassageModal from './MassageModal';
