@@ -3,7 +3,7 @@ import Errormessage from '../atoms/Errormessage'
 import styles from '../../assets/scss/organisms/login.module.scss';
 import mui from '../../assets/css/mui.module.css'
 import Textfield from '../atoms/Textfield'
-import Repassword from '../molecules/Repassword'
+import Repassword from '../Molecules/Repassword'
 import { auth, provider } from '../../common/firebase/firebase'
 import logo from '../../assets/images/logo_sm.svg'
 import { browserHistory } from "../../history"

@@ -7,7 +7,7 @@ import styles from '../../assets/scss/organisms/inquiryform.module.scss';
 import mui from '../../assets/css/mui.module.css'
 import { isName, isEmail, isInquiryTitle, isInquiryBody } from '../../common/validation/validation'
 import { functions } from '../../common/firebase/firebase'
-import MassageModal from '../molecules/MassageModal';
+import MassageModal from '../Molecules/MassageModal';
 
 const InquiryForm: React.FC = () => {
 
