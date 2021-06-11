@@ -4,6 +4,11 @@ import { browserHistory } from "./history";
 import Top from './components/pages/Top';
 import Login from './components/pages/Login';
 import Singup from './components/pages/Singup';
+import TermsOfService from './components/pages/TermsOfService';
+import TermsOfPolicies from './components/pages/TermsOfPolicies';
+import Price from './components/pages/Price';
+import Question from './components/pages/Question'
+import Inquiry from './components/pages/Inquiry'
 import Signupfinish from './components/pages/Signupfinish';
 import Profile from './components/pages/Profile';
 import DiaryWrite from './components/pages/Diarywrite';
@@ -17,6 +22,7 @@ import NotFound from './components/pages/404'
 import { login, logout } from './common/state/userSlice'
 import { useDispatch } from 'react-redux'
 import { auth, db } from "./common/firebase/firebase"
+import ScrollToTop from "./ScrollToTop"
 import "./assets/css/destyle.css"
 
 const Main: React.FC = () => {
@@ -60,21 +66,28 @@ const Main: React.FC = () => {
     return (
         // ルート管理
         <Router history={browserHistory}>
-            <Switch>
-                <Route exact path="/" component={Top} />
-                <Route exact path="/login" component={Login} />
-                <Route exact path="/signup" component={Singup} />
-                <Route exact path="/signupfinished" component={Signupfinish} />
-                <Route exact path="/profile" component={Profile} />
-                <Route exact path="/diarywrite" component={DiaryWrite} />
-                <Route exact path="/home" component={Home} />
-                <Route exact path="/user/:profileid" component={ProfileView} />
-                <Route exact path="/:profileid/status/:postid" component={Diaryview} />
-                <Route exact path="/search/account" component={SearchAccount} />
-                <Route exact path="/search/diary" component={SearchDiary} />
-                <Route exact path="/notification" component={Notification} />
-                <Route component={NotFound} />
-            </Switch>
+            <ScrollToTop>
+                <Switch>
+                    <Route exact path="/" component={Top} />
+                    <Route exact path="/login" component={Login} />
+                    <Route exact path="/signup" component={Singup} />
+                    <Route exact path="/service" component={TermsOfService} />
+                    <Route exact path="/price" component={Price} />
+                    <Route exact path="/question" component={Question} />
+                    <Route exact path="/policies" component={TermsOfPolicies} />
+                    <Route exact path="/inquiry" component={Inquiry} />
+                    <Route exact path="/signupfinished" component={Signupfinish} />
+                    <Route exact path="/profile" component={Profile} />
+                    <Route exact path="/diarywrite" component={DiaryWrite} />
+                    <Route exact path="/home" component={Home} />
+                    <Route exact path="/user/:profileid" component={ProfileView} />
+                    <Route exact path="/:profileid/status/:postid" component={Diaryview} />
+                    <Route exact path="/search/account" component={SearchAccount} />
+                    <Route exact path="/search/diary" component={SearchDiary} />
+                    <Route exact path="/notification" component={Notification} />
+                    <Route component={NotFound} />
+                </Switch>
+            </ScrollToTop>
         </Router>
     );
 };

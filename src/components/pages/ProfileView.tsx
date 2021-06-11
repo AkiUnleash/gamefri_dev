@@ -13,6 +13,19 @@ import styles from '../../assets/scss/pages/profileview.module.scss';
 import { loginChack_yat, authenticatedChack, profileDocumentExistence } from "../../common/backend/model"
 import { db } from '../../common/firebase/firebase'
 
+type post = {
+  id: string,
+  title: string,
+  body: string,
+  gametitle: string,
+  nicecount: number,
+  attachUrl: string,
+  displayName: string,
+  avatarUrl: string,
+  link: string,
+  create_at: string,
+  delete_at?: undefined | string
+}
 
 const ProfileView: React.FC = () => {
   const user = useSelector(selectUser)
@@ -29,7 +42,7 @@ const ProfileView: React.FC = () => {
     gametime: "",
   })
 
-  const [post, setPost] = useState([
+  const [post, setPost] = useState<post[]>([
     {
       id: "",
       title: "",
@@ -40,13 +53,14 @@ const ProfileView: React.FC = () => {
       displayName: "",
       avatarUrl: "",
       link: "",
-      create_at: ""
+      create_at: "",
     },
 
   ])
   const { profileid } = useParams<{ profileid?: string }>()
 
   useEffect(() => {
+
     // ログイン済みの確認
     loginChack_yat();
     // メール認証確認
@@ -86,22 +100,24 @@ const ProfileView: React.FC = () => {
           .collection("posts")
           .orderBy("create_at", "desc")
           .onSnapshot((snapshot) => {
-            snapshot.docs.map((doc) => (
+            snapshot.docs.forEach((doc) => {
               setPost(
-                snapshot.docs.map((doc) => ({
-                  id: doc.id,
-                  title: doc.data().title,
-                  body: doc.data().body,
-                  gametitle: doc.data().gamename,
-                  link: '/' + profileid + '/status/' + doc.id,
-                  nicecount: 0,
-                  displayName: targetprofile.displayName,
-                  avatarUrl: targetprofile.avatarimage,
-                  attachUrl: doc.data().attachimage,
-                  create_at: `${doc.data().create_at.toDate().getFullYear()}/${("00" + (doc.data().create_at.toDate().getMonth() + 1)).slice(-2)}/${("00" + doc.data().create_at.toDate().getDate()).slice(-2)}`,
-                }))
+                snapshot.docs.filter((doc) => doc.data()?.delete_at === undefined)
+                  .map((doc) => ({
+                    id: doc.id,
+                    title: doc.data().title,
+                    body: doc.data().body,
+                    gametitle: doc.data().gamename,
+                    link: '/' + profileid + '/status/' + doc.id,
+                    nicecount: 0,
+                    displayName: targetprofile.displayName,
+                    avatarUrl: targetprofile.avatarimage,
+                    attachUrl: doc.data().attachimage,
+                    create_at: `${doc.data().create_at.toDate().getFullYear()}/${("00" + (doc.data().create_at.toDate().getMonth() + 1)).slice(-2)}/${("00" + doc.data().create_at.toDate().getDate()).slice(-2)}`,
+                  }))
               )
-            ))
+            }
+            )
           }
           );
       })

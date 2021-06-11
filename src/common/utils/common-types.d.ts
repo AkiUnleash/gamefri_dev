@@ -13,7 +13,7 @@ interface profile {
   timeend: string;
   avatarurl: string;
   coverurl: string;
-  uid: string
+  userID: string
   create_at?: firebase.firestore.FieldValue
   update_at?: firebase.firestore.FieldValue
 }
@@ -27,8 +27,10 @@ interface diarywrite {
   profileid: string,
   avatarurl: string,
   nickname: string,
+  userID: string,
   create_at?: firebase.firestore.FieldValue
   update_at?: firebase.firestore.FieldValue
+  delete_at?: firebase.firestore.FieldValue
 }
 
 interface diarycomments {

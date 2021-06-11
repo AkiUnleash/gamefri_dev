@@ -1,50 +1,71 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom'
 import { db } from '../../common/firebase/firebase'
 import Textfield from '../atoms/Textfield'
 import Button from '../atoms/Button'
 import Diarycard from '../molecules/Diarycard'
 import styles from '../../assets/scss/organisms/search.module.scss'
 import Loader from '../atoms/Loader'
+import algoliasearch from 'algoliasearch'
+import moment from 'moment'
 
-const SearchAccountArea: React.FC = () => {
+type post = {
+  id: string,
+  title: string,
+  body: string,
+  gametitle: string,
+  nicecount: number,
+  attachUrl: string,
+  displayName: string,
+  avatarUrl: string,
+  link: string,
+  create_at: string,
+  profileid: string,
+  avatarurl: string,
+  nickname: string,
+}
+
+const SearchDiaryArea: React.FC = () => {
+
+  const client = algoliasearch(
+    process.env.ALGOLIA_APPLICATION_ID || "",
+    process.env.ALGOLIA_SEARCH_ONLY_API || "",
+  );
 
   // hookでの状態管理
   const [load, setLoad] = useState<boolean>(false)
   const [keyword, setKeyword] = useState('')
-  const [post, setPost] = useState([
-    {
-      id: "",
-      title: "",
-      body: "",
-      gametitle: "",
-      nicecount: 0,
-      attachUrl: "",
-      displayName: "",
-      avatarUrl: "",
-      link: "",
-      create_at: "",
-      profileid: "",
-      avatarurl: "",
-      nickname: "",
-    },
-  ])
-  const [postall, setPostall] = useState([
-    {
-      id: "",
-      title: "",
-      body: "",
-      gametitle: "",
-      nicecount: 0,
-      attachUrl: "",
-      displayName: "",
-      avatarUrl: "",
-      link: "",
-      create_at: "",
-      profileid: "",
-      avatarurl: "",
-      nickname: "",
-    },
-  ])
+  const [post, setPost] = useState<post[]>([])
+
+  const postsFind = (e: React.ChangeEvent<HTMLInputElement>) => {
+
+    e.preventDefault();
+
+    const index = client.initIndex(process.env.ALGOLIA_INDEX_POST || "");
+    index.search(keyword).then(({ hits }) => {
+      console.log(hits);
+      const posts: any[] = hits.map(
+        (doc: any) => (
+          {
+            id: doc.objectID,
+            title: doc.title,
+            body: doc.body,
+            gametitle: doc.gamename,
+            link: '/' + doc.profileid + '/status/' + doc.id,
+            nicecount: doc.nicecount,
+            displayName: doc.nickname,
+            avatarUrl: doc.avatarurl,
+            attachUrl: doc.attachimage,
+            create_at: `${moment(doc.create_at._seconds * 1000).format('YYYY/MM/DD')}`
+          }
+
+        )
+      )
+      console.log(posts);
+
+      setPost(posts)
+    })
+  }
 
   useEffect(() => {
     let diary_temporary_storing: any
@@ -67,7 +88,6 @@ const SearchAccountArea: React.FC = () => {
           }
         ))
         setPost(diary_temporary_storing)
-        setPostall(diary_temporary_storing)
         // 読み込み完了
         setLoad(true);
       })
@@ -78,8 +98,8 @@ const SearchAccountArea: React.FC = () => {
       <div className={styles['container']}>
 
         <div className={styles["search-select"]}>
-          <a href="/search/account" className={styles["search-select__none"]}>アカウント</a>
-          <a href="/search/diary" className={styles["search-select__set"]}>日記</a>
+          <Link to="/search/account" className={styles["search-select__none"]}>アカウント</Link>
+          <Link to="/search/diary" className={styles["search-select__set"]}>日記</Link>
         </div>
 
         <div className={styles["search-bar"]}>
@@ -98,23 +118,7 @@ const SearchAccountArea: React.FC = () => {
               classDiv="submit__button"
               classButton={"検索"}
               value={"検索"}
-              action={(e: React.ChangeEvent<HTMLInputElement>) => {
-                e.preventDefault();
-                if (keyword) {
-                  setPost(
-                    postall.filter((a) => {
-                      if (~a.title.indexOf(keyword)
-                        || ~a.gametitle.indexOf(keyword)
-                        || ~a.body.indexOf(keyword)
-                      ) {
-                        return true
-                      }
-                    })
-                  )
-                } else {
-                  setPost(postall)
-                }
-              }} />
+              action={(e: React.ChangeEvent<HTMLInputElement>) => { postsFind(e) }} />
           </div>
         </div>
 
@@ -142,4 +146,4 @@ const SearchAccountArea: React.FC = () => {
   );
 };
 
-export default SearchAccountArea;
+export default SearchDiaryArea;

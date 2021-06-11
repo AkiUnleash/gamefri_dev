@@ -40,6 +40,14 @@ export const isNickname = (props: string) => {
   return ""
 }
 
+// ニックネームのバリデーション
+export const isName = (props: string) => {
+  if (!props.trim()) {
+    return "名前は、必ず入力してください。"
+  }
+  return ""
+}
+
 export const isDiraryTitle = (props: string) => {
   if (!props.trim()) {
     return "タイトルは、必ず入力してください。"
@@ -48,6 +56,20 @@ export const isDiraryTitle = (props: string) => {
 }
 
 export const isDiraryBody = (props: string) => {
+  if (!props.trim()) {
+    return "本文は、必ず入力してください。"
+  }
+  return ""
+}
+
+export const isInquiryTitle = (props: string) => {
+  if (!props.trim()) {
+    return "タイトルは、必ず入力してください。"
+  }
+  return ""
+}
+
+export const isInquiryBody = (props: string) => {
   if (!props.trim()) {
     return "本文は、必ず入力してください。"
   }
