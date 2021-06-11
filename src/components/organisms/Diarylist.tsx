@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux'
 import { db } from '../../common/firebase/firebase'
-import Diarycard from '../molecules/Diarycard'
+import Diarycard from '../Molecules/Diarycard'
 import { selectUser } from "../../common/state/userSlice"
 import Loader from '../atoms/Loader'
 import InfiniteScroll from 'react-infinite-scroller';
