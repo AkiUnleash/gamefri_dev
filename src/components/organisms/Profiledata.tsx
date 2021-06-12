@@ -50,6 +50,16 @@ const Profiledata: React.FC<props> = (props: props) => {
       },
       true)
 
+    const follower: follow = { userID: props.id }
+    dataAdd(follower,
+      {
+        colection1: "user",
+        documents1: props.id,
+        colection2: "followers",
+        documents2: user.uid,
+      },
+      true)
+
     // 通知データの送信
     const notification: notification = {
       avatarurl: user.photoUrl,
@@ -100,6 +110,15 @@ const Profiledata: React.FC<props> = (props: props) => {
       }
     )
 
+    dataDelete(
+      {
+        colection1: "user",
+        documents1: props.id,
+        colection2: "followers",
+        documents2: user.uid,
+      }
+    )
+
     // ナイスのドキュメント数を取得して反映
     db.doc(`user/${user.uid}`)
       .collection('followings').get()
@@ -121,39 +140,45 @@ const Profiledata: React.FC<props> = (props: props) => {
   }
 
   useEffect(() => {
+    let isMounted = true;
     // 自分のプロフィールであれば、編集画面の表示
     // 自部員以外のプロフィールであれば、フォロー及び解除ボタンの表示
-    if (user.uid === props.id) {
-      setAction({
-        style: "profiledata-follow__button--profileedit",
-        value: "プロファイルの編集",
-        function: () => {
-          browserHistory.push("/profile")
-        }
-      })
-    } else {
-      const doc =
-        db.collection('user')
-          .doc(user.uid)
-          .collection("followings")
-          .doc(props.id)
-          .get()
-      doc.then((data) => {
-        if (data.exists) {
-          setAction({
-            style: "profiledata-follow__button--un-follow",
-            value: "フォローを解除",
-            function: () => { un_follow() }
-          })
-        } else {
-          setAction({
-            style: "profiledata-follow__button--to-follow",
-            value: "フォローする",
-            function: () => { to_follow() }
-          })
-        }
-      })
+    if (isMounted) {
+      console.log("user: " + user.uid, "props: " + props.id);
+
+      if (user.uid === props.id) {
+        setAction({
+          style: "profiledata-follow__button--profileedit",
+          value: "プロファイルの編集",
+          function: () => {
+            browserHistory.push("/profile")
+          }
+        })
+      } else {
+        const doc =
+          db.collection('user')
+            .doc(user.uid)
+            .collection("followings")
+            .doc(props.id)
+            .get()
+        doc.then((data) => {
+          if (data.exists) {
+            setAction({
+              style: "profiledata-follow__button--un-follow",
+              value: "フォローを解除",
+              function: () => { un_follow() }
+            })
+          } else {
+            setAction({
+              style: "profiledata-follow__button--to-follow",
+              value: "フォローする",
+              function: () => { to_follow() }
+            })
+          }
+        })
+      }
     }
+    return () => { isMounted = false }
   }, [])
 
   return (

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom'
 import styles from '../../assets/scss/organisms/header_in.module.scss';
 import img_logo_sm from '../../assets/images/logo_sm.svg'
 import img_home from '../../assets/images/header_in/home.svg'
@@ -18,9 +19,9 @@ const Header: React.FC = () => {
         <img className={styles["header-in__logoimg"]} src={img_logo_sm} alt="Logo" />
       </div>
       <div className={styles["header-in__button"]}>
-        <a href="/home"><img className={styles["header-in__button--home"]} src={img_home} alt="Home button" /></a>
-        <a href="/notification"><img className={styles["header-in__button--notifications"]} src={img_notifications} alt="Notifications button" /></a>
-        <a href="/search/account"><img className={styles["header-in__button--search"]} src={img_search} alt="Search button" /></a>
+        <Link to="/home"><img className={styles["header-in__button--home"]} src={img_home} alt="Home button" /></Link>
+        <Link to="/notification"><img className={styles["header-in__button--notifications"]} src={img_notifications} alt="Notifications button" /></Link>
+        <Link to="/search/account"><img className={styles["header-in__button--search"]} src={img_search} alt="Search button" /></Link>
 
         <label className={styles["side-menu__icon"]} htmlFor="drawerCheckbox"><img className={styles["side-menu__button--menu"]} src={img_menu} alt="Menu button" /></label>
         <input className={styles["side-menu__checkbox"]} id="drawerCheckbox" type="checkbox" />
@@ -29,7 +30,8 @@ const Header: React.FC = () => {
         <nav className={styles["side-menu__menu"]}>
           <div className={styles["side-menu__logo"]}><img className={styles["side-menu__logo_img"]} src={user.photoUrl || img_avatar} alt="Login user avatar" /></div>
           <ul>
-            <li className={styles["side-menu__item"]}><a className="side-menu__item-inner" href={"/user/" + user.profileID}>マイページ</a></li>
+            {/* <li className={styles["side-menu__item"]}><Link to={"/user/" + user.profileID} replace><div className="side-menu__item-inner"> マイページ</div></Link></li> */}
+            <li className={styles["side-menu__item"]}><a href={"/user/" + user.profileID} className="side-menu__item-inner"> マイページ</a></li>
             {/* 実装するまで以下は非表示 */}
             {/* <li className={styles["side-menu__item"]}><a className="side-menu__item-inner" href="./">設定とプライバシー</a></li> */}
             <li className={styles["side-menu__item"]}><a href="/login" className="side-menu__item-inner" onClick={async () => await logout()}>ログアウト</a></li>

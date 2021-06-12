@@ -98,6 +98,7 @@ const CommentsArea: React.FC<props> = (props: props) => {
           value="送信"
           action={(e: React.ChangeEvent<HTMLInputElement>) => { onClickRegister(e) }}
         />
+
       </div>
     </>
   );

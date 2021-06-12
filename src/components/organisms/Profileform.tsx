@@ -137,20 +137,6 @@ const Profileform: React.FC = () => {
       })
     );
 
-    console.log(
-      {
-        profileid: profileid,
-        nickname: nickname,
-        introduction: introduction,
-        gender: gender,
-        playgame: playgame,
-        timestart: timestart,
-        timeend: timeend,
-        avatarurl: avatarurl,
-        coverurl: coverurl,
-        uid: user.uid
-      },
-    )
     // Firestoreにユーザー情報を保存
     DataInterface.dataAdd(
       {
@@ -163,7 +149,7 @@ const Profileform: React.FC = () => {
         timeend: timeend,
         avatarurl: avatarurl,
         coverurl: coverurl,
-        uid: user.uid
+        userID: user.uid
       },
       {
         colection1: 'user',

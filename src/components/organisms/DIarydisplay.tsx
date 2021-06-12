@@ -5,8 +5,9 @@ import { db } from '../../common/firebase/firebase'
 import { selectUser } from "../../common/state/userSlice"
 import styles from '../../assets/scss/organisms/diarydisplay.module.scss';
 import UserInfomation from '../atoms/UserInfomation';
-import CommentsArea from '../molecules/CommentsArea'
-import NiceButtonArea from '../molecules/NiceButtonArea'
+import CommentsArea from '../Molecules/CommentsArea'
+import NiceButtonArea from '../Molecules/NiceButtonArea'
+import SelfMenu from '../Molecules/SelfMenu';
 
 const Diarydisplay: React.FC = () => {
 
@@ -82,6 +83,12 @@ const Diarydisplay: React.FC = () => {
         displayName={post.displayName}
         date={post.createDate}
       />
+
+      {post.postUserId === user.uid &&
+        (<SelfMenu
+          documents1={post.postUserId}
+          documents2={postid}
+        />)}
 
       <div className={styles["diary-main"]}>
         {post.attachImage && (
