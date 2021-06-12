@@ -66,4 +66,4 @@ Apache License
 
 ## 作者
 
-Akio Yano(https://github.com/AkiUnleash)
+[Akio Yano](https://github.com/AkiUnleash)
