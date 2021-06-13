@@ -18,6 +18,10 @@ jobs:
                       echo STORAGE_BUCKET="${STORAGE_BUCKET}" >> ./.env
                       echo MESSAGING_SENDER_ID="${MESSAGING_SENDER_ID}" >> ./.env
                       echo APP_ID="${APP_ID}" >> ./.env
+                      echo ALGOLIA_APPLICATION_ID="${ALGOLIA_APPLICATION_ID}" >> ./.env
+                      echo ALGOLIA_SEARCH_ONLY_API="${ALGOLIA_SEARCH_ONLY_API}" >> ./.env
+                      echo ALGOLIA_INDEX_ACCOUNT="${ALGOLIA_INDEX_ACCOUNT}" >> ./.env
+                      echo ALGOLIA_INDEX_POST="${ALGOLIA_INDEX_POST}" >> ./.env
             - run:
                   name: Testing security rules with JEST.
                   command: yarn test:jest
