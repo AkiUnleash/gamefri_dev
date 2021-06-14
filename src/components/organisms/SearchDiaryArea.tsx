@@ -43,7 +43,6 @@ const SearchDiaryArea: React.FC = () => {
 
     const index = client.initIndex(process.env.ALGOLIA_INDEX_POST || "");
     index.search(keyword).then(({ hits }) => {
-      console.log(hits);
       const posts: any[] = hits.map(
         (doc: any) => (
           {
@@ -61,7 +60,6 @@ const SearchDiaryArea: React.FC = () => {
 
         )
       )
-      console.log(posts);
 
       setPost(posts)
     })

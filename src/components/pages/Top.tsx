@@ -102,7 +102,7 @@ const Massage: React.FC = () => {
 
   return (
     <section ref={ref} className={styles["top-massage"]}>
-      <div className={inView ? styles["top-massage__title-why"] : styles['none']}>{title_why}{console.log(`${inView}`)}</div>
+      <div className={inView ? styles["top-massage__title-why"] : styles['none']}>{title_why}</div>
       <div className={inView ? styles["top-massage__title-discription"] : styles['none']}>{title_discription[0]}</div>
       <div className={inView ? styles["top-massage__title-discription"] : styles['none']}>{title_discription[1]}</div>
     </section>
