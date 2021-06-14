@@ -126,6 +126,7 @@ const Profileform: React.FC = () => {
 
       if (doc.size > 0) {
         setError("指定しているプロフィールIDは既に登録済みのため使用できません。")
+        return
       }
     }
 
