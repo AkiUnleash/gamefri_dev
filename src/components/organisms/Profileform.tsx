@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { selectUser, updateUserProfile } from '../../common/state/userSlice'
 import { browserHistory } from "../../history"
@@ -36,6 +36,7 @@ const Profileform: React.FC = () => {
   const [firstcover, setFirstCover] = useState("")
   const [firstavatar, setFirstAvatar] = useState("")
   const [error, setError] = useState<string | undefined>("")
+  const processing = useRef(false);
 
   // 生年月日はデータを取得するか検討中のため非表示
   // const [year, setYear] = useState<string | "-">("-")
@@ -97,6 +98,13 @@ const Profileform: React.FC = () => {
 
     // POST停止
     e.preventDefault();
+
+    // 多重クリック防止
+    if (processing.current) return;
+    processing.current = true;
+    setTimeout(() => {
+      processing.current = false;
+    }, 5000);
 
     // バリデーション
     let ErrorData = isProfileid(profileid)
