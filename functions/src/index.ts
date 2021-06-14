@@ -101,7 +101,7 @@ exports.copyToFollowersWhenPosting = functions.firestore
 
   });
 
-// 日記投稿時に、フォロワーのタイムラインへ投稿日記をコピー
+// ユーザー情報追加時に、Algoliaも追加
 exports.createToUser = functions.firestore
   .document("user/{userId}")
   .onCreate((change, context) => {
@@ -119,23 +119,41 @@ exports.createToUser = functions.firestore
 
   })
 
+// ユーザー情報更新時に、Algoliaも更新
+exports.updateToUser = functions.firestore
+  .document("user/{userId}")
+  .onUpdate((change, context) => {
+
+    // Alogliaへ投稿日記をクローン
+    const ALGOLIA_INDEX = "user"
+    const ALGOLIA_ID = functions.config().algolia.app_id
+    const ALGOLIA_ADMIN_KEY = functions.config().algolia.admin_api_key
+    const client = algoliasearch(ALGOLIA_ID, ALGOLIA_ADMIN_KEY);
+
+    const data = change.after.data();
+    data.objectID = change.after.id;
+    const index = client.initIndex(ALGOLIA_INDEX);
+    return index.saveObject(data);
+
+  })
+
 // 問い合わせメール
-exports.sendMail = functions.https.onCall((data, context) => {
-  const gmailEmail = functions.config().gmail.email;
-  const gmailPassword = functions.config().gmail.password;
+const gmailEmail = functions.config().gmail.email;
+const gmailPassword = functions.config().gmail.password;
+const adminEmail = functions.config().gmail.adminemail;
 
-  // 送信に使用するメールサーバーの設定
-  const mailTransport = createTransport({
-    service: "gmail",
-    auth: {
-      user: gmailEmail,
-      pass: gmailPassword
-    }
-  });
+// 送信に使用するメールサーバーの設定
+const mailTransport = createTransport({
+  service: "gmail",
+  auth: {
+    user: gmailEmail,
+    pass: gmailPassword
+  }
+});
 
-  // 管理者用のメールテンプレート
-  const adminContents = (data: any) => {
-    return `以下内容でホームページよりお問い合わせを受けました。
+// 管理者用のメールテンプレート
+const adminContents = (data: any) => {
+  return `以下内容でホームページよりお問い合わせを受けました。
 お名前：
 ${data.name}
 メールアドレス：
@@ -145,19 +163,22 @@ ${data.title}
 内容：
 ${data.contents}
 `;
-  };
+};
 
+exports.sendMail = functions.https.onCall((data, context) => {
   // メール設定
   const adminMail = {
     from: gmailEmail,
-    to: gmailEmail,
+    to: adminEmail,
     subject: `ゲムフレお問い合わせ｜${data.title}`,
     text: adminContents(data)
   };
 
   // 管理者へのメール送信
   mailTransport.sendMail(adminMail, (err, info) => {
+    console.log('Send!!!!');
     if (err) {
+      console.log('Error!!!!');
       return console.error(`send failed. ${err}`);
     }
     return console.log("send success.");

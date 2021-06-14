@@ -31,7 +31,6 @@ const Usercard: React.FC<props> = (props: props) => {
     function: () => { }
   }
   // フォローかフォロー解除か判定
-  console.log(props.id);
   if (user.follower.includes(props.id)) {
     actionInitialize.style = "follow__button--done"
     actionInitialize.value = "解除"
@@ -49,13 +48,13 @@ const Usercard: React.FC<props> = (props: props) => {
   const to_follow = () => {
 
     // フォローデータの挿入
-    const follow: follow = { userID: props.id.trim() }
+    const follow: follow = { userID: props.id }
     dataAdd(follow,
       {
         colection1: "user",
-        documents1: user.uid.trim(),
+        documents1: user.uid,
         colection2: "followings",
-        documents2: props.id.trim()
+        documents2: props.id
       },
       true)
 

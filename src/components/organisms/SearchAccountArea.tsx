@@ -39,7 +39,6 @@ const SearchAccountArea: React.FC = () => {
 
     const index = client.initIndex(process.env.ALGOLIA_INDEX_ACCOUNT || "");
     index.search(keyword).then(({ hits }) => {
-      console.log(hits);
       const accounts: any[] = hits.map(
         (doc: any) => (
           {

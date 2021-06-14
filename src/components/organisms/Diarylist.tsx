@@ -42,8 +42,6 @@ const Diarylist: React.FC = () => {
   }
 
   const isPost = () => {
-
-
     if (post.length) {
       return oldestId !== post[post.length - 1].id
     } else {
@@ -95,10 +93,10 @@ const Diarylist: React.FC = () => {
                 attachUrl: doc.data()?.attachimage,
                 create_at: `${doc.data()?.create_at.toDate().getFullYear()}/${("00" + (doc.data()?.create_at.toDate().getMonth() + 1)).slice(-2)}/${("00" + doc.data()?.create_at.toDate().getDate()).slice(-2)}`,
               })
-              if ((index + 1) === array.length) {
-                setLastDate(res.docs[res.docs.length - 1].data().create_at)
-                dataglobal(timeline)
-              }
+            }
+            if ((index + 1) === array.length) {
+              setLastDate(res.docs[res.docs.length - 1].data().create_at)
+              dataglobal(timeline)
             }
           })
       })
