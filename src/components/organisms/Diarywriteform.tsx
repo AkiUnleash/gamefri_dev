@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import Errormessage from '../atoms/Errormessage'
 import { useSelector } from 'react-redux'
 import { browserHistory } from "../../history"
@@ -19,6 +19,7 @@ const DiaryWriteForm: React.FC = () => {
   const [gamename, setGamename] = useState("")
   const [image, setImage] = useState<File | null>(null)
   const [error, setError] = useState<string | undefined>("")
+  const processing = useRef(false);
 
   // Reduxにて状態管理のデータを取得
   const user = useSelector(selectUser)
@@ -49,6 +50,13 @@ const DiaryWriteForm: React.FC = () => {
 
     // POST停止
     e.preventDefault();
+
+    // 多重クリック防止
+    if (processing.current) return;
+    processing.current = true;
+    setTimeout(() => {
+      processing.current = false;
+    }, 5000);
 
     // バリデーション
     let ErrorData = isDiraryTitle(title)
