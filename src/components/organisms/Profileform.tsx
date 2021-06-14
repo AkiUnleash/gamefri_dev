@@ -118,6 +118,17 @@ const Profileform: React.FC = () => {
       return
     }
 
+    // ProfileIDの重複防止
+    if (user.profileID !== profileid) {
+      const doc = await db.collection("user")
+        .where('profileid', '==', profileid)
+        .get()
+
+      if (doc.size > 0) {
+        setError("指定しているプロフィールIDは既に登録済みのため使用できません。")
+      }
+    }
+
     // アバター画像の選択有無の確認
     // あればイメージをFirestrageに保存し、URLをFirestoreに保存。
     let avatarurl = ''
