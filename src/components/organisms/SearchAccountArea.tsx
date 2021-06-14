@@ -70,7 +70,7 @@ const SearchAccountArea: React.FC = () => {
               nickname: f.data().nickname,
               avatarUrl: f.data().avatarurl,
               introduction: f.data().introduction,
-              uid: f.data().uid
+              uid: f.data().userID
             }
           ))
         // 表示用のデータ
