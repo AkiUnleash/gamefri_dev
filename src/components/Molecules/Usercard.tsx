@@ -85,7 +85,7 @@ const Usercard: React.FC<props> = (props: props) => {
       true)
 
     // ナイスのドキュメント数を取得して反映
-    db.doc(`user/${user.uid}`)
+    db.doc(`user/${props.id}`)
       .collection('followings').get()
       .then((doc) => {
         // 件数を加算
@@ -126,7 +126,7 @@ const Usercard: React.FC<props> = (props: props) => {
     )
 
     // ナイスのドキュメント数を取得して反映
-    db.doc(`user/${user.uid}`)
+    db.doc(`user/${props.id}`)
       .collection('followings').get()
       .then((doc) => {
         // 件数を加算
