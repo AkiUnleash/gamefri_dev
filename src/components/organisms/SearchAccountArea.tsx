@@ -39,7 +39,6 @@ const SearchAccountArea: React.FC = () => {
 
     const index = client.initIndex(process.env.ALGOLIA_INDEX_ACCOUNT || "");
     index.search(keyword).then(({ hits }) => {
-      console.log(hits);
       const accounts: any[] = hits.map(
         (doc: any) => (
           {
@@ -70,7 +69,7 @@ const SearchAccountArea: React.FC = () => {
               nickname: f.data().nickname,
               avatarUrl: f.data().avatarurl,
               introduction: f.data().introduction,
-              uid: f.data().uid
+              uid: f.data().userID
             }
           ))
         // 表示用のデータ

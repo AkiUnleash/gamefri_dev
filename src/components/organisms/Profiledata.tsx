@@ -77,7 +77,7 @@ const Profiledata: React.FC<props> = (props: props) => {
       true)
 
     // ナイスのドキュメント数を取得して反映
-    db.doc(`user/${user.uid}`)
+    db.doc(`user/${props.id}`)
       .collection('followings').get()
       .then((doc) => {
         // 件数を加算
@@ -120,7 +120,7 @@ const Profiledata: React.FC<props> = (props: props) => {
     )
 
     // ナイスのドキュメント数を取得して反映
-    db.doc(`user/${user.uid}`)
+    db.doc(`user/${props.id}`)
       .collection('followings').get()
       .then((doc) => {
         // 件数を加算
@@ -144,7 +144,6 @@ const Profiledata: React.FC<props> = (props: props) => {
     // 自分のプロフィールであれば、編集画面の表示
     // 自部員以外のプロフィールであれば、フォロー及び解除ボタンの表示
     if (isMounted) {
-      console.log("user: " + user.uid, "props: " + props.id);
 
       if (user.uid === props.id) {
         setAction({

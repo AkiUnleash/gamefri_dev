@@ -122,17 +122,6 @@ export const dataUpdate = (data: {}, place: place) => {
 
 // Firestoreのデータを削除
 export const dataDelete = (place: place) => {
-  console.log(
-    {
-      colection1: place.colection1,
-      documents1: place.documents1,
-      colection2: place.colection2,
-      documents2: place.documents2,
-      colection3: place.colection3,
-      documents3: place.documents3
-    }
-  );
-
 
   if (
     place.colection1 && place.documents1 &&

@@ -6,6 +6,7 @@
 /.firebase
 .env
 .env-develop
+.env-release
 .env_local_emulator
 /*.log
 /report*.json

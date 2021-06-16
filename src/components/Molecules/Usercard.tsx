@@ -3,9 +3,10 @@ import styles from '../../assets/scss/Molecules/usercard.module.scss'
 import Button from '../atoms/Button'
 import UserInfomation from '../atoms/UserInfomation'
 import { follow, notification } from '../../common/utils/common-types'
-import { dataAdd, dataDelete } from "../../common/backend/model"
+import { dataAdd, dataUpdate, dataDelete } from "../../common/backend/model"
 import { selectUser } from "../../common/state/userSlice"
 import { useSelector } from 'react-redux'
+import { db } from '../../common/firebase/firebase';
 
 // このコンポーネントで扱う型宣言
 type props = {
@@ -47,13 +48,23 @@ const Usercard: React.FC<props> = (props: props) => {
   const to_follow = () => {
 
     // フォローデータの挿入
-    const follow: follow = { userID: props.id.trim() }
+    const follow: follow = { userID: props.id }
     dataAdd(follow,
       {
         colection1: "user",
-        documents1: user.uid.trim(),
+        documents1: user.uid,
         colection2: "followings",
-        documents2: props.id.trim()
+        documents2: props.id
+      },
+      true)
+
+    const follower: follow = { userID: props.id }
+    dataAdd(follower,
+      {
+        colection1: "user",
+        documents1: props.id,
+        colection2: "followers",
+        documents2: user.uid,
       },
       true)
 
@@ -72,6 +83,17 @@ const Usercard: React.FC<props> = (props: props) => {
         colection2: "notifications",
       },
       true)
+
+    // ナイスのドキュメント数を取得して反映
+    db.doc(`user/${props.id}`)
+      .collection('followings').get()
+      .then((doc) => {
+        // 件数を加算
+        dataUpdate({ followercount: doc.size }, {
+          colection1: "user",
+          documents1: props.id,
+        })
+      })
 
     // フォローボタンを解除に変更
     setAction({
@@ -94,6 +116,25 @@ const Usercard: React.FC<props> = (props: props) => {
       }
     )
 
+    dataDelete(
+      {
+        colection1: "user",
+        documents1: props.id,
+        colection2: "followers",
+        documents2: user.uid,
+      }
+    )
+
+    // ナイスのドキュメント数を取得して反映
+    db.doc(`user/${props.id}`)
+      .collection('followings').get()
+      .then((doc) => {
+        // 件数を加算
+        dataUpdate({ followercount: doc.size }, {
+          colection1: "user",
+          documents1: props.id,
+        })
+      })
     // フォローボタンに変更
     setAction({
       style: "follow__button--yet",
