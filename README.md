@@ -6,7 +6,7 @@
 
 ## URL
 
-[https://gamefri-develop.web.app/home](https://gamefri-develop.web.app/home)
+[https://gamefri-develop.web.app](https://gamefri-develop.web.app)
 
 ※ポートフォリオを目的として作成しています。そのため予告なく削除されることもありますので、ご了承ください。
 
