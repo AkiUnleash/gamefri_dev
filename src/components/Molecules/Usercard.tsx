@@ -70,10 +70,10 @@ const Usercard: React.FC<props> = (props: props) => {
 
     // 通知データの挿入
     const notification: notification = {
-      avatarurl: user.photoUrl,
-      nickname: user.displayName,
-      profileid: user.profileID,
-      link: `/user/${user.profileID}`,
+      avatarurl: props.photoUrl,
+      nickname: props.displayName,
+      profileid: props.profileId,
+      link: `/user/${props.profileId}`,
       message: "フォローされました。",
     }
     dataAdd(notification,
