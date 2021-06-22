@@ -8,6 +8,7 @@ import { selectUser } from "../../common/state/userSlice"
 import { dataAdd, dataUpdate, dataDelete } from "../../common/backend/model"
 import { follow, notification } from '../../common/utils/common-types'
 import { db } from '../../common/firebase/firebase';
+import * as DataInterface from '../../common/backend/model'
 
 // hookによる状態管理
 type props = {
@@ -86,6 +87,30 @@ const Profiledata: React.FC<props> = (props: props) => {
           documents1: props.id,
         })
         setFollower(doc.size)
+      })
+
+    // ３件のみポストをタイムラインにコピー
+    db.collection('user')
+      .doc(props.id)
+      .collection('posts')
+      .limit(3)
+      .onSnapshot(doc => {
+        doc.forEach((doc) => {
+          DataInterface.dataAdd(
+            {
+              userID: props.id,
+              postID: doc.id
+            },
+            {
+              colection1: 'user',
+              documents1: user.uid,
+              colection2: "timeline",
+              documents2: doc.id,
+            },
+            true
+          )
+          doc.data()
+        })
       })
 
     // ボタン表示の変更

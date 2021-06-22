@@ -69,6 +69,7 @@ const SearchDiaryArea: React.FC = () => {
     let diary_temporary_storing: any
     db.collectionGroup('posts')
       .orderBy('create_at', 'desc')
+      .limit(5)
       .get()
       .then((snapshot) => {
         diary_temporary_storing = snapshot.docs.map((doc) => (
