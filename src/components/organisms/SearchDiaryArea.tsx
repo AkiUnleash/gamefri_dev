@@ -50,7 +50,7 @@ const SearchDiaryArea: React.FC = () => {
             title: doc.title,
             body: doc.body,
             gametitle: doc.gamename,
-            link: '/' + doc.profileid + '/status/' + doc.id,
+            link: '/' + doc.profileid + '/status/' + doc.objectID,
             nicecount: doc.nicecount,
             displayName: doc.nickname,
             avatarUrl: doc.avatarurl,
@@ -69,6 +69,7 @@ const SearchDiaryArea: React.FC = () => {
     let diary_temporary_storing: any
     db.collectionGroup('posts')
       .orderBy('create_at', 'desc')
+      .limit(5)
       .get()
       .then((snapshot) => {
         diary_temporary_storing = snapshot.docs.map((doc) => (

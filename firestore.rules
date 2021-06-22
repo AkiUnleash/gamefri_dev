@@ -114,5 +114,15 @@ service cloud.firestore {
       allow delete: if isAnyAuthenticated()
     }
 
+    match /user/{userID}/timeline/{postID} {
+      // allow create: if true
+      allow create, update: if isAnyAuthenticated()
+        && ('create_at' in request.resource.data)
+        && ('userID' in request.resource.data)
+        && ('postID' in request.resource.data)
+        && (!('userID' in request.resource.data) || (request.resource.data.userID is string))
+        && (!('postID' in request.resource.data) || (request.resource.data.postID is string))
+        && (request.resource.data.create_at == request.time)
+    }
   }
 }
