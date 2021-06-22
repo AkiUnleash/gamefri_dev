@@ -77,7 +77,8 @@ const DiaryWriteForm: React.FC = () => {
     }
 
     // データをFirestoreへ送信
-    await DataInterface.dataAdd(
+    // コレクション [ Post ] 
+    const refid = await DataInterface.dataAdd(
       {
         title: title,
         body: body,
@@ -96,6 +97,23 @@ const DiaryWriteForm: React.FC = () => {
       },
       true
     )
+
+    // コレクション [ Timeline ] 
+    if (refid) {
+      await DataInterface.dataAdd(
+        {
+          userID: user.uid,
+          postID: refid
+        },
+        {
+          colection1: 'user',
+          documents1: user.uid,
+          colection2: "timeline",
+          documents2: refid,
+        },
+        true
+      )
+    }
 
     // Homeへ画面遷移
     browserHistory.push("/home")

@@ -1,5 +1,5 @@
 import { db, auth, storage, serverTime } from '../firebase/firebase'
-import { profile, diarywrite, diarycomments, follow, nice, notification } from '../utils/common-types'
+import { profile, diarywrite, diarycomments, follow, nice, notification, timeline } from '../utils/common-types'
 
 // 保存場所を指定する型宣言
 type place = {
@@ -12,7 +12,7 @@ type place = {
 }
 
 // Firestoreにデータを保存
-export const dataAdd = <T extends profile | diarywrite | diarycomments | follow | nice | notification
+export const dataAdd = <T extends profile | diarywrite | diarycomments | follow | nice | notification | timeline
   , U extends place
   , V extends boolean>(data: T, place: U, timestanp?: V,
 ) => {
@@ -26,13 +26,12 @@ export const dataAdd = <T extends profile | diarywrite | diarycomments | follow 
     place.colection3 && place.documents3
   ) {
 
-    db.collection(place.colection1)
+    return db.collection(place.colection1)
       .doc(place.documents1)
       .collection(place.colection2)
       .doc(place.documents2)
       .collection(place.colection3)
       .doc(place.documents3).set(data)
-    return
   }
 
   if (
@@ -40,39 +39,59 @@ export const dataAdd = <T extends profile | diarywrite | diarycomments | follow 
     place.colection2 && place.documents2 &&
     place.colection3
   ) {
+
+    // 自動生成ID取得
+    const refid = db.collection(place.colection1)
+      .doc(place.documents1)
+      .collection(place.colection2)
+      .doc(place.documents2)
+      .collection(place.colection3)
+      .doc().id
+
+    // 登録
     db.collection(place.colection1)
       .doc(place.documents1)
       .collection(place.colection2)
       .doc(place.documents2)
-      .collection(place.colection3).add(data)
-    return
+      .collection(place.colection3)
+      .doc(refid).set(data)
+
+    return refid
   }
 
   if (
     place.colection1 && place.documents1 &&
     place.colection2 && place.documents2
   ) {
-    db.collection(place.colection1)
+    return db.collection(place.colection1)
       .doc(place.documents1)
       .collection(place.colection2)
       .doc(place.documents2).set(data)
-    return
   }
 
   if (
     place.colection1 && place.documents1 &&
     place.colection2
   ) {
+
+    // 自動生成ID取得
+    const refid = db.collection(place.colection1)
+      .doc(place.documents1)
+      .collection(place.colection2)
+      .doc().id
+
+    // 登録
     db.collection(place.colection1)
       .doc(place.documents1)
-      .collection(place.colection2).add(data)
-    return
+      .collection(place.colection2)
+      .doc(refid).set(data)
+
+    return refid;
   }
 
   if (place.colection1 && place.documents1) {
-    db.collection(place.colection1)
+    return db.collection(place.colection1)
       .doc(place.documents1).set(data)
-    return
   }
 }
 

@@ -58,3 +58,9 @@ interface notification {
   link: string,
   create_at?: firebase.firestore.FieldValue
 }
+
+interface timeline {
+  userID: string,
+  postID: string,
+  create_at?: firebase.firestore.FieldValue
+}
