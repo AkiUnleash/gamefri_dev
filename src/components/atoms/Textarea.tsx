@@ -17,7 +17,8 @@ const Textarea: React.FC<props> = (props: props) => {
       <textarea placeholder={props.placeholder}
         className={props.class}
         id={props.id}
-        defaultValue={props.value}
+        // defaultValue={props.value}
+        value={props.value}
         onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
           props.setValue(e.target.value)
         }}
