@@ -56,10 +56,10 @@ const SearchAccountArea: React.FC = () => {
 
   useEffect(() => {
     // クリック時の処理（検索）
-    // オープン時にアカウントデータを表示（最新の５個）
+    // オープン時にアカウントデータを表示（最新の１０個）
     let account_temporary_storing: any
     const unSub = db.collection("user")
-      .limit(5)
+      .limit(10)
       .orderBy("create_at", 'desc')
       .onSnapshot((d) => {
         account_temporary_storing =
