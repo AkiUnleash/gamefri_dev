@@ -7,6 +7,7 @@ import { dataAdd, dataUpdate, dataDelete } from "../../common/backend/model"
 import { selectUser } from "../../common/state/userSlice"
 import { useSelector } from 'react-redux'
 import { db } from '../../common/firebase/firebase';
+import * as DataInterface from '../../common/backend/model'
 
 // このコンポーネントで扱う型宣言
 type props = {
@@ -92,6 +93,30 @@ const Usercard: React.FC<props> = (props: props) => {
         dataUpdate({ followercount: doc.size }, {
           colection1: "user",
           documents1: props.id,
+        })
+      })
+
+    // ３件のみポストをタイムラインにコピー
+    db.collection('user')
+      .doc(props.id)
+      .collection('posts')
+      .limit(3)
+      .onSnapshot(doc => {
+        doc.forEach((doc) => {
+          DataInterface.dataAdd(
+            {
+              userID: props.id,
+              postID: doc.id
+            },
+            {
+              colection1: 'user',
+              documents1: user.uid,
+              colection2: "timeline",
+              documents2: doc.id,
+            },
+            true
+          )
+          doc.data()
         })
       })
 
