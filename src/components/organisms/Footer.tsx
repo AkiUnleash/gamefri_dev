@@ -22,13 +22,13 @@ const Footer: React.FC = () => {
             <li className={styles["footer-nav__li"]}> <Link to="./inquiry">お問い合わせ</Link></li>
           </ul>
         </nav>
-        <nav className={styles["footer-nav"]}>
+        {/* <nav className={styles["footer-nav"]}>
           <p className={styles["footer-nav__title"]}>サービス</p>
           <ul className={styles["footer-nav__ul"]}>
             <li className={styles["footer-nav__li"]}> <a href="./">運営会社</a></li>
             <li className={styles["footer-nav__li"]}> <a href="./">公式ツイッター</a></li>
           </ul>
-        </nav>
+        </nav> */}
       </div>
       <div className={styles["footer-log"]}><img className={styles["footer-log__img"]} src={logo} alt="" /></div>
       <p className={styles["footer-copyright"]}>© GameFre, Inc.</p>
