@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux'
 import { db } from '../../common/firebase/firebase'
+import styles from '../../assets/scss/organisms/diarylist.module.scss';
 import Diarycard from '../Molecules/Diarycard'
 import { selectUser } from "../../common/state/userSlice"
 import Loader from '../atoms/Loader'
 import InfiniteScroll from 'react-infinite-scroller';
+import logo from '../../assets/images/logo_sm.svg'
 
 type posts = {
   id: string,
@@ -146,20 +148,31 @@ const Diarylist: React.FC = () => {
         hasMore={isPost()}
         loader={<Loader key={0} />}
       >
-        {post.map((p, index) => (
-          <Diarycard key={index}
-            title={p.title}
-            gametitle={p.gametitle}
-            attach_photo={p.attachUrl}
-            nicecount={p.nicecount}
-            link={p.link}
-            displayName={p.displayName}
-            avatar_photo={p.avatarUrl}
-            create_at={p.create_at}
-          />
-        ))}
+        {
+          post[0] !== undefined &&
+          post.map((p, index) => (
+            <Diarycard key={index}
+              title={p.title}
+              gametitle={p.gametitle}
+              attach_photo={p.attachUrl}
+              nicecount={p.nicecount}
+              link={p.link}
+              displayName={p.displayName}
+              avatar_photo={p.avatarUrl}
+              create_at={p.create_at}
+            />
+          ))}
       </InfiniteScroll>
     }
+
+    {post[0] === undefined &&
+      <div className={styles["guide"]}>
+        <img className={styles["guide__logoimg"]} src={logo} alt="Site log" />
+        <p className={styles["guide__title"]}>ゲムフレにようこそ！</p>
+        <p className={styles["guide__discription"]}>上の検索ボタンからアカウントをフォローすると、日記が表示されます。</p>
+        <p className={styles["guide__discription"]}>右下の＋ボタンから日記が投稿できます。</p>
+      </div>}
+
   </div>
 };
 

@@ -1,0 +1,18 @@
+@import '../variables';
+
+.guide {
+    text-align: center;
+    &__title {
+        font-size: 24px;
+        color: $extraColor;
+        padding: 12px;
+    }
+    &__logoimg {
+        padding: 12px;
+    }
+    &__discription {
+        font-size: 16px;
+        color: $subColor;
+        margin: 12px;
+    }
+}
